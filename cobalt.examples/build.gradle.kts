@@ -18,22 +18,17 @@ kotlin {
     dependencies {
 
         with(Libs) {
-            commonMainApi(kotlinxCollectionsImmutable)
+            jsMainApi(kotlinStdLibJs)
         }
 
         with(Projects) {
-            commonMainApi(cobaltCore)
+
+            commonMainApi(cobaltDatabinding)
             commonMainApi(cobaltDatatypes)
+            commonMainApi(cobaltEvents)
+            commonMainApi(cobaltHtml)
             commonMainApi(cobaltLogging)
-        }
-
-        with(TestLibs) {
-            commonTestImplementation(kotlinTestCommon)
-            commonTestImplementation(kotlinTestAnnotationsCommon)
-
-            jvmTestImplementation(kotlinTestJunit)
-
-            jsTestImplementation(kotlinTestJs)
+            commonMainApi(cobaltNetworking)
         }
     }
 }

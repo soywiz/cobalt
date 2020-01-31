@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TestFunctionName")
-class DefaultListPropertyTestJVM {
+class DefaultSetPropertyTest {
 
     private val target = NUMBERS_1_TO_3.toProperty()
 
@@ -13,12 +13,12 @@ class DefaultListPropertyTestJVM {
     fun When_a_number_is_added_to_target_Then_its_value_changes() {
         target.add(4)
 
-        assertEquals(NUMBERS_1_TO_4, target)
+        assertEquals(NUMBERS_1_TO_4, target.value)
     }
 
     @Test
     fun When_target_changes_Then_its_change_is_emitted_as_an_event() {
-        var newValue = listOf<Int>()
+        var newValue = setOf<Int>()
 
         target.onChange {
             newValue = it.newValue
@@ -39,7 +39,7 @@ class DefaultListPropertyTestJVM {
     }
 
     companion object {
-        val NUMBERS_1_TO_3 = listOf(1, 2, 3)
-        val NUMBERS_1_TO_4 = listOf(1, 2, 3, 4)
+        val NUMBERS_1_TO_3 = setOf(1, 2, 3)
+        val NUMBERS_1_TO_4 = setOf(1, 2, 3, 4)
     }
 }

@@ -14,7 +14,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("FunctionName", "TestFunctionName")
-class CollectionBindingsTestJVM {
+class CollectionBindingsTest {
 
     private val prop1To3 = NUMBERS_1_TO_3.toProperty()
     private val prop4To6 = NUMBERS_4_TO_6.toProperty()

@@ -12,6 +12,7 @@ kotlin {
     }
 
     js {
+        browser()
     }
 
     dependencies {

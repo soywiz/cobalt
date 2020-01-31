@@ -5,26 +5,26 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TestFunctionName")
-class DefaultSetPropertyTestJVM {
+class DefaultMapPropertyTest {
 
     private val target = NUMBERS_1_TO_3.toProperty()
 
     @Test
     fun When_a_number_is_added_to_target_Then_its_value_changes() {
-        target.add(4)
+        target.put(4, 4)
 
-        assertEquals(NUMBERS_1_TO_4, target)
+        assertEquals(NUMBERS_1_TO_4, target.value)
     }
 
     @Test
     fun When_target_changes_Then_its_change_is_emitted_as_an_event() {
-        var newValue = setOf<Int>()
+        var newValue = mapOf<Int, Int>()
 
         target.onChange {
             newValue = it.newValue
         }
 
-        target.add(4)
+        target.put(4, 4)
 
         assertEquals(NUMBERS_1_TO_4, newValue)
     }
@@ -39,7 +39,7 @@ class DefaultSetPropertyTestJVM {
     }
 
     companion object {
-        val NUMBERS_1_TO_3 = setOf(1, 2, 3)
-        val NUMBERS_1_TO_4 = setOf(1, 2, 3, 4)
+        val NUMBERS_1_TO_3 = mapOf(1 to 1, 2 to 2, 3 to 3)
+        val NUMBERS_1_TO_4 = mapOf(1 to 1, 2 to 2, 3 to 3, 4 to 4)
     }
 }

@@ -12,12 +12,14 @@ kotlin {
     }
 
     js {
+        browser()
     }
 
     dependencies {
 
         with(Projects) {
             commonMainApi(cobaltDatatypes)
+            commonMainApi(cobaltCore)
         }
 
         with(Libs) {

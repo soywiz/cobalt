@@ -12,6 +12,7 @@ kotlin {
     }
 
     js {
+        browser()
     }
 
     dependencies {
@@ -21,6 +22,7 @@ kotlin {
         }
 
         with(Projects) {
+            commonMainApi(cobaltCore)
             commonMainApi(cobaltDatatypes)
             commonMainApi(cobaltEvents)
             commonMainApi(cobaltLogging)

@@ -12,6 +12,7 @@ kotlin {
     }
 
     js {
+        browser()
     }
 
     dependencies {
@@ -20,6 +21,8 @@ kotlin {
             commonMainApi(kotlinStdLibCommon)
             commonMainApi(kotlinxCoroutinesCommon)
             commonMainApi(kotlinReflect)
+
+            commonMainApi(uuid)
 
             jvmMainApi(kotlinStdLibJdk8)
             jvmMainApi(kotlinxCoroutines)
