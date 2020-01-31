@@ -8,7 +8,7 @@ import org.hexworks.cobalt.databinding.internal.binding.ComputedBinding
 import org.hexworks.cobalt.databinding.internal.binding.ComputedDualBinding
 import org.hexworks.cobalt.databinding.internal.binding.UnidirectionalBinding
 
-fun ObservableValue<String>.isEmpty(): Binding<Boolean> {
+fun ObservableValue<String>.bindIsEmpty(): Binding<Boolean> {
     val converter = { str: String -> str.isEmpty() }.toConverter()
     return UnidirectionalBinding(
             source = this,
@@ -16,28 +16,24 @@ fun ObservableValue<String>.isEmpty(): Binding<Boolean> {
             converter = converter)
 }
 
-fun ObservableValue<String>.isNotEmpty(): Binding<Boolean> {
-    return ComputedBinding(this) { it.isNotEmpty() }
+fun ObservableValue<String>.bindIsBlank(): Binding<Boolean> {
+    val converter = { str: String -> str.isBlank() }.toConverter()
+    return UnidirectionalBinding(
+            source = this,
+            target = converter.convert(this.value).toInternalProperty(),
+            converter = converter)
 }
 
-infix operator fun ObservableValue<String>.plus(other: ObservableValue<String>): Binding<String> {
+infix fun ObservableValue<String>.bindPlusWith(other: ObservableValue<String>): Binding<String> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue + otherValue }
 }
 
-infix fun ObservableValue<String>.isEqualTo(other: ObservableValue<String>): Binding<Boolean> {
+infix fun ObservableValue<String>.bindEqualsWith(other: ObservableValue<String>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue == otherValue }
 }
 
-infix fun ObservableValue<String>.isNotEqualTo(other: ObservableValue<String>): Binding<Boolean> {
-    return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue != otherValue }
-}
-
-infix fun ObservableValue<String>.isEqualToIgnoreCase(other: ObservableValue<String>): Binding<Boolean> {
+infix fun ObservableValue<String>.bindEqualsIgnoreCase(other: ObservableValue<String>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue.toLowerCase() == otherValue.toLowerCase() }
-}
-
-infix fun ObservableValue<String>.isNotEqualToIgnoreCase(other: ObservableValue<String>): Binding<Boolean> {
-    return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue.toLowerCase() != otherValue.toLowerCase() }
 }
 
 fun ObservableValue<String>.length(): Binding<Int> {

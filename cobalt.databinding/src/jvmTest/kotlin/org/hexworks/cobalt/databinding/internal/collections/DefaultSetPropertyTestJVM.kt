@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
-import org.hexworks.cobalt.databinding.api.collection.toProperty
+import org.hexworks.cobalt.databinding.api.extension.toProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

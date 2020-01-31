@@ -1,9 +1,9 @@
 package org.hexworks.cobalt.databinding.internal.expression
 
-import org.hexworks.cobalt.databinding.api.expression.plus
-import org.hexworks.cobalt.databinding.api.expression.times
-import org.hexworks.cobalt.databinding.api.expression.not
-import org.hexworks.cobalt.databinding.api.expression.minus
+import org.hexworks.cobalt.databinding.api.expression.bindPlusWith
+import org.hexworks.cobalt.databinding.api.expression.bindTimesWith
+import org.hexworks.cobalt.databinding.api.expression.bindNegate
+import org.hexworks.cobalt.databinding.api.expression.bindMinusWith
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ class LongExpressionsTest {
     fun When_property_is_negated_binding_value_should_be_negative() {
         val prop: DefaultProperty<Long> = DefaultProperty(2)
 
-        val binding = prop.not()
+        val binding = prop.bindNegate()
 
         assertEquals(expected = -2, actual = binding.value)
     }
@@ -25,7 +25,7 @@ class LongExpressionsTest {
         val prop: DefaultProperty<Long> = DefaultProperty(2)
         val otherProp: DefaultProperty<Long> = DefaultProperty(4)
 
-        val sum = prop.plus(otherProp)
+        val sum = prop.bindPlusWith(otherProp)
 
         assertEquals(expected = 6, actual = sum.value)
     }
@@ -35,7 +35,7 @@ class LongExpressionsTest {
         val prop: DefaultProperty<Long> = DefaultProperty(2)
         val otherProp: DefaultProperty<Long> = DefaultProperty(4)
 
-        val sum = prop.plus(otherProp)
+        val sum = prop.bindPlusWith(otherProp)
 
         prop.value = 5
 
@@ -50,10 +50,10 @@ class LongExpressionsTest {
         val diffPart0: DefaultProperty<Long> = DefaultProperty(8)
         val diffPart1: DefaultProperty<Long> = DefaultProperty(2)
 
-        val sum = sumPart0.plus(sumPart1)
-        val diff = diffPart0.minus(diffPart1)
+        val sum = sumPart0.bindPlusWith(sumPart1)
+        val diff = diffPart0.bindMinusWith(diffPart1)
 
-        val complexBinding = sum.times(diff)
+        val complexBinding = sum.bindTimesWith(diff)
 
         assertEquals(expected = 36, actual = complexBinding.value)
 

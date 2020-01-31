@@ -1,20 +1,18 @@
 package org.hexworks.cobalt.databinding.api.collection
 
-import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentCollection
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.api.value.WritableValue
 
 /**
- * A [ListProperty] is a [Property] which wraps an underlying [PersistentList].
+ * A [CollectionProperty] is a [Property] which wraps an underlying [PersistentCollection].
  * @see Property
  * @see ObservableValue
  * @see WritableValue
  */
-interface ListProperty<T : Any> : ObservableList<T>,
-        WritableList<T>,
-        ObservableCollection<T, PersistentList<T>>,
-        Property<PersistentList<T>> {
+interface CollectionProperty<T : Any, C : PersistentCollection<T>> :
+        ObservableCollection<T, C>, WritableCollection<T, C>, Property<C> {
 
     companion object
 }

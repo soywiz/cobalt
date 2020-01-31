@@ -11,7 +11,10 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * @see ObservableValue
  * @see WritableValue
  */
-interface SetProperty<T : Any> : ObservableSet<T>, WritableSet<T>, Property<PersistentSet<T>> {
+interface SetProperty<T : Any> : ObservableSet<T>,
+        WritableSet<T>,
+        ObservableCollection<T, PersistentSet<T>>,
+        Property<PersistentSet<T>> {
 
     companion object
 }
