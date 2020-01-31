@@ -1,4 +1,4 @@
-package org.hexworks.cobalt.databinding.api.expression
+package org.hexworks.cobalt.databinding.api.binding
 
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.value.ObservableValue

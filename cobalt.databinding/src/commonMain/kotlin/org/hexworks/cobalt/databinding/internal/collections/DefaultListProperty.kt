@@ -39,7 +39,6 @@ class DefaultListProperty<T : Any>(
 
     override fun subList(fromIndex: Int, toIndex: Int) = value.subList(fromIndex, toIndex)
 
-
     override fun add(element: T): PersistentList<T> {
         return updateCurrentValue { it.add(element) }
     }

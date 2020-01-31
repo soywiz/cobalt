@@ -1,9 +1,9 @@
 package org.hexworks.cobalt.databinding.internal.expression
 
-import org.hexworks.cobalt.databinding.api.expression.bindPlusWith
-import org.hexworks.cobalt.databinding.api.expression.bindTimesWith
-import org.hexworks.cobalt.databinding.api.expression.bindNegate
-import org.hexworks.cobalt.databinding.api.expression.bindMinusWith
+import org.hexworks.cobalt.databinding.api.binding.bindPlusWith
+import org.hexworks.cobalt.databinding.api.binding.bindTimesWith
+import org.hexworks.cobalt.databinding.api.binding.bindNegate
+import org.hexworks.cobalt.databinding.api.binding.bindMinusWith
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals

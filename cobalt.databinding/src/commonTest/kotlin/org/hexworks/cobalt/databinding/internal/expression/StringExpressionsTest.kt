@@ -2,8 +2,8 @@
 
 package org.hexworks.cobalt.databinding.internal.expression
 
-import org.hexworks.cobalt.databinding.api.expression.bindIsEmpty
-import org.hexworks.cobalt.databinding.api.expression.bindNot
+import org.hexworks.cobalt.databinding.api.binding.bindIsEmpty
+import org.hexworks.cobalt.databinding.api.binding.bindNot
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
