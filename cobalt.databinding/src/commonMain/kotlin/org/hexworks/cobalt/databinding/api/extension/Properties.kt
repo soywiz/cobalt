@@ -1,6 +1,6 @@
 @file:JvmName("Properties")
 
-package org.hexworks.cobalt.databinding.api.extensions
+package org.hexworks.cobalt.databinding.api.extension
 
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty

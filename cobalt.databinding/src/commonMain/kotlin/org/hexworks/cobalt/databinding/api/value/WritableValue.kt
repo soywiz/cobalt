@@ -1,7 +1,6 @@
 package org.hexworks.cobalt.databinding.api.value
 
 import org.hexworks.cobalt.databinding.api.binding.Binding
-import org.hexworks.cobalt.databinding.api.converter.Converter
 
 /**
  * A [WritableValue] wraps a value which can be read and written.

@@ -12,8 +12,9 @@ class DefaultAtom<T : Any>(initialValue: T) : Atom<T> {
     override fun get(): T = value
 
     @Synchronized
-    override fun transform(transformer: (T) -> T) {
+    override fun transform(transformer: (T) -> T): T {
         value = transformer(value)
+        return value
     }
 
 }

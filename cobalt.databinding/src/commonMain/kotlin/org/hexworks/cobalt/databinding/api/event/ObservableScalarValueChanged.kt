@@ -12,7 +12,7 @@ data class ObservableValueChanged<out T : Any>(
         val observableValue: ObservableValue<T>,
         override val emitter: Any,
         override val trace: Iterable<Event> = listOf()
-): Event {
+) : Event {
 
     companion object
 }

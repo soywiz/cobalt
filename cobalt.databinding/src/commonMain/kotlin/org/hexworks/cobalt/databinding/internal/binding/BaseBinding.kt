@@ -8,7 +8,7 @@ import org.hexworks.cobalt.databinding.api.data.DisposeState
 import org.hexworks.cobalt.databinding.api.data.NotDisposed
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
-import org.hexworks.cobalt.databinding.api.extensions.clearSubscriptions
+import org.hexworks.cobalt.databinding.api.extension.clearSubscriptions
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 import org.hexworks.cobalt.events.api.Subscription

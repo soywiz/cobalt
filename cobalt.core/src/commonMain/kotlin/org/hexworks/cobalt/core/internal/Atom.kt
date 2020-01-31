@@ -6,7 +6,7 @@ interface Atom<T : Any> {
 
     fun get(): T
 
-    fun transform(transformer: (T) -> T)
+    fun transform(transformer: (T) -> T): T
 
     companion object {
 

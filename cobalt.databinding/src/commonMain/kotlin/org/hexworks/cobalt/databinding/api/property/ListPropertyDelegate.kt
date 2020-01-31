@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.api.property
 
-import org.hexworks.cobalt.databinding.api.collections.ListProperty
+import org.hexworks.cobalt.databinding.api.collection.ListProperty
 import kotlin.properties.ReadOnlyProperty
 
 /**

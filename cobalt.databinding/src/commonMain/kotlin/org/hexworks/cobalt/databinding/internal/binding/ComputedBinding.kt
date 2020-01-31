@@ -4,7 +4,7 @@ import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.toConverter
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
-import org.hexworks.cobalt.databinding.api.extensions.toProperty
+import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 

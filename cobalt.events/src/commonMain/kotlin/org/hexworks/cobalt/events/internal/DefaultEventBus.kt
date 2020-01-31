@@ -7,7 +7,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.hexworks.cobalt.core.internal.toAtom
-import org.hexworks.cobalt.events.api.*
+import org.hexworks.cobalt.events.api.CancelState
+import org.hexworks.cobalt.events.api.CancelledByException
+import org.hexworks.cobalt.events.api.Event
+import org.hexworks.cobalt.events.api.EventBus
+import org.hexworks.cobalt.events.api.EventScope
+import org.hexworks.cobalt.events.api.NotCancelled
+import org.hexworks.cobalt.events.api.Subscription
 import org.hexworks.cobalt.logging.api.LoggerFactory
 import kotlin.coroutines.CoroutineContext
 import kotlin.jvm.Volatile
@@ -88,7 +94,7 @@ class DefaultEventBus(
 
     override fun close() {
         closed = true
-        return subsAtom.transform { subscriptions ->
+        subsAtom.transform { subscriptions ->
             subscriptions.forEach { (_, subs) ->
                 subs.forEach { it.cancel() }
             }
@@ -132,6 +138,7 @@ class DefaultEventBus(
                         newSubscriptions
                     } ?: newSubscriptions
                 }
+                Unit
             } catch (e: Exception) {
                 logger.warn("Cancelling event bus subscription failed.", e)
                 throw e

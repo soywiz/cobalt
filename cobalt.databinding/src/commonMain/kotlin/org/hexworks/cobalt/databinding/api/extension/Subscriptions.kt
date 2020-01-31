@@ -1,4 +1,4 @@
-package org.hexworks.cobalt.databinding.api.extensions
+package org.hexworks.cobalt.databinding.api.extension
 
 import org.hexworks.cobalt.events.api.Subscription
 
