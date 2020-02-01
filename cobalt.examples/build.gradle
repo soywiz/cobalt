@@ -61,5 +61,12 @@ kotlin {
 
 jvmJar {
     dependsOn(jsBrowserWebpack)
-    from(new File(jsBrowserWebpack.entry.name, jsBrowserWebpack.outputPath))
+    from(new File("cobalt.examples.js", jsBrowserWebpack.outputPath))
+}
+
+task run(type: JavaExec, dependsOn: [jvmJar]) {
+    group = "application"
+    main = "org.hexworks.cobalt.examples.ServerKt"
+    classpath(configurations.jvmRuntimeClasspath, jvmJar)
+    args = []
 }

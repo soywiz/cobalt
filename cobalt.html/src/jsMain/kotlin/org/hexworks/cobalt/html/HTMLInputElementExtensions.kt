@@ -4,7 +4,8 @@ import org.w3c.dom.HTMLInputElement
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.KeyboardEvent
 
-fun HTMLInputElement.getTrimmedValue() = this.value.trim()
+val HTMLInputElement.trimmedValue: String
+    get() = this.value.trim()
 
 fun HTMLInputElement.setValue(value: String) {
     this.value = value
@@ -14,8 +15,8 @@ fun HTMLInputElement.clearValue() {
     this.value = ""
 }
 
-fun HTMLInputElement.addEscapeListener(listener: (KeyboardEvent) -> Unit) {
-    this.addEventListener("keyup", { e ->
+fun HTMLInputElement.onEscapePressed(listener: (KeyboardEvent) -> Unit) {
+    this.addEventListener("keypress", { e ->
         // keypress does not work for Escape for some reason
         if (e is KeyboardEvent) {
             if (e.keyCode == 27) {
@@ -25,7 +26,7 @@ fun HTMLInputElement.addEscapeListener(listener: (KeyboardEvent) -> Unit) {
     }, false)
 }
 
-fun HTMLInputElement.addEnterListener(listener: (KeyboardEvent) -> Unit) {
+fun HTMLInputElement.onEnterPressed(listener: (KeyboardEvent) -> Unit) {
     this.addEventListener("keypress", { e ->
         if (e is KeyboardEvent) {
             if (e.keyCode == 13) {
@@ -35,7 +36,7 @@ fun HTMLInputElement.addEnterListener(listener: (KeyboardEvent) -> Unit) {
     }, false)
 }
 
-fun HTMLInputElement.addBlurListener(listener: (Event) -> Unit) {
+fun HTMLInputElement.onBlur(listener: (Event) -> Unit) {
     this.addEventListener("blur", { e ->
         listener.invoke(e)
     }, false)

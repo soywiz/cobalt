@@ -14,7 +14,7 @@ interface WritableValue<T : Any> : Value<T> {
      * @return [ValueValidationSuccessful] if [newValue] is
      * acceptable, [ValueValidationFailed] if not.
      */
-    fun updateValue(newValue: T): ValueValidationResult
+    fun updateValue(newValue: T): ValueValidationResult<T>
 
     /**
      * Starts updating this [WritableValue] from the given [observable]. If [updateWhenBound]

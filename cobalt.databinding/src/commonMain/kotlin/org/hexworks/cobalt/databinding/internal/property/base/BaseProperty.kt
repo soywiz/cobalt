@@ -46,13 +46,13 @@ abstract class BaseProperty<T : Any>(
 
     override fun toString() = "Property(id=${id.abbreviate()}, value=$value)"
 
-    override fun updateValue(newValue: T): ValueValidationResult {
+    override fun updateValue(newValue: T): ValueValidationResult<T> {
         logger.debug("Trying to calculate new value.")
         return try {
             updateCurrentValue { newValue }
-            ValueValidationSuccessful
+            ValueValidationSuccessful(newValue)
         } catch (e: ValueValidationFailedException) {
-            ValueValidationFailed(e)
+            ValueValidationFailed(newValue, e)
         }
     }
 
