@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.bundling.Jar
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
+
 plugins {
     kotlinMultiplatform
 }
@@ -6,10 +9,7 @@ group = "org.hexworks.cobalt"
 
 kotlin {
 
-    jvm {
-        jvmTarget(JavaVersion.VERSION_1_8)
-        withJava()
-    }
+    jvm()
 
     js {
         browser()
@@ -18,11 +18,18 @@ kotlin {
     dependencies {
 
         with(Libs) {
+            commonMainApi(kotlinStdLibCommon)
+
             jsMainApi(kotlinStdLibJs)
+
+            jvmMainApi(kotlinStdLibJdk8)
+            jvmMainApi(ktorServerNetty)
+            jvmMainApi(ktorHtmlBuilder)
+            jvmMainApi(logbackClassic)
+
         }
 
         with(Projects) {
-
             commonMainApi(cobaltDatabinding)
             commonMainApi(cobaltDatatypes)
             commonMainApi(cobaltEvents)
@@ -32,3 +39,10 @@ kotlin {
         }
     }
 }
+
+
+//tasks {
+//    named<Jar>("jvmJar") {
+//        dependsOn(withType(KotlinWebpack::class.java))
+//    }
+//}

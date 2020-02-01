@@ -5,6 +5,7 @@ allprojects {
         jcenter()
         kotlinx()
         jitpack()
+        ktor()
     }
 }
 
