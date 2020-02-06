@@ -11,16 +11,13 @@ import org.hexworks.cobalt.databinding.api.converter.IsomorphicConverter
 import org.hexworks.cobalt.databinding.api.converter.toConverter
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.property.Property
-import org.hexworks.cobalt.databinding.api.value.ObservableValue
-import org.hexworks.cobalt.databinding.api.value.ValueValidationFailed
-import org.hexworks.cobalt.databinding.api.value.ValueValidationFailedException
-import org.hexworks.cobalt.databinding.api.value.ValueValidationResult
-import org.hexworks.cobalt.databinding.api.value.ValueValidationSuccessful
+import org.hexworks.cobalt.databinding.api.value.*
 import org.hexworks.cobalt.databinding.internal.binding.BidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.binding.UnidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.databinding.internal.exception.CircularBindingException
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
+import org.hexworks.cobalt.datatypes.Maybe
 import org.hexworks.cobalt.events.api.Subscription
 import org.hexworks.cobalt.events.api.subscribeTo
 import org.hexworks.cobalt.logging.api.LoggerFactory
@@ -118,23 +115,27 @@ abstract class BaseProperty<T : Any>(
                         "Circular binding detected with trace ${event.trace.joinToString()} for property $this. Loop was prevented.")
             } else {
                 var changed = false
+                var eventToSend = Maybe.empty<ObservableValueChanged<T>>()
                 backend.transform {
                     if (validator(newValue).not()) {
                         throw ValueValidationFailedException("The given value '$newValue' is invalid.")
                     }
                     if (oldValue != newValue) {
                         changed = true
-                        logger.debug("Old value $oldValue of $this differs from new value $newValue, firing change event.")
-                        Cobalt.eventbus.publish(
-                                event = ObservableValueChanged(
-                                        oldValue = oldValue,
-                                        newValue = newValue,
-                                        observableValue = this,
-                                        emitter = this,
-                                        trace = listOf(event) + event.trace),
-                                eventScope = propertyScope)
+                        eventToSend = Maybe.of(ObservableValueChanged(
+                                oldValue = oldValue,
+                                newValue = newValue,
+                                observableValue = this,
+                                emitter = this,
+                                trace = listOf(event) + event.trace))
                     }
                     newValue
+                }
+                eventToSend.map {
+                    logger.debug("Old value $oldValue of $this differs from new value $newValue, firing change event.")
+                    Cobalt.eventbus.publish(
+                            event = it,
+                            eventScope = propertyScope)
                 }
                 changed
             }
@@ -148,22 +149,26 @@ abstract class BaseProperty<T : Any>(
     // circular dependency, because we already have the monitor.
     @Synchronized
     protected fun updateCurrentValue(fn: (T) -> T): T {
+        var eventToSend = Maybe.empty<ObservableValueChanged<T>>()
         backend.transform { oldValue ->
             val newValue = fn(oldValue)
             if (validator(newValue).not()) {
                 throw ValueValidationFailedException("The given value $newValue is invalid.")
             }
             if (oldValue != newValue) {
-                logger.debug("Old value $oldValue of $this differs from new value $newValue, firing change event.")
-                Cobalt.eventbus.publish(
-                        event = ObservableValueChanged(
-                                oldValue = oldValue,
-                                newValue = newValue,
-                                observableValue = this,
-                                emitter = this),
-                        eventScope = propertyScope)
+                eventToSend = Maybe.of(ObservableValueChanged(
+                        oldValue = oldValue,
+                        newValue = newValue,
+                        observableValue = this,
+                        emitter = this))
             }
             newValue
+        }
+        eventToSend.map {
+            logger.debug("Old value ${it.oldValue} of $this differs from new value ${it.newValue}, firing change event.")
+            Cobalt.eventbus.publish(
+                    event = it,
+                    eventScope = propertyScope)
         }
         return backend.get()
     }
