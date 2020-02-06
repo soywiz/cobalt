@@ -1,0 +1,12 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      _JAVA_OPTIONS: -Xmx2048m
+    steps:
+      - checkout
+      - run: ./gradlew dependencies --no-parallel
+      - run: ./gradlew build --no-parallel
