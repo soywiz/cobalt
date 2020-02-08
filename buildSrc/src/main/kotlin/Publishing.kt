@@ -3,7 +3,10 @@
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
+import org.gradle.kotlin.dsl.registering
 import org.gradle.kotlin.dsl.withType
 
 fun PublishingExtension.publishWith(
@@ -13,6 +16,14 @@ fun PublishingExtension.publishWith(
 ) {
 
     with(project) {
+
+        val emptySourcesJar by tasks.registering(Jar::class) {
+            archiveClassifier.set("sources")
+        }
+
+        val emptyJavadocJar by tasks.registering(Jar::class) {
+            archiveClassifier.set("javadoc")
+        }
 
         val POM_URL: String by project
         val POM_SCM_URL: String by project
@@ -54,6 +65,9 @@ fun PublishingExtension.publishWith(
                     }
                 }
             }
+
+            artifact(emptyJavadocJar.get())
+            artifact(emptySourcesJar.get())
         }
 
         repositories {

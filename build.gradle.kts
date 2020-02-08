@@ -5,7 +5,7 @@ plugins {
 allprojects {
 
     group = "org.hexworks.cobalt"
-    version = "2020.0.7-SNAPSHOT"
+    version = "2020.0.8-SNAPSHOT"
 
     repositories {
         mavenCentral()
@@ -16,15 +16,4 @@ allprojects {
         mavenLocal()
     }
 
-}
-
-subprojects {
-
-    val emptySourcesJar by tasks.registering(Jar::class) {
-        archiveClassifier.set("sources")
-    }
-
-    val emptyJavadocJar by tasks.registering(Jar::class) {
-        archiveClassifier.set("javadoc")
-    }
 }

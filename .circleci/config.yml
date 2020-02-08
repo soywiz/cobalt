@@ -16,13 +16,14 @@ jobs:
           name: Execute Gradle
           command: |
             if [ -z "$CIRCLE_TAG" ]; then
-              echo "Circle tag is present (${CIRCLE_TAG}), buliding and publishing release..."
+              echo "Performing build with publishing..."
               echo "signing.keyId=${SIGNING_KEY}" >> "gradle.properties"
               echo "signing.password=${SIGNING_PASSWORD}" >> "gradle.properties"
               echo "signing.secretKeyRingFile=../maven.keystore" >> "gradle.properties"
               gpg --cipher-algo AES256 --yes --batch --passphrase=$ENC_FILE_KEY maven.keystore.gpg
               ./gradlew build publish -x jsBrowserTest --no-daemon
             else
+              echo "Performing build..."
               ./gradlew build -x jsBrowserTest --no-daemon
             fi
 
