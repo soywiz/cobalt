@@ -3,7 +3,7 @@ package org.hexworks.cobalt.databinding.internal.property.base
 import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.core.extensions.abbreviate
 import org.hexworks.cobalt.core.internal.toAtom
-import org.hexworks.cobalt.core.platform.factory.IdentifierFactory
+import org.hexworks.cobalt.core.platform.factory.UUIDFactory
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.IdentityConverter
@@ -34,7 +34,7 @@ abstract class BaseProperty<T : Any>(
             updateCurrentValue { value }
         }
 
-    final override val id = IdentifierFactory.randomIdentifier()
+    final override val id = UUIDFactory.randomUUID()
     final override val logger = LoggerFactory.getLogger(this::class)
     final override val propertyScope = PropertyScope(id)
 

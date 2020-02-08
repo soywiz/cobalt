@@ -1,7 +1,7 @@
 package org.hexworks.cobalt.databinding.internal.value
 
 import org.hexworks.cobalt.core.internal.toAtom
-import org.hexworks.cobalt.core.platform.factory.IdentifierFactory
+import org.hexworks.cobalt.core.platform.factory.UUIDFactory
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
@@ -19,7 +19,7 @@ class CompositeObservableValue<T : Any>(
         sources: Iterable<ValueWithConverter<Any, T>>
 ) : ObservableValue<T> {
 
-    private val id = IdentifierFactory.randomIdentifier()
+    private val id = UUIDFactory.randomUUID()
     private val propertyScope = PropertyScope(id)
     private val atom = initialValue.toAtom()
 

@@ -2,9 +2,9 @@ package org.hexworks.cobalt.core.internal.impl
 
 import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.uuid4
-import org.hexworks.cobalt.core.api.Identifier
+import org.hexworks.cobalt.core.api.UUID
 
-class DefaultIdentifier(private val backend: Uuid = uuid4()) : Identifier {
+class DefaultUUID(private val backend: Uuid = uuid4()) : UUID {
 
     internal val uuid4 = uuid4()
 
@@ -14,7 +14,7 @@ class DefaultIdentifier(private val backend: Uuid = uuid4()) : Identifier {
         if (this === other) return true
         if (other == null || this::class.js != other::class.js) return false
 
-        other as DefaultIdentifier
+        other as DefaultUUID
 
         if (uuid4 != other.uuid4) return false
 

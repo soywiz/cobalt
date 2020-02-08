@@ -1,5 +1,5 @@
 plugins {
-    kotlinMultiplatform
+    kotlin("multiplatform")
 }
 
 group = "org.hexworks.cobalt"

@@ -1,4 +1,5 @@
 object Versions {
+
     const val kotlinVersion = "1.3.61"
     const val kotlinxCoroutinesVersion = "1.3.2"
     const val kotlinxCollectionsImmutableVersion = "0.3"

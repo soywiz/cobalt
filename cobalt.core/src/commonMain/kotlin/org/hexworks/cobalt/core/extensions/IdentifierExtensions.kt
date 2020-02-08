@@ -1,5 +1,5 @@
 package org.hexworks.cobalt.core.extensions
 
-import org.hexworks.cobalt.core.api.Identifier
+import org.hexworks.cobalt.core.api.UUID
 
-fun Identifier.abbreviate() = toString().substring(0, 4)
+fun UUID.abbreviate() = toString().substring(0, 4)

@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
-import org.hexworks.cobalt.core.api.Identifier
+import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.data.DisposeState
@@ -37,7 +37,7 @@ class ComputedDualBinding<out S0 : Any, out S1 : Any, T : Any>(
     override var disposeState: DisposeState = NotDisposed
         internal set
 
-    private val id = Identifier.randomIdentifier()
+    private val id = UUID.randomUUID()
     private val propertyScope = PropertyScope(id)
     private val subscriptions = mutableListOf<Subscription>()
 

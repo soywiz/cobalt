@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
-import org.hexworks.cobalt.core.api.Identifier
+import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.Converter
@@ -33,7 +33,7 @@ abstract class BaseBinding<S : Any, T : Any>(
     override var disposeState: DisposeState = NotDisposed
         internal set
 
-    private val id = Identifier.randomIdentifier()
+    private val id = UUID.randomUUID()
 
     internal val logger = LoggerFactory.getLogger(this::class)
     internal val propertyScope = PropertyScope(id)
