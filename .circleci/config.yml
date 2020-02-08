@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Execute Gradle
           command: |
-            if [ -z "$CIRCLE_PR_REPONAME" ]; then
+            if [ -z "$CIRCLE_TAG" ]; then
               echo "signing.keyId=${SIGNING_KEY}" >> "gradle.properties"
               echo "signing.password=${SIGNING_PASSWORD}" >> "gradle.properties"
               echo "signing.secretKeyRingFile=../maven.keystore" >> "gradle.properties"
