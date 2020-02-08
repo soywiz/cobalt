@@ -1,5 +1,7 @@
 plugins {
     kotlin("multiplatform")
+    id("maven-publish")
+    id("signing")
 }
 
 group = "org.hexworks.cobalt"
@@ -34,4 +36,17 @@ kotlin {
             jsTestImplementation(kotlinTestJs)
         }
     }
+}
+
+publishing {
+    publishWith(
+        project = project,
+        module = "cobalt.logging",
+        desc = "Logging utilities for Cobalt."
+    )
+}
+
+signing {
+    isRequired = false
+    sign(publishing.publications)
 }

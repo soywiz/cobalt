@@ -15,6 +15,7 @@ jobs:
           name: Execute Gradle
           command: |
             if [ -z "$CIRCLE_TAG" ]; then
+              echo "Circle tag is present (${CIRCLE_TAG}), buliding and publishing release..."
               echo "signing.keyId=${SIGNING_KEY}" >> "gradle.properties"
               echo "signing.password=${SIGNING_PASSWORD}" >> "gradle.properties"
               echo "signing.secretKeyRingFile=../maven.keystore" >> "gradle.properties"

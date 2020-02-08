@@ -1,5 +1,7 @@
 plugins {
     kotlin("multiplatform")
+    id("maven-publish")
+    id("signing")
 }
 
 kotlin {
@@ -30,4 +32,17 @@ kotlin {
             jsTestImplementation(kotlinTestJs)
         }
     }
+}
+
+publishing {
+    publishWith(
+        project = project,
+        module = "cobalt.datatypes",
+        desc = "Datatypes for Cobalt."
+    )
+}
+
+signing {
+    isRequired = false
+    sign(publishing.publications)
 }
