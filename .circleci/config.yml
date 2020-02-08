@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Execute Gradle
           command: |
-            if [[ -v CIRCLE_TAG ]]]; then
+            if [[ -v CIRCLE_TAG ]]; then
               echo "Performing build with publishing..."
               echo "signing.keyId=${SIGNING_KEY}" >> "gradle.properties"
               echo "signing.password=${SIGNING_PASSWORD}" >> "gradle.properties"
