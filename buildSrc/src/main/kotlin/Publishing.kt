@@ -17,10 +17,6 @@ fun PublishingExtension.publishWith(
 
     with(project) {
 
-        val emptySourcesJar by tasks.registering(Jar::class) {
-            archiveClassifier.set("sources")
-        }
-
         val emptyJavadocJar by tasks.registering(Jar::class) {
             archiveClassifier.set("javadoc")
         }
@@ -67,7 +63,6 @@ fun PublishingExtension.publishWith(
             }
 
             artifact(emptyJavadocJar.get())
-            artifact(emptySourcesJar.get())
         }
 
         repositories {
