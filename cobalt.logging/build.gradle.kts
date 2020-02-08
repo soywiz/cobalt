@@ -46,7 +46,9 @@ publishing {
     )
 }
 
-signing {
-    isRequired = false
-    sign(publishing.publications)
+if (!version.toString().endsWith("SNAPSHOT")) {
+    signing {
+        isRequired = false
+        sign(publishing.publications)
+    }
 }
