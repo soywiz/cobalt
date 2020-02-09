@@ -17,6 +17,15 @@ interface WritableValue<T : Any> : Value<T> {
     fun updateValue(newValue: T): ValueValidationResult<T>
 
     /**
+     * Tries to transform the [value] with the given [transformer] function.
+     * It is guaranteed that no concurrent changes will happen to this [WritableValue]
+     * while being transformed.
+     * @return [ValueValidationSuccessful] if [newValue] is
+     * acceptable, [ValueValidationFailed] if not.
+     */
+    fun transformValue(transformer: (T) -> T): ValueValidationResult<T>
+
+    /**
      * Starts updating this [WritableValue] from the given [observable]. If [updateWhenBound]
      * is `true` then the value of this [WritableValue] will be updated when the binding takes place.
      * Otherwise it will only get updated when [observable] is updated.

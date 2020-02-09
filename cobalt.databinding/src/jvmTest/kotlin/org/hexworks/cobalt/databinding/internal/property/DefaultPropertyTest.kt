@@ -2,6 +2,7 @@ package org.hexworks.cobalt.databinding.internal.property
 
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.datatypes.Maybe
+import kotlin.concurrent.thread
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -15,10 +16,11 @@ class DefaultPropertyTest {
     fun When_target_property_value_changes_the_change_listener_should_be_notified_with_the_proper_event() {
         var change = Maybe.empty<ObservableValueChanged<String>>()
         val expectedChange = ObservableValueChanged(
-                observableValue = target,
-                oldValue = XUL,
-                newValue = QUX,
-                emitter = target)
+            observableValue = target,
+            oldValue = XUL,
+            newValue = QUX,
+            emitter = target
+        )
 
         target.onChange {
             change = Maybe.of(it)
@@ -26,7 +28,11 @@ class DefaultPropertyTest {
         target.value = QUX
 
         assertTrue(change.isPresent, "No change happened.")
-        assertEquals(expected = expectedChange, actual = change.get(), message = "Actual ChangeEvent is different from expected.")
+        assertEquals(
+            expected = expectedChange,
+            actual = change.get(),
+            message = "Actual ChangeEvent is different from expected."
+        )
 
     }
 
@@ -37,6 +43,21 @@ class DefaultPropertyTest {
         target.bind(otherProperty)
 
         assertEquals(expected = QUX, actual = target.value, message = "Property value was not set to other value.")
+    }
+
+    @Test
+    fun When_target_property_is_being_transformed_no_concurrent_changes_can_happen() {
+
+        val result = target.transformValue { oldValue ->
+            Thread.sleep(500)
+            BAZ
+        }
+        thread {
+            target.transformValue {
+                QUX
+            }
+        }
+        assertEquals(BAZ, result.value)
     }
 
     @Test
@@ -61,7 +82,11 @@ class DefaultPropertyTest {
         otherProperty.value = BAZ
 
         assertEquals(expected = BAZ, actual = target.value, message = "Property value was not set to other value.")
-        assertEquals(expected = BAZ, actual = boundProperty.value, message = "Bound property value was not set to other value.")
+        assertEquals(
+            expected = BAZ,
+            actual = boundProperty.value,
+            message = "Bound property value was not set to other value."
+        )
 
     }
 
@@ -168,8 +193,10 @@ class DefaultPropertyTest {
             otherProperty.value.toString()
         }
 
-        assertEquals(expected = ONE, actual = target.value,
-                message = "Target value should have been updated.")
+        assertEquals(
+            expected = ONE, actual = target.value,
+            message = "Target value should have been updated."
+        )
     }
 
     @Test
@@ -182,8 +209,10 @@ class DefaultPropertyTest {
 
         otherProperty.value = 2
 
-        assertEquals(expected = TWO, actual = target.value,
-                message = "Target value should have been updated.")
+        assertEquals(
+            expected = TWO, actual = target.value,
+            message = "Target value should have been updated."
+        )
     }
 
 

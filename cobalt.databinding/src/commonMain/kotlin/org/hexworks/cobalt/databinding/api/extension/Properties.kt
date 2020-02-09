@@ -18,46 +18,52 @@ import kotlin.jvm.JvmName
  * Creates a new [Property] from the given object [obj].
  */
 fun <T : Any> createPropertyFrom(
-        obj: T,
-        validator: (T) -> Boolean = { true }): Property<T> =
-        DefaultProperty(
-                initialValue = obj,
-                validator = validator)
+    obj: T,
+    validator: (T) -> Boolean = { true }
+): Property<T> =
+    DefaultProperty(
+        initialValue = obj,
+        validator = validator
+    )
 
 /**
  * Creates a new [Property] from the given object of type [T].
  */
 fun <T : Any> T.toProperty(
-        validator: (T) -> Boolean = { true }): Property<T> =
-        createPropertyFrom(
-                obj = this,
-                validator = validator)
+    validator: (T) -> Boolean = { true }
+): Property<T> =
+    createPropertyFrom(
+        obj = this,
+        validator = validator
+    )
+
+fun <T : Any> List<T>.toProperty(
+    validator: Predicate<List<T>> = { true }
+): ListProperty<T> = DefaultListProperty(this, validator)
+
+fun <K : Any, V : Any> Map<K, V>.toProperty(
+    validator: Predicate<Map<K, V>> = { true }
+): MapProperty<K, V> = DefaultMapProperty(this, validator)
+
+fun <T : Any> Set<T>.toProperty(
+    validator: Predicate<Set<T>> = { true }
+): SetProperty<T> = DefaultSetProperty(this, validator)
+
+fun <T : Any> Iterable<T>.toProperty(
+    validator: Predicate<Iterable<T>> = { true }
+): ListProperty<T> = DefaultListProperty(this.toList(), validator)
+
+fun <T : Any> Collection<T>.toProperty(
+    validator: Predicate<Collection<T>> = { true }
+): ListProperty<T> = DefaultListProperty(this.toList(), validator)
 
 /**
  * Creates a new [InternalProperty] from the given object of type [T].
  */
 internal fun <T : Any> T.toInternalProperty(
-        validator: (T) -> Boolean = { true }): InternalProperty<T> =
-        createPropertyFrom(
-                obj = this,
-                validator = validator) as InternalProperty<T>
-
-fun <T : Any> List<T>.toProperty(
-        validator: Predicate<List<T>> = { true }
-): ListProperty<T> = DefaultListProperty(this, validator)
-
-fun <K : Any, V : Any> Map<K, V>.toProperty(
-        validator: Predicate<Map<K, V>> = { true }
-): MapProperty<K, V> = DefaultMapProperty(this, validator)
-
-fun <T : Any> Set<T>.toProperty(
-        validator: Predicate<Set<T>> = { true }
-): SetProperty<T> = DefaultSetProperty(this, validator)
-
-fun <T : Any> Iterable<T>.toProperty(
-        validator: Predicate<Iterable<T>> = { true }
-): ListProperty<T> = DefaultListProperty(this.toList(), validator)
-
-fun <T : Any> Collection<T>.toProperty(
-        validator: Predicate<Collection<T>> = { true }
-): ListProperty<T> = DefaultListProperty(this.toList(), validator)
+    validator: (T) -> Boolean = { true }
+): InternalProperty<T> =
+    createPropertyFrom(
+        obj = this,
+        validator = validator
+    ) as InternalProperty<T>

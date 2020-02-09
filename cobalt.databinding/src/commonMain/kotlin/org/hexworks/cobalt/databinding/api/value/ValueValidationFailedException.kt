@@ -1,5 +1,9 @@
 package org.hexworks.cobalt.databinding.api.value
 
-class ValueValidationFailedException(message: String) : RuntimeException(message) {
+class ValueValidationFailedException(
+    val newValue: Any,
+    message: String
+) : RuntimeException(message) {
+
     companion object
 }

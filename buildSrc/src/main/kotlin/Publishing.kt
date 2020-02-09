@@ -35,15 +35,19 @@ fun PublishingExtension.publishWith(
         val POM_DEVELOPER_ORGANIZATION_URL: String by project
 
         publications.withType<MavenPublication>().all {
+
             pom {
+
                 name.set(module)
                 description.set(desc)
                 url.set(POM_URL)
+
                 scm {
                     url.set(POM_SCM_URL)
                     connection.set(POM_SCM_CONNECTION)
                     developerConnection.set(POM_SCM_DEV_CONNECTION)
                 }
+
                 licenses {
                     license {
                         name.set(POM_LICENCE_NAME)
@@ -51,6 +55,7 @@ fun PublishingExtension.publishWith(
                         distribution.set(POM_LICENCE_DIST)
                     }
                 }
+
                 developers {
                     developer {
                         id.set(POM_DEVELOPER_ID)
@@ -66,10 +71,12 @@ fun PublishingExtension.publishWith(
         }
 
         repositories {
+
             val releaseUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             val snapshotUrl = uri("https://oss.sonatype.org/content/repositories/snapshots")
             val sonatypeUsername = System.getenv("SONATYPE_USERNAME") ?: ""
             val sonatypePassword = System.getenv("SONATYPE_PASSWORD") ?: ""
+
             maven {
                 url = if (version.toString().endsWith("SNAPSHOT")) snapshotUrl else releaseUrl
                 credentials {
