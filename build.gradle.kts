@@ -5,7 +5,7 @@ plugins {
 allprojects {
 
     group = "org.hexworks.cobalt"
-    version = "2020.0.12-RELEASE"
+    version = "2020.0.13-PREVIEW"
 
     repositories {
         mavenCentral()
