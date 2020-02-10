@@ -3,11 +3,4 @@ import org.gradle.kotlin.dsl.maven
 
 fun RepositoryHandler.kotlinx() = maven("https://dl.bintray.com/kotlin/kotlinx")
 
-fun RepositoryHandler.jitpack() = maven("https://jitpack.io") {
-    metadataSources {
-        gradleMetadata()
-        mavenPom()
-    }
-}
-
 fun RepositoryHandler.ktor() = maven("https://dl.bintray.com/kotlin/ktor")

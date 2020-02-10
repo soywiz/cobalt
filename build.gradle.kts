@@ -1,19 +1,14 @@
-plugins {
-    kotlin("multiplatform") apply false
-}
-
 allprojects {
 
     group = "org.hexworks.cobalt"
-    version = "2020.0.13-PREVIEW"
+    version = "2020.0.14-PREVIEW"
 
     repositories {
+        mavenLocal()
         mavenCentral()
         jcenter()
         kotlinx()
-        jitpack()
         ktor()
-        mavenLocal()
     }
 
 }
