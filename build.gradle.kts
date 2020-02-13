@@ -1,7 +1,7 @@
 allprojects {
 
     group = "org.hexworks.cobalt"
-    version = "2020.0.14-PREVIEW"
+    version = "2020.0.15-PREVIEW"
 
     repositories {
         mavenLocal()

@@ -1,4 +1,0 @@
-# Cobalt Logging
-
-
-

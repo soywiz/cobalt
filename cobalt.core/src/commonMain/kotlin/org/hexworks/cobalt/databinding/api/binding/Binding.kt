@@ -1,0 +1,15 @@
+package org.hexworks.cobalt.databinding.api.binding
+
+import org.hexworks.cobalt.core.behavior.Disposable
+import org.hexworks.cobalt.databinding.api.value.ObservableValue
+
+/**
+ * A [Binding] computes its value based on the value of its dependencies.
+ * A binding is subscribed to the changes of its dependencies and updates
+ * its value whenever any of them changes.
+ */
+interface Binding<out T : Any> : ObservableValue<T>, Disposable {
+
+    companion object
+}
+

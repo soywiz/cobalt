@@ -23,9 +23,12 @@ kotlin {
             commonMainApi(kotlinReflect)
 
             commonMainApi(uuid)
+            commonMainApi(kotlinxCollectionsImmutable)
 
             jvmMainApi(kotlinStdLibJdk8)
             jvmMainApi(kotlinxCoroutines)
+            jvmMainApi(slf4jApi)
+            jvmMainApi(logbackClassic)
 
             jsMainApi(kotlinStdLibJs)
             jsMainApi(kotlinxCoroutinesJs)
@@ -35,6 +38,7 @@ kotlin {
             commonTestApi(kotlinTestCommon)
             commonTestApi(kotlinTestAnnotationsCommon)
             commonTestApi(kotlinxCoroutinesTest)
+
             jvmTestApi(kotlinTestJunit)
             jsTestApi(kotlinTestJs)
         }
