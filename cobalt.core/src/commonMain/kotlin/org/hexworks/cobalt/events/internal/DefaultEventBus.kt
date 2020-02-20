@@ -10,10 +10,7 @@ import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.core.behavior.DisposedByException
 import org.hexworks.cobalt.core.behavior.NotDisposed
 import org.hexworks.cobalt.core.internal.toAtom
-import org.hexworks.cobalt.events.api.Event
-import org.hexworks.cobalt.events.api.EventBus
-import org.hexworks.cobalt.events.api.EventScope
-import org.hexworks.cobalt.events.api.Subscription
+import org.hexworks.cobalt.events.api.*
 import org.hexworks.cobalt.logging.api.LoggerFactory
 import kotlin.coroutines.CoroutineContext
 import kotlin.jvm.Volatile
@@ -25,7 +22,7 @@ class DefaultEventBus(
     @Volatile
     private var closed = false
     @Volatile
-    private var subsAtom = persistentMapOf<SubscriberKey, PersistentList<EventBusSubscription<*, Unit>>>().toAtom()
+    private var subsAtom = persistentMapOf<SubscriberKey, PersistentList<EventBusSubscription<*>>>().toAtom()
     private val logger = LoggerFactory.getLogger(this::class)
 
     override fun fetchSubscribersOf(eventScope: EventScope, key: String): Iterable<Subscription> {
@@ -35,7 +32,7 @@ class DefaultEventBus(
     override fun <T : Event> subscribeTo(
         eventScope: EventScope,
         key: String,
-        fn: (T) -> Unit
+        fn: (T) -> CallbackResult
     ): Subscription = whenNotClosed {
         try {
             logger.debug("Subscribing to $key with scope $eventScope.")
@@ -66,15 +63,17 @@ class DefaultEventBus(
             "Publishing event with key ${event.key} and scope $eventScope."
         }
         subsAtom.get()[SubscriberKey(eventScope, event.key)]?.let { subscribers ->
-            subscribers.forEach { subscription ->
+            subscribers.forEach { subscription: EventBusSubscription<*> ->
                 try {
-                    (subscription.callback as (Event) -> Unit).invoke(event)
+                    if (subscription.callback.fixType().invoke(event) is DisposeSubscription) {
+                        subscription.dispose()
+                    }
                 } catch (e: Exception) {
                     logger.warn("Cancelling failed subscription $subscription.", e)
                     try {
                         subscription.dispose(DisposedByException(e))
                     } catch (e: Exception) {
-                        logger.warn("Failed to auto-cancel subscription $subscription.", e)
+                        logger.warn("Failed to cancel subscription $subscription.", e)
                     }
                 }
             }
@@ -110,10 +109,10 @@ class DefaultEventBus(
 
     private data class SubscriberKey(val scope: EventScope, val key: String)
 
-    private inner class EventBusSubscription<in T : Event, out U : Any>(
+    private inner class EventBusSubscription<in T : Event>(
         val eventScope: EventScope,
         val key: String,
-        val callback: (T) -> U
+        val callback: (T) -> CallbackResult
     ) : Subscription {
 
         override var disposeState: DisposeState = NotDisposed
@@ -132,7 +131,7 @@ class DefaultEventBus(
                     var newSubscriptions = subscriptions
 
                     subscriptions[key]?.let { subs ->
-                        val newSubs = subs.remove(this as EventBusSubscription<*, Unit>)
+                        val newSubs = subs.remove(this as EventBusSubscription<*>)
                         newSubscriptions = if (newSubs.isEmpty()) {
                             newSubscriptions.remove(key)
                         } else {
@@ -148,4 +147,7 @@ class DefaultEventBus(
             }
         }
     }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun ((Nothing) -> CallbackResult).fixType() = this as (Event) -> CallbackResult
 }

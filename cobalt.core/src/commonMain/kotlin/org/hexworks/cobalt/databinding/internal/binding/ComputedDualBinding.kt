@@ -11,7 +11,7 @@ import org.hexworks.cobalt.databinding.api.extension.disposeSubscriptions
 import org.hexworks.cobalt.databinding.api.extension.toInternalProperty
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.events.api.Subscription
-import org.hexworks.cobalt.events.api.subscribeTo
+import org.hexworks.cobalt.events.api.simpleSubscribeTo
 
 /**
  * A [ComputedDualBinding] creates a [Binding] using **two** [ObservableValue]s which will get
@@ -82,7 +82,7 @@ class ComputedDualBinding<out S0 : Any, out S1 : Any, T : Any>(
     }
 
     override fun onChange(fn: (ObservableValueChanged<T>) -> Unit): Subscription {
-        return Cobalt.eventbus.subscribeTo<ObservableValueChanged<T>>(propertyScope) {
+        return Cobalt.eventbus.simpleSubscribeTo<ObservableValueChanged<T>>(propertyScope) {
             fn(it)
         }
     }

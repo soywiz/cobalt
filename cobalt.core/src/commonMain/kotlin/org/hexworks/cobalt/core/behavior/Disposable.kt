@@ -48,7 +48,7 @@ interface Disposable {
      * Keeps this [Disposable] [NotDisposed] until [condition] becomes `false`.
      * Will immediately [dispose] this [Disposable] if [ObservableValue.value] is `false`.
      */
-    infix fun keepUntil(condition: ObservableValue<Boolean>) {
+    infix fun keepWhile(condition: ObservableValue<Boolean>) {
         if (condition.value.not()) {
             dispose()
         } else {

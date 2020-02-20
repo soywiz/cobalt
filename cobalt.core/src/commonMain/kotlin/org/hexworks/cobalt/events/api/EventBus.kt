@@ -1,7 +1,5 @@
 package org.hexworks.cobalt.events.api
 
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Job
 import org.hexworks.cobalt.events.internal.ApplicationScope
 import org.hexworks.cobalt.events.internal.DefaultEventBus
 
@@ -14,17 +12,21 @@ interface EventBus {
      * Returns all subscribers of the event with the given [key] and [eventScope].
      */
     fun fetchSubscribersOf(
-            eventScope: EventScope = ApplicationScope,
-            key: String
+        eventScope: EventScope = ApplicationScope,
+        key: String
     ): Iterable<Subscription>
 
     /**
      * Subscribes the callee to [Event]s which have [eventScope] and [key].
+     * [fn] will be called whenever there is a match. [CallbackResult] can
+     * be used to control the [Subscription]:
+     * - [KeepSubscription] will keep the [Subscription]
+     * - [DisposeSubscription] will dispose it
      */
     fun <T : Event> subscribeTo(
-            eventScope: EventScope = ApplicationScope,
-            key: String,
-            fn: (T) -> Unit
+        eventScope: EventScope = ApplicationScope,
+        key: String,
+        fn: (T) -> CallbackResult
     ): Subscription
 
     /**
@@ -32,8 +34,9 @@ interface EventBus {
      * [eventScope] and [Event.key].
      */
     fun publish(
-            event: Event,
-            eventScope: EventScope = ApplicationScope)
+        event: Event,
+        eventScope: EventScope = ApplicationScope
+    )
 
 
     /**

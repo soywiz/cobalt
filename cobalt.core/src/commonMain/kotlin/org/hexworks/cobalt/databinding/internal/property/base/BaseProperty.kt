@@ -19,7 +19,7 @@ import org.hexworks.cobalt.databinding.internal.exception.CircularBindingExcepti
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 import org.hexworks.cobalt.datatypes.Maybe
 import org.hexworks.cobalt.events.api.Subscription
-import org.hexworks.cobalt.events.api.subscribeTo
+import org.hexworks.cobalt.events.api.simpleSubscribeTo
 import org.hexworks.cobalt.logging.api.LoggerFactory
 import kotlin.jvm.Synchronized
 
@@ -59,7 +59,7 @@ abstract class BaseProperty<T : Any>(
 
     override fun onChange(fn: (ObservableValueChanged<T>) -> Unit): Subscription {
         logger.debug("Subscribing to changes to property: $this.")
-        return Cobalt.eventbus.subscribeTo<ObservableValueChanged<T>>(propertyScope) {
+        return Cobalt.eventbus.simpleSubscribeTo<ObservableValueChanged<T>>(propertyScope) {
             fn(it)
         }
     }

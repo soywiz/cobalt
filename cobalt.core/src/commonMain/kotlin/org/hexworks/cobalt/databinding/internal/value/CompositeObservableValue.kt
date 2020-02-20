@@ -7,7 +7,7 @@ import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.events.api.Subscription
-import org.hexworks.cobalt.events.api.subscribeTo
+import org.hexworks.cobalt.events.api.simpleSubscribeTo
 
 /**
  * A [CompositeObservableValue] combines the given values into a single
@@ -47,7 +47,7 @@ class CompositeObservableValue<T : Any>(
     }
 
     override fun onChange(fn: (ObservableValueChanged<T>) -> Unit): Subscription {
-        return Cobalt.eventbus.subscribeTo<ObservableValueChanged<T>>(propertyScope) {
+        return Cobalt.eventbus.simpleSubscribeTo<ObservableValueChanged<T>>(propertyScope) {
             fn(it)
         }
     }

@@ -12,7 +12,7 @@ import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 import org.hexworks.cobalt.events.api.Subscription
-import org.hexworks.cobalt.events.api.subscribeTo
+import org.hexworks.cobalt.events.api.simpleSubscribeTo
 import org.hexworks.cobalt.logging.api.LoggerFactory
 
 abstract class BaseBinding<S : Any, T : Any>(
@@ -46,7 +46,7 @@ abstract class BaseBinding<S : Any, T : Any>(
     }
 
     override fun onChange(fn: (ObservableValueChanged<T>) -> Unit): Subscription {
-        return Cobalt.eventbus.subscribeTo<ObservableValueChanged<T>>(propertyScope) {
+        return Cobalt.eventbus.simpleSubscribeTo<ObservableValueChanged<T>>(propertyScope) {
             fn(it)
         }
     }
