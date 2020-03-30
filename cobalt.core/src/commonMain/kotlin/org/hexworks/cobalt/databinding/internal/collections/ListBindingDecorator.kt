@@ -3,21 +3,26 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.toPersistentList
-import org.hexworks.cobalt.core.extensions.Predicate
-import org.hexworks.cobalt.databinding.api.collection.ListProperty
-import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
+import org.hexworks.cobalt.core.behavior.DisposeState
+import org.hexworks.cobalt.databinding.api.binding.Binding
+import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
+import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
+import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
-class DefaultListProperty<T : Any>(
-        initialValue: List<T>,
-        validator: Predicate<List<T>> = { true }
-) : BaseProperty<PersistentList<T>>(
-        initialValue = initialValue.toPersistentList(),
-        validator = validator), ListProperty<T> {
+class ListBindingDecorator<T : Any>(
+    private val binding: Binding<PersistentList<T>>
+) : ObservableListBinding<T> {
+
+    override val value: PersistentList<T>
+        get() = binding.value
 
     override val size: Int
         get() = value.size
+
+    override fun onChange(fn: (ObservableValueChanged<PersistentList<T>>) -> Unit): Subscription {
+        return binding.onChange(fn)
+    }
 
     override fun contains(element: T) = value.contains(element)
 
@@ -40,45 +45,50 @@ class DefaultListProperty<T : Any>(
     override fun subList(fromIndex: Int, toIndex: Int) = value.subList(fromIndex, toIndex)
 
     override fun add(element: T): PersistentList<T> {
-        return updateCurrentValue { it.add(element) }
+        return value.add(element)
     }
 
     override fun remove(element: T): PersistentList<T> {
-        return updateCurrentValue { it.remove(element) }
+        return value.remove(element)
     }
 
     override fun addAll(elements: Collection<T>): PersistentList<T> {
-        return updateCurrentValue { it.addAll(elements) }
+        return value.addAll(elements)
     }
 
     override fun addAll(index: Int, c: Collection<T>): PersistentList<T> {
-        return updateCurrentValue { it.addAll(index, c) }
+        return value.addAll(index, c)
     }
 
     override fun removeAll(elements: Collection<T>): PersistentList<T> {
-        return updateCurrentValue { it.removeAll(elements) }
+        return value.removeAll(elements)
     }
 
     override fun removeAll(predicate: (T) -> Boolean): PersistentList<T> {
-        return updateCurrentValue { it.removeAll(predicate) }
+        return value.removeAll(predicate)
     }
 
     override fun clear(): PersistentList<T> {
-        return updateCurrentValue { it.clear() }
+        return value.clear()
     }
 
     override fun set(index: Int, element: T): PersistentList<T> {
-        return updateCurrentValue { it.set(index, element) }
+        return value.set(index, element)
     }
 
     override fun add(index: Int, element: T): PersistentList<T> {
-        return updateCurrentValue { it.add(index, element) }
+        return value.add(index, element)
     }
 
     override fun removeAt(index: Int): PersistentList<T> {
-        return updateCurrentValue { it.removeAt(index) }
+        return value.removeAt(index)
     }
 
     override fun builder() = value.builder()
+
+    override val disposeState: DisposeState
+        get() = binding.disposeState
+
+    override fun dispose(disposeState: DisposeState) = binding.dispose(disposeState)
 
 }
