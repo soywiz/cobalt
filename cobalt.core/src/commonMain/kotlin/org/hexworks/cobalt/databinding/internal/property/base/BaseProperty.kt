@@ -9,7 +9,9 @@ import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.IdentityConverter
 import org.hexworks.cobalt.databinding.api.converter.IsomorphicConverter
 import org.hexworks.cobalt.databinding.api.converter.toConverter
+import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
+import org.hexworks.cobalt.databinding.api.event.ScalarChange
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.value.*
 import org.hexworks.cobalt.databinding.internal.binding.BidirectionalBinding
@@ -50,7 +52,7 @@ abstract class BaseProperty<T : Any>(
     @Suppress("UNCHECKED_CAST")
     override fun transformValue(transformer: (oldValue: T) -> T): ValueValidationResult<T> {
         return try {
-            ValueValidationSuccessful(updateCurrentValue(transformer))
+            ValueValidationSuccessful(updateCurrentValue(fn = transformer))
         } catch (e: ValueValidationFailedException) {
             ValueValidationFailed(e.newValue as T, e)
         }
@@ -162,7 +164,7 @@ abstract class BaseProperty<T : Any>(
     // This won't lead to a deadlock in case we try to set the value twice in case of a
     // circular dependency, because we already have the monitor.
     @Synchronized
-    protected fun updateCurrentValue(fn: (T) -> T): T {
+    protected open fun updateCurrentValue(type: ChangeType = ScalarChange, fn: (T) -> T): T {
         var eventToSend = Maybe.empty<ObservableValueChanged<T>>()
         backend.transform { oldValue ->
             val newValue = fn(oldValue)
@@ -174,6 +176,7 @@ abstract class BaseProperty<T : Any>(
                     ObservableValueChanged(
                         oldValue = oldValue,
                         newValue = newValue,
+                        type = type,
                         observableValue = this,
                         emitter = this
                     )

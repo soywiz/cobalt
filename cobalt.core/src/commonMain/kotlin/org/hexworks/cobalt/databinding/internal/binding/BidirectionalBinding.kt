@@ -14,14 +14,14 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  * [converter] will be used to convert the values between [source] and [target].
  */
 class BidirectionalBinding<S : Any, T : Any>(
-        source: InternalProperty<S>,
-        target: InternalProperty<T>,
-        converter: IsomorphicConverter<S, T>
+    source: InternalProperty<S>,
+    target: InternalProperty<T>,
+    converter: IsomorphicConverter<S, T>
 ) : BaseBinding<S, T>(
-        source = source,
-        target = target,
-        converter = converter,
-        subscriptions = mutableListOf()) {
+    source = source,
+    target = target,
+    subscriptions = mutableListOf()
+) {
 
     private val reverseConverter = converter.reverseConverter()
 
@@ -29,17 +29,21 @@ class BidirectionalBinding<S : Any, T : Any>(
         subscriptions.add(source.onChange { event ->
             runWithDisposeOnFailure {
                 if (target.updateWithEvent(
-                                oldValue = converter.convert(event.oldValue),
-                                newValue = converter.convert(event.newValue),
-                                event = event)) {
+                        oldValue = converter.convert(event.oldValue),
+                        newValue = converter.convert(event.newValue),
+                        event = event
+                    )
+                ) {
                     Cobalt.eventbus.publish(
-                            event = ObservableValueChanged(
-                                    oldValue = event.oldValue,
-                                    newValue = event.newValue,
-                                    observableValue = this,
-                                    emitter = this,
-                                    trace = listOf(event) + event.trace),
-                            eventScope = propertyScope)
+                        event = ObservableValueChanged(
+                            oldValue = event.oldValue,
+                            newValue = event.newValue,
+                            observableValue = this,
+                            emitter = this,
+                            trace = listOf(event) + event.trace
+                        ),
+                        eventScope = propertyScope
+                    )
                 }
             }
         })
@@ -48,17 +52,21 @@ class BidirectionalBinding<S : Any, T : Any>(
                 val oldValue = reverseConverter.convert(event.oldValue)
                 val newValue = reverseConverter.convert(event.newValue)
                 if (source.updateWithEvent(
-                                oldValue = oldValue,
-                                newValue = newValue,
-                                event = event)) {
+                        oldValue = oldValue,
+                        newValue = newValue,
+                        event = event
+                    )
+                ) {
                     Cobalt.eventbus.publish(
-                            event = ObservableValueChanged(
-                                    oldValue = oldValue,
-                                    newValue = newValue,
-                                    observableValue = this,
-                                    emitter = this,
-                                    trace = listOf(event) + event.trace),
-                            eventScope = propertyScope)
+                        event = ObservableValueChanged(
+                            oldValue = oldValue,
+                            newValue = newValue,
+                            observableValue = this,
+                            emitter = this,
+                            trace = listOf(event) + event.trace
+                        ),
+                        eventScope = propertyScope
+                    )
                 }
             }
         })

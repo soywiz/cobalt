@@ -2,7 +2,6 @@ package org.hexworks.cobalt.databinding.internal.binding
 
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
-import org.hexworks.cobalt.databinding.api.converter.toConverter
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
@@ -14,30 +13,34 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  */
 @Suppress("UNCHECKED_CAST")
 class ComputedBinding<S : Any, T : Any>(
-        source: ObservableValue<S>,
-        converter: (S) -> T
+    source: ObservableValue<S>,
+    converter: (S) -> T
 ) : BaseBinding<S, T>(
-        source = source,
-        target = converter(source.value).toProperty() as InternalProperty<T>,
-        converter = converter.toConverter(),
-        subscriptions = mutableListOf()) {
+    source = source,
+    target = converter(source.value).toProperty() as InternalProperty<T>,
+    subscriptions = mutableListOf()
+) {
 
     init {
         subscriptions.add(source.onChange { event ->
             val oldValue = converter(event.oldValue)
             val newValue = converter(event.newValue)
-            if(target.updateWithEvent(
+            if (target.updateWithEvent( // TODO: we send 2 events, do we need to call this?
                     oldValue = oldValue,
                     newValue = newValue,
-                    event = event)) {
+                    event = event
+                )
+            ) {
                 Cobalt.eventbus.publish(
-                        event = ObservableValueChanged(
-                                oldValue = oldValue,
-                                newValue = newValue,
-                                observableValue = this,
-                                emitter = this,
-                                trace = listOf(event) + event.trace),
-                        eventScope = propertyScope)
+                    event = ObservableValueChanged(
+                        oldValue = oldValue,
+                        newValue = newValue,
+                        observableValue = this,
+                        emitter = this,
+                        trace = listOf(event) + event.trace
+                    ),
+                    eventScope = propertyScope
+                )
             }
         })
     }

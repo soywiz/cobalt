@@ -5,7 +5,6 @@ import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.core.behavior.NotDisposed
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
-import org.hexworks.cobalt.databinding.api.converter.Converter
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.extension.disposeSubscriptions
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
@@ -18,7 +17,6 @@ import org.hexworks.cobalt.logging.api.LoggerFactory
 abstract class BaseBinding<S : Any, T : Any>(
     internal val source: ObservableValue<S>,
     internal val target: InternalProperty<T>,
-    internal val converter: Converter<S, T>,
     internal val subscriptions: MutableList<Subscription>
 ) : Binding<T> {
 

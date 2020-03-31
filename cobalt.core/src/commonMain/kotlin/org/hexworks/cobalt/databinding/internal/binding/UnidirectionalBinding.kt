@@ -15,14 +15,14 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  * [converter] will be used to convert the values between [source] and [target].
  */
 class UnidirectionalBinding<S : Any, T : Any>(
-        source: ObservableValue<S>,
-        target: InternalProperty<T>,
-        converter: Converter<S, T>
+    source: ObservableValue<S>,
+    target: InternalProperty<T>,
+    converter: Converter<S, T>
 ) : BaseBinding<S, T>(
-        source = source,
-        target = target,
-        converter = converter,
-        subscriptions = mutableListOf()) {
+    source = source,
+    target = target,
+    subscriptions = mutableListOf()
+) {
 
     init {
         subscriptions.add(source.onChange { event ->
@@ -30,17 +30,21 @@ class UnidirectionalBinding<S : Any, T : Any>(
                 val oldValue = converter.convert(event.oldValue)
                 val newValue = converter.convert(event.newValue)
                 if (target.updateWithEvent(
-                                oldValue = oldValue,
-                                newValue = newValue,
-                                event = event)) {
+                        oldValue = oldValue,
+                        newValue = newValue,
+                        event = event
+                    )
+                ) {
                     Cobalt.eventbus.publish(
-                            event = ObservableValueChanged(
-                                    oldValue = oldValue,
-                                    newValue = newValue,
-                                    observableValue = this,
-                                    emitter = this,
-                                    trace = listOf(event) + event.trace),
-                            eventScope = propertyScope)
+                        event = ObservableValueChanged(
+                            oldValue = oldValue,
+                            newValue = newValue,
+                            observableValue = this,
+                            emitter = this,
+                            trace = listOf(event) + event.trace
+                        ),
+                        eventScope = propertyScope
+                    )
                 }
             }
         })

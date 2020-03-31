@@ -1,6 +1,10 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
+import kotlinx.collections.immutable.PersistentList
+import org.hexworks.cobalt.databinding.api.binding.bindListTransform
 import org.hexworks.cobalt.databinding.api.binding.bindPlusWith
+import org.hexworks.cobalt.databinding.api.event.ListAdd
+import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -57,7 +61,6 @@ class DefaultListPropertyTest {
         list2.add(6)
 
         assertEquals(listOf(1, 2, 3, 4, 5, 6), binding.value)
-
     }
 
     @Test
@@ -67,6 +70,78 @@ class DefaultListPropertyTest {
         target.bind(other)
 
         assertEquals(NUMBERS_1_TO_4, target.value)
+    }
+
+    @Test
+    fun When_a_list_transform_binding_is_created_Then_its_value_is_correct() {
+        val prop = listOf(1, 2).toProperty()
+
+        val binding = prop.bindListTransform {
+            it.toString()
+        }
+
+        assertEquals(listOf("1", "2"), binding.value)
+    }
+
+    @Test
+    fun Given_a_list_transform_binding_When_the_underlying_list_changes_Then_its_value_is_correct() {
+        val prop = listOf(1, 2).toProperty()
+
+        val binding = prop.bindListTransform {
+            it.toString()
+        }
+
+        prop.add(3)
+
+        assertEquals(listOf("1", "2", "3"), binding.value)
+    }
+
+    @Test
+    fun Given_a_list_transform_binding_When_the_underlying_list_changes_Then_the_emitted_event_is_correct() {
+        val prop = listOf(1, 2).toProperty()
+
+        val binding = prop.bindListTransform {
+            it.toString()
+        }
+
+        val changes = mutableListOf<ObservableValueChanged<PersistentList<String>>>()
+
+        binding.onChange {
+            changes.add(it)
+        }
+
+        prop.add(3)
+
+        assertEquals(1, changes.size)
+
+        val change = changes.first()
+
+        assertEquals(
+            expected = ObservableValueChanged(
+                oldValue = listOf("1", "2"),
+                newValue = listOf("1", "2", "3"),
+                observableValue = change.observableValue,
+                type = ListAdd(3),
+                emitter = change.emitter,
+                trace = change.trace
+            ),
+            actual = change
+        )
+    }
+
+    @Test
+    fun Given_a_hierarchical_list_transform_binding_When_the_underlying_list_changes_Then_its_value_is_correct() {
+        val prop = listOf(1, 2).toProperty()
+
+        val binding = prop.bindListTransform {
+            it.toString()
+        }
+
+        val derived = binding bindPlusWith listOf("foo").toProperty()
+
+        prop.add(3)
+
+        assertEquals(listOf("1", "2", "3", "foo"), derived.value)
     }
 
     companion object {
