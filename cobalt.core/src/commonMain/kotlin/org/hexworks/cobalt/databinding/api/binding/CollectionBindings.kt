@@ -1,5 +1,7 @@
 package org.hexworks.cobalt.databinding.api.binding
 
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentSet
 import org.hexworks.cobalt.databinding.api.collection.ObservableList
 import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
 import org.hexworks.cobalt.databinding.api.collection.ObservableSet
@@ -61,33 +63,33 @@ infix fun <T : Any> ObservablePersistentCollection<T>.bindIsEqualToWith(
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue == otherValue }
 }
 
-infix fun <T : Any> ObservableList<T>.bindPlusWith(
-    other: ObservableList<T>
-): ObservableList<T> {
+infix fun <T : Any> ObservableValue<PersistentList<T>>.bindPlusWith(
+    other: ObservableValue<PersistentList<T>>
+): ObservableListBinding<T> {
     return ListBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
         thisValue.addAll(otherValue)
     })
 }
 
-infix fun <T : Any> ObservableList<T>.bindMinusWith(
-    other: ObservableList<T>
+infix fun <T : Any> ObservableValue<PersistentList<T>>.bindMinusWith(
+    other: ObservableValue<PersistentList<T>>
 ): ObservableListBinding<T> {
     return ListBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
         thisValue.removeAll(otherValue)
     })
 }
 
-infix fun <T : Any> ObservableSet<T>.bindPlusWith(
-    other: ObservableSet<T>
+infix fun <T : Any> ObservableValue<PersistentSet<T>>.bindPlusWith(
+    other: ObservableValue<PersistentSet<T>>
 ): ObservableSetBinding<T> {
     return SetBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
         thisValue.addAll(otherValue)
     })
 }
 
-infix fun <T : Any> ObservableSet<T>.bindMinusWith(
-    other: ObservableSet<T>
-): ObservableSet<T> {
+infix fun <T : Any> ObservableValue<PersistentSet<T>>.bindMinusWith(
+    other: ObservableValue<PersistentSet<T>>
+): ObservableSetBinding<T> {
     return SetBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
         thisValue.removeAll(otherValue)
     })

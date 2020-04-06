@@ -11,10 +11,6 @@ import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.api.value.ValueValidationResult
 import org.hexworks.cobalt.databinding.internal.exception.CircularBindingException
 
-/**
- * A [ListBinding] creates a [Binding] using an [ObservableValue]. The [Binding] will get
- * updated whenever the [ObservableValue] changes using [converter] to compute the new value of this [Binding].
- */
 @Suppress("UNCHECKED_CAST")
 class ListBinding<S : Any, T : Any>(
     source: ObservableList<S>,
@@ -73,5 +69,5 @@ class ListBinding<S : Any, T : Any>(
         })
     }
 
-    override fun toString() = "ListBinding(source=$source, target=$target)"
+    override fun toString() = "${this::class.simpleName}(source=$source, target=$target)"
 }

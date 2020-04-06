@@ -24,11 +24,11 @@ class ListBindingDecorator<T : Any>(
         return binding.onChange(fn)
     }
 
-    override fun contains(element: T) = value.contains(element)
+    override operator fun contains(element: T) = value.contains(element)
 
     override fun containsAll(elements: Collection<T>) = value.containsAll(elements)
 
-    override fun get(index: Int) = value[index]
+    override operator fun get(index: Int) = value[index]
 
     override fun indexOf(element: T) = value.indexOf(element)
 

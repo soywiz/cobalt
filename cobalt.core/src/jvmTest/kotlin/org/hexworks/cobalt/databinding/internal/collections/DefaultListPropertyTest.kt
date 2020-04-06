@@ -1,8 +1,10 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentList
-import org.hexworks.cobalt.databinding.api.binding.bindListTransform
+import kotlinx.collections.immutable.persistentListOf
+import org.hexworks.cobalt.databinding.api.binding.bindMap
 import org.hexworks.cobalt.databinding.api.binding.bindPlusWith
+import org.hexworks.cobalt.databinding.api.collection.ObservableList
 import org.hexworks.cobalt.databinding.api.event.ListAdd
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.extension.toProperty
@@ -76,7 +78,7 @@ class DefaultListPropertyTest {
     fun When_a_list_transform_binding_is_created_Then_its_value_is_correct() {
         val prop = listOf(1, 2).toProperty()
 
-        val binding = prop.bindListTransform {
+        val binding = prop.bindMap {
             it.toString()
         }
 
@@ -87,7 +89,7 @@ class DefaultListPropertyTest {
     fun Given_a_list_transform_binding_When_the_underlying_list_changes_Then_its_value_is_correct() {
         val prop = listOf(1, 2).toProperty()
 
-        val binding = prop.bindListTransform {
+        val binding = prop.bindMap {
             it.toString()
         }
 
@@ -100,7 +102,7 @@ class DefaultListPropertyTest {
     fun Given_a_list_transform_binding_When_the_underlying_list_changes_Then_the_emitted_event_is_correct() {
         val prop = listOf(1, 2).toProperty()
 
-        val binding = prop.bindListTransform {
+        val binding = prop.bindMap {
             it.toString()
         }
 
@@ -133,7 +135,7 @@ class DefaultListPropertyTest {
     fun Given_a_hierarchical_list_transform_binding_When_the_underlying_list_changes_Then_its_value_is_correct() {
         val prop = listOf(1, 2).toProperty()
 
-        val binding = prop.bindListTransform {
+        val binding = prop.bindMap {
             it.toString()
         }
 
@@ -144,8 +146,74 @@ class DefaultListPropertyTest {
         assertEquals(listOf("1", "2", "3", "foo"), derived.value)
     }
 
+    @Test
+    fun Given_a_array_of_lists_to_bind_When_they_are_bound_Then_the_final_binding_is_correct() {
+
+        val prop0: ObservableList<Int> = listOf(0).toProperty()
+        val prop1: ObservableList<Int> = listOf(1).toProperty()
+        val prop2: ObservableList<Int> = listOf(2).toProperty()
+        val prop3: ObservableList<Int> = listOf(3).toProperty()
+        val prop4: ObservableList<Int> = listOf(4).toProperty()
+
+        val propsList = listOf(prop0, prop1, prop2, prop3, prop4)
+
+        val binding = propsList.reduce { acc, observableList -> acc bindPlusWith observableList }
+
+        assertEquals(persistentListOf(0, 1, 2, 3, 4), binding.value)
+    }
+
+    @Test
+    fun Given_a_array_of_lists_to_bind_When_they_are_modified_Then_the_final_binding_is_correct() {
+
+        val prop0: ObservableList<Int> = listOf(0).toProperty()
+        val prop1: ObservableList<Int> = listOf(1).toProperty()
+        val prop2: ObservableList<Int> = listOf(2).toProperty()
+        val prop3: ObservableList<Int> = listOf(3).toProperty()
+        val prop4: ObservableList<Int> = listOf(5).toProperty()
+
+        val propsList = listOf(prop0, prop1, prop2, prop3, prop4)
+
+        val binding = propsList.reduce { acc, observableList -> acc bindPlusWith observableList }
+
+        prop3.add(4)
+
+        assertEquals(persistentListOf(0, 1, 2, 3, 4, 5), binding.value)
+    }
+
+    @Test
+    fun Given_a_map_transformation_When_an_element_is_set_Then_only_one_transformation_is_executed() {
+        val prop: ObservableList<Int> = listOf(0, 1, 2).toProperty()
+
+        var transformationCount = 0
+
+        prop.bindMap {
+            transformationCount++
+            it + 1
+        }
+
+        transformationCount = 0
+
+        prop.set(0, 5)
+
+        assertEquals(1, transformationCount)
+    }
+
     companion object {
         val NUMBERS_1_TO_3 = listOf(1, 2, 3)
         val NUMBERS_1_TO_4 = listOf(1, 2, 3, 4)
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
