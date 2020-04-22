@@ -35,7 +35,7 @@ interface Disposable {
             dispose()
         } else {
             var subscription: Subscription? = null
-            subscription = condition.onChange { (newValue) ->
+            subscription = condition.onChange { (_, newValue) ->
                 if (newValue) {
                     subscription?.dispose()
                     dispose()
@@ -53,7 +53,7 @@ interface Disposable {
             dispose()
         } else {
             var subscription: Subscription? = null
-            subscription = condition.onChange { (newValue) ->
+            subscription = condition.onChange { (_, newValue) ->
                 if (newValue.not()) {
                     subscription?.dispose()
                     dispose()
