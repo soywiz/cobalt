@@ -1,3 +1,16 @@
+import Libs.kotlinReflect
+import Libs.kotlinStdLibCommon
+import Libs.kotlinxCollectionsImmutable
+import Libs.kotlinxCoroutines
+import Libs.logbackClassic
+import Libs.slf4jApi
+import Libs.uuid
+import TestLibs.kotlinTestAnnotationsCommon
+import TestLibs.kotlinTestCommon
+import TestLibs.kotlinTestJs
+import TestLibs.kotlinTestJunit
+import TestLibs.kotlinxCoroutinesTest
+
 plugins {
     kotlin("multiplatform")
     id("maven-publish")
@@ -15,35 +28,50 @@ kotlin {
         browser()
     }
 
-    dependencies {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                api(kotlinStdLibCommon)
 
-        with(Libs) {
-            commonMainApi(kotlinStdLibCommon)
-            
-            commonMainApi(kotlinxCoroutinesCommon)
-            commonMainApi(kotlinReflect)
+                api(kotlinxCoroutines)
+                api(kotlinReflect)
+                api(kotlinxCollectionsImmutable)
 
-            commonMainApi(uuid)
-            commonMainApi(kotlinxCollectionsImmutable)
+                api(uuid)
 
-            jvmMainApi(kotlinStdLibJdk8)
-            jvmMainApi(kotlinxCoroutines)
-            jvmMainApi(slf4jApi)
-            jvmMainApi(logbackClassic)
-
-            jsMainApi(kotlinStdLibJs)
-            jsMainApi(kotlinxCoroutinesJs)
+            }
         }
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlinTestCommon)
+                implementation(kotlinTestAnnotationsCommon)
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                api(kotlin("stdlib-jdk8"))
 
-        with(TestLibs) {
-            commonTestApi(kotlinTestCommon)
-            commonTestApi(kotlinTestAnnotationsCommon)
-            commonTestApi(kotlinxCoroutinesTest)
-
-            jvmTestApi(kotlinTestJunit)
-            jsTestApi(kotlinTestJs)
+                api(logbackClassic)
+                api(slf4jApi)
+            }
+        }
+        val jsMain by getting {
+            dependencies {
+                api(kotlin("stdlib-js"))
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlinTestJunit)
+            }
+        }
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlinTestJs)
+            }
         }
     }
+
 }
 
 publishing {

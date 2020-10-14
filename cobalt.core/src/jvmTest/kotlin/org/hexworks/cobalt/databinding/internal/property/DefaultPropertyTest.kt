@@ -48,7 +48,7 @@ class DefaultPropertyTest {
     @Test
     fun When_target_property_is_being_transformed_no_concurrent_changes_can_happen() {
 
-        val result = target.transformValue { oldValue ->
+        val result = target.transformValue {
             Thread.sleep(500)
             BAZ
         }

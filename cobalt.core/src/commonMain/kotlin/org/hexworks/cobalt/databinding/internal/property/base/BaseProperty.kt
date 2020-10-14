@@ -60,7 +60,7 @@ abstract class BaseProperty<T : Any>(
 
 
     override fun onChange(fn: (ObservableValueChanged<T>) -> Unit): Subscription {
-        logger.debug("Subscribing to changes to property: $this.")
+        logger.debug { "Subscribing to changes to property: $this." }
         return Cobalt.eventbus.simpleSubscribeTo<ObservableValueChanged<T>>(propertyScope) {
             fn(it)
         }
@@ -79,7 +79,7 @@ abstract class BaseProperty<T : Any>(
         updateWhenBound: Boolean,
         converter: IsomorphicConverter<S, T>
     ): Binding<T> {
-        logger.debug("Binding property $this to other property $other.")
+        logger.debug { "Binding property $this to other property $other." }
         checkSelfBinding(other)
         other as? InternalProperty<S> ?: error("Can only bind Properties which implement InternalProperty.")
         if (updateWhenBound) {
@@ -104,7 +104,9 @@ abstract class BaseProperty<T : Any>(
         updateWhenBound: Boolean,
         converter: (S) -> T
     ): Binding<T> {
-        logger.debug("Starting to update property $this from $observable.")
+        logger.debug {
+            "Starting to update property $this from $observable."
+        }
         checkSelfBinding(observable)
         if (updateWhenBound) {
             updateCurrentValue { converter(observable.value) }
@@ -118,7 +120,9 @@ abstract class BaseProperty<T : Any>(
         event: ObservableValueChanged<Any>
     ): Boolean {
 
-        logger.debug("Trying to update $this using event $event with new value $newValue.")
+        logger.debug {
+            "Trying to update $this using event $event with new value $newValue."
+        }
         return try {
             // this trick enables the whole system not to crash if there is a circular dependency
             if (event.trace.any { it.emitter == this }) {
@@ -147,7 +151,9 @@ abstract class BaseProperty<T : Any>(
                     newValue
                 }
                 eventToSend.map {
-                    logger.debug("Old value $oldValue of $this differs from new value $newValue, firing change event.")
+                    logger.debug {
+                        "Old value $oldValue of $this differs from new value $newValue, firing change event."
+                    }
                     Cobalt.eventbus.publish(
                         event = it,
                         eventScope = propertyScope
@@ -185,7 +191,9 @@ abstract class BaseProperty<T : Any>(
             newValue
         }
         eventToSend.map {
-            logger.debug("Old value ${it.oldValue} of $this differs from new value ${it.newValue}, firing change event.")
+            logger.debug {
+                "Old value ${it.oldValue} of $this differs from new value ${it.newValue}, firing change event."
+            }
             Cobalt.eventbus.publish(
                 event = it,
                 eventScope = propertyScope

@@ -21,6 +21,7 @@ class DefaultEventBus(
 
     @Volatile
     private var closed = false
+
     @Volatile
     private var subsAtom = persistentMapOf<SubscriberKey, PersistentList<EventBusSubscription<*>>>().toAtom()
     private val logger = LoggerFactory.getLogger(this::class)
@@ -35,7 +36,7 @@ class DefaultEventBus(
         fn: (T) -> CallbackResult
     ): Subscription = whenNotClosed {
         try {
-            logger.debug("Subscribing to $key with scope $eventScope.")
+            logger.debug { "Subscribing to $key with scope $eventScope." }
             val subscription = EventBusSubscription(
                 eventScope = eventScope,
                 key = key,
@@ -81,7 +82,7 @@ class DefaultEventBus(
     }
 
     override fun cancelScope(scope: EventScope): Unit = whenNotClosed {
-        logger.debug("Cancelling scope $scope.")
+        logger.debug { "Cancelling scope $scope." }
         subsAtom.get().filter { it.key.scope == scope }
             .flatMap { it.value }
             .forEach {
