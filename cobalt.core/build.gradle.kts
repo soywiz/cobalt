@@ -82,9 +82,7 @@ publishing {
     )
 }
 
-if (!version.toString().endsWith("SNAPSHOT")) {
-    signing {
-        isRequired = false
-        sign(publishing.publications)
-    }
+signing {
+    isRequired = true
+    sign(publishing.publications)
 }

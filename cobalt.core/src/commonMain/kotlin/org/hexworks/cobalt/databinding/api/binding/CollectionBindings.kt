@@ -2,9 +2,8 @@ package org.hexworks.cobalt.databinding.api.binding
 
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentSet
-import org.hexworks.cobalt.databinding.api.collection.ObservableList
+import kotlinx.collections.immutable.persistentListOf
 import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
-import org.hexworks.cobalt.databinding.api.collection.ObservableSet
 import org.hexworks.cobalt.databinding.api.collection.ObservableSetBinding
 import org.hexworks.cobalt.databinding.api.extension.ObservablePersistentCollection
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
@@ -17,6 +16,16 @@ fun <T : Any> ObservablePersistentCollection<T>.bindSize(): Binding<Int> {
     return ComputedBinding(this) { value ->
         value.size
     }
+}
+
+fun <T : Any> ObservablePersistentCollection<ObservablePersistentCollection<T>>.bindFlatten(): ObservableListBinding<T> {
+    return ListBindingDecorator(ComputedBinding(this) { value ->
+        var result = persistentListOf<T>()
+        value.forEach {
+            result = result.addAll(it.value)
+        }
+        result
+    })
 }
 
 fun <T : Any> ObservablePersistentCollection<T>.bindIsEmpty(): Binding<Boolean> {

@@ -1,5 +1,6 @@
 package org.hexworks.cobalt.databinding.api.binding
 
+import org.hexworks.cobalt.databinding.api.collection.ListProperty
 import org.hexworks.cobalt.databinding.api.collection.ObservableList
 import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
@@ -16,12 +17,21 @@ fun <S : Any, T : Any> ObservableValue<S>.bindTransform(transformer: (S) -> T): 
 }
 
 /**
- * Creates a [Binding] which will contain the mapped values of this [ObservableValue]
+ * Creates a [Binding] which will contain the mapped values of this [ObservableList]
  * from its type [S] to a new type [T].
  */
 fun <S : Any, T : Any> ObservableList<S>.bindMap(transformer: (S) -> T): ObservableListBinding<T> {
     return ListBindingDecorator(ListBinding(this, transformer))
 }
+
+/**
+ * Creates a [Binding] which will contain the flattened (flatMap) values of this [ObservableList]
+ */
+//fun <T : Any, R: Any> ListProperty<T>.bindFlatMap(
+//    transformer: (ObservableValue<T>) -> ObservableList<R>
+//): ObservableListBinding<R> {
+//    return ListBindingDecorator(ListBinding(this, transformer))
+//}
 
 
 

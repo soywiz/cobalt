@@ -1,14 +1,9 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
-import org.hexworks.cobalt.databinding.api.binding.bindContainsAllWith
-import org.hexworks.cobalt.databinding.api.binding.bindContainsWith
-import org.hexworks.cobalt.databinding.api.binding.bindIndexOfWith
-import org.hexworks.cobalt.databinding.api.binding.bindIsEmpty
-import org.hexworks.cobalt.databinding.api.binding.bindIsEqualToWith
-import org.hexworks.cobalt.databinding.api.binding.bindLastIndexOfWith
-import org.hexworks.cobalt.databinding.api.binding.bindMinusWith
-import org.hexworks.cobalt.databinding.api.binding.bindPlusWith
-import org.hexworks.cobalt.databinding.api.binding.bindSize
+import javafx.collections.ObservableList
+import org.hexworks.cobalt.databinding.api.binding.*
+import org.hexworks.cobalt.databinding.api.collection.ListProperty
+import org.hexworks.cobalt.databinding.api.extension.ObservablePersistentCollection
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -19,6 +14,45 @@ class CollectionBindingsTest {
     private val prop1To3 = NUMBERS_1_TO_3.toProperty()
     private val prop4To6 = NUMBERS_4_TO_6.toProperty()
     private val prop7To9 = NUMBERS_7_TO_9.toProperty()
+
+    @Test
+    fun When_list_properties_are_flattened_Then_the_binding_value_is_properly_calculated() {
+        val a = mutableListOf(1, 2, 3).toProperty()
+        val b = mutableListOf(4, 5, 6).toProperty()
+
+        val fm = mutableListOf<ObservablePersistentCollection<Int>>().toProperty()
+
+        val result = fm.bindFlatten()
+
+        fm.add(a)
+        fm.add(b)
+
+        assertEquals(
+            expected = a.value + b.value,
+            actual = result.value
+        )
+    }
+
+    @Test
+    fun When_list_properties_are_flattened_Then_the_binding_value_is_properly_calculated_when_items_are_removed() {
+        val a = mutableListOf(1, 2, 3).toProperty()
+        val b = mutableListOf(4, 5, 6).toProperty()
+
+        val fm = mutableListOf<ObservablePersistentCollection<Int>>().toProperty()
+
+        val result = fm.bindFlatten()
+
+        fm.add(a)
+        fm.add(b)
+
+        fm.remove(a)
+
+        assertEquals(
+            expected = b.value,
+            actual = result.value
+        )
+    }
+
 
     @Test
     fun When_list_properties_are_plussed_Then_the_binding_value_is_the_plussed_list() {

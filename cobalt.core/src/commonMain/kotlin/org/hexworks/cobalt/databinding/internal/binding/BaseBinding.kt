@@ -1,5 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
+import kotlinx.coroutines.channels.Channel
 import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.core.behavior.NotDisposed
