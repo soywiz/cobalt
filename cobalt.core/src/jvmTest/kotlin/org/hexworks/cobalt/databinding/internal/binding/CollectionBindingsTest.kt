@@ -1,8 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
-import javafx.collections.ObservableList
 import org.hexworks.cobalt.databinding.api.binding.*
-import org.hexworks.cobalt.databinding.api.collection.ListProperty
 import org.hexworks.cobalt.databinding.api.extension.ObservablePersistentCollection
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import kotlin.test.Test
