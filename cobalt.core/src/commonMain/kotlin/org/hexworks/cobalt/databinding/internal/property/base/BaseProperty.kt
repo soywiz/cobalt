@@ -1,6 +1,5 @@
 package org.hexworks.cobalt.databinding.internal.property.base
 
-import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.core.extensions.abbreviate
 import org.hexworks.cobalt.core.internal.toAtom
 import org.hexworks.cobalt.core.platform.factory.UUIDFactory
@@ -13,6 +12,7 @@ import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.event.ScalarChange
 import org.hexworks.cobalt.databinding.api.property.Property
+import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.api.value.*
 import org.hexworks.cobalt.databinding.internal.binding.BidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.binding.UnidirectionalBinding
@@ -27,7 +27,7 @@ import kotlin.jvm.Synchronized
 
 abstract class BaseProperty<T : Any>(
     initialValue: T,
-    private val validator: Predicate<T> = { true }
+    private val validator: PropertyValidator<T> = { _, _ -> true }
 ) : InternalProperty<T> {
 
     override var value: T
@@ -133,7 +133,7 @@ abstract class BaseProperty<T : Any>(
                 var changed = false
                 var eventToSend = Maybe.empty<ObservableValueChanged<T>>()
                 backend.transform {
-                    if (validator(newValue).not()) {
+                    if (validator(oldValue, newValue).not()) {
                         throw ValueValidationFailedException(newValue, "The given value '$newValue' is invalid.")
                     }
                     if (oldValue != newValue) {
@@ -174,7 +174,7 @@ abstract class BaseProperty<T : Any>(
         var eventToSend = Maybe.empty<ObservableValueChanged<T>>()
         backend.transform { oldValue ->
             val newValue = fn(oldValue)
-            if (validator(newValue).not()) {
+            if (validator(oldValue, newValue).not()) {
                 throw ValueValidationFailedException(newValue, "The given value $newValue is invalid.")
             }
             if (oldValue != newValue) {

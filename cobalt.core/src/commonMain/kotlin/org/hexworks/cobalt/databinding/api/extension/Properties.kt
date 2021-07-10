@@ -7,6 +7,7 @@ import org.hexworks.cobalt.databinding.api.collection.ListProperty
 import org.hexworks.cobalt.databinding.api.collection.MapProperty
 import org.hexworks.cobalt.databinding.api.collection.SetProperty
 import org.hexworks.cobalt.databinding.api.property.Property
+import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.collections.DefaultListProperty
 import org.hexworks.cobalt.databinding.internal.collections.DefaultMapProperty
 import org.hexworks.cobalt.databinding.internal.collections.DefaultSetProperty
@@ -19,7 +20,7 @@ import kotlin.jvm.JvmName
  */
 fun <T : Any> createPropertyFrom(
     obj: T,
-    validator: (T) -> Boolean = { true }
+    validator: PropertyValidator<T> = { _, _ -> true }
 ): Property<T> =
     DefaultProperty(
         initialValue = obj,
@@ -30,7 +31,7 @@ fun <T : Any> createPropertyFrom(
  * Creates a new [Property] from the given object of type [T].
  */
 fun <T : Any> T.toProperty(
-    validator: (T) -> Boolean = { true }
+    validator: PropertyValidator<T> = { _, _ -> true }
 ): Property<T> =
     createPropertyFrom(
         obj = this,
@@ -38,30 +39,30 @@ fun <T : Any> T.toProperty(
     )
 
 fun <T : Any> List<T>.toProperty(
-    validator: Predicate<List<T>> = { true }
+    validator: PropertyValidator<List<T>> = { _, _ -> true }
 ): ListProperty<T> = DefaultListProperty(this, validator)
 
 fun <K : Any, V : Any> Map<K, V>.toProperty(
-    validator: Predicate<Map<K, V>> = { true }
+    validator: PropertyValidator<Map<K, V>> = { _, _ -> true }
 ): MapProperty<K, V> = DefaultMapProperty(this, validator)
 
 fun <T : Any> Set<T>.toProperty(
-    validator: Predicate<Set<T>> = { true }
+    validator: PropertyValidator<Set<T>> = { _, _ -> true }
 ): SetProperty<T> = DefaultSetProperty(this, validator)
 
 fun <T : Any> Iterable<T>.toProperty(
-    validator: Predicate<Iterable<T>> = { true }
+    validator: PropertyValidator<Iterable<T>> = { _, _ -> true }
 ): ListProperty<T> = DefaultListProperty(this.toList(), validator)
 
 fun <T : Any> Collection<T>.toProperty(
-    validator: Predicate<Collection<T>> = { true }
+    validator: PropertyValidator<Collection<T>> = { _, _ -> true }
 ): ListProperty<T> = DefaultListProperty(this.toList(), validator)
 
 /**
  * Creates a new [InternalProperty] from the given object of type [T].
  */
 internal fun <T : Any> T.toInternalProperty(
-    validator: (T) -> Boolean = { true }
+    validator: PropertyValidator<T> = { _, _ -> true }
 ): InternalProperty<T> =
     createPropertyFrom(
         obj = this,

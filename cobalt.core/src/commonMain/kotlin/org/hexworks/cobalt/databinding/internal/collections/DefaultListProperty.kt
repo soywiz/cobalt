@@ -8,6 +8,7 @@ import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.collection.ListProperty
 import org.hexworks.cobalt.databinding.api.event.*
+import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.api.value.ValueValidationFailedException
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 import org.hexworks.cobalt.datatypes.Maybe
@@ -15,11 +16,12 @@ import kotlin.jvm.Synchronized
 
 @Suppress("UNCHECKED_CAST")
 class DefaultListProperty<T : Any>(
-        initialValue: List<T>,
-        validator: Predicate<List<T>> = { true }
+    initialValue: List<T>,
+    validator: PropertyValidator<List<T>> = { _, _ -> true }
 ) : BaseProperty<PersistentList<T>>(
-        initialValue = initialValue.toPersistentList(),
-        validator = validator), ListProperty<T> {
+    initialValue = initialValue.toPersistentList(),
+    validator = validator
+), ListProperty<T> {
 
     override val size: Int
         get() = value.size

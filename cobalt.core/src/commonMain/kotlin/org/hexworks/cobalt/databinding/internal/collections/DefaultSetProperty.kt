@@ -6,15 +6,17 @@ import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.toPersistentSet
 import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.databinding.api.collection.SetProperty
+import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 
 @Suppress("UNCHECKED_CAST")
 class DefaultSetProperty<T : Any>(
-        initialValue: Set<T>,
-        validator: Predicate<Set<T>> = { true }
+    initialValue: Set<T>,
+    validator: PropertyValidator<Set<T>> = { _, _ -> true }
 ) : BaseProperty<PersistentSet<T>>(
-        initialValue = initialValue.toPersistentSet(),
-        validator = validator), SetProperty<T> {
+    initialValue = initialValue.toPersistentSet(),
+    validator = validator
+), SetProperty<T> {
 
     override val size: Int
         get() = value.size

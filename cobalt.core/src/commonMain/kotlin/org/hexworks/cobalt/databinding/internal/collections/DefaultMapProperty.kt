@@ -8,15 +8,17 @@ import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toPersistentMap
 import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.databinding.api.collection.MapProperty
+import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 
 @Suppress("UNCHECKED_CAST")
 class DefaultMapProperty<K : Any, V : Any>(
-        initialValue: Map<K, V>,
-        validator: Predicate<Map<K, V>> = { true }
+    initialValue: Map<K, V>,
+    validator: PropertyValidator<Map<K, V>> = { _, _ -> true }
 ) : BaseProperty<PersistentMap<K, V>>(
-        initialValue = initialValue.toPersistentMap(),
-        validator = validator), MapProperty<K, V> {
+    initialValue = initialValue.toPersistentMap(),
+    validator = validator
+), MapProperty<K, V> {
 
     override val entries: ImmutableSet<Map.Entry<K, V>>
         get() = value.entries

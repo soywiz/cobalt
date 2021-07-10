@@ -23,8 +23,8 @@ interface Property<T : Any> : WritableValue<T>, ObservableValue<T> {
      * only get updated when [other] is next updated.
      */
     fun bind(
-            other: Property<T>,
-            updateWhenBound: Boolean = true
+        other: Property<T>,
+        updateWhenBound: Boolean = true
     ): Binding<T>
 
     /**
@@ -34,9 +34,9 @@ interface Property<T : Any> : WritableValue<T>, ObservableValue<T> {
      * when the binding takes place. Otherwise it will only get updated when [other] is updated.
      */
     fun <S : Any> bind(
-            other: Property<S>,
-            updateWhenBound: Boolean = true,
-            converter: IsomorphicConverter<S, T>
+        other: Property<S>,
+        updateWhenBound: Boolean = true,
+        converter: IsomorphicConverter<S, T>
     ): Binding<T>
 
     /**
