@@ -1,11 +1,11 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
-import kotlinx.coroutines.channels.Channel
 import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.core.behavior.NotDisposed
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
+import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.extension.disposeSubscriptions
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
@@ -32,7 +32,7 @@ abstract class BaseBinding<S : Any, T : Any>(
     override var disposeState: DisposeState = NotDisposed
         internal set
 
-    private val id = UUID.randomUUID()
+    final override val id = UUID.randomUUID()
 
     internal val logger = LoggerFactory.getLogger(this::class)
     internal val propertyScope = PropertyScope(id)
@@ -44,6 +44,7 @@ abstract class BaseBinding<S : Any, T : Any>(
         subscriptions.disposeSubscriptions()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onChange(fn: (ObservableValueChanged<T>) -> Unit): Subscription {
         return Cobalt.eventbus.simpleSubscribeTo<ObservableValueChanged<T>>(propertyScope) {
             fn(it)

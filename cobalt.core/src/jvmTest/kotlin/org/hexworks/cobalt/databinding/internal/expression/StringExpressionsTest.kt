@@ -4,6 +4,7 @@ package org.hexworks.cobalt.databinding.internal.expression
 
 import org.hexworks.cobalt.databinding.api.binding.bindIsEmpty
 import org.hexworks.cobalt.databinding.api.binding.bindNot
+import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,7 +14,7 @@ class StringExpressionsTest {
 
     @Test
     fun When_property_is_empty_binding_should_have_true_value() {
-        val prop = DefaultProperty("")
+        val prop = "".toProperty()
 
         val binding = prop.bindIsEmpty()
 
@@ -22,7 +23,7 @@ class StringExpressionsTest {
 
     @Test
     fun When_property_is_no_longer_empty_binding_should_have_false_value() {
-        val prop = DefaultProperty("")
+        val prop = "".toProperty()
 
         val binding = prop.bindIsEmpty()
 
@@ -33,7 +34,7 @@ class StringExpressionsTest {
 
     @Test
     fun When_property_is_not_empty_binding_should_have_true_value() {
-        val prop = DefaultProperty("")
+        val prop = "".toProperty()
 
         val binding = prop.bindIsEmpty().bindNot()
 
@@ -42,7 +43,7 @@ class StringExpressionsTest {
 
     @Test
     fun When_property_is_empty_binding_should_have_false_value() {
-        val prop = DefaultProperty("")
+        val prop = "".toProperty()
 
         val binding = prop.bindIsEmpty().bindNot()
 

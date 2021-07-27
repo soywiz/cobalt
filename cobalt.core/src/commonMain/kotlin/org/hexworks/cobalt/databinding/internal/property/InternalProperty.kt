@@ -1,15 +1,13 @@
 package org.hexworks.cobalt.databinding.internal.property
 
-import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
-import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.databinding.api.property.Property
+import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.logging.api.Logger
 
 interface InternalProperty<T : Any> : Property<T> {
 
     val logger: Logger
-    val id: UUID
     val propertyScope: PropertyScope
 
     /**
@@ -18,7 +16,8 @@ interface InternalProperty<T : Any> : Property<T> {
      * @return `true` if change happened, `false` if not
      */
     fun updateWithEvent(
-            oldValue: T,
-            newValue: T,
-            event: ObservableValueChanged<Any>): Boolean
+        oldValue: T,
+        newValue: T,
+        event: ObservableValueChanged<*>
+    ): Boolean
 }

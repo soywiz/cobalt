@@ -1,6 +1,7 @@
 package org.hexworks.cobalt.databinding.api.collection
 
 import kotlinx.collections.immutable.PersistentMap
+import org.hexworks.cobalt.databinding.api.event.MapChange
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 
 /**

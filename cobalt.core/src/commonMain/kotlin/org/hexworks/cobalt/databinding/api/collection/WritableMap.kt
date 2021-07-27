@@ -9,7 +9,7 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * A [WritableMap] is a [Value] which wraps an underlying [PersistentList]
  * and allows changing its [value].
  */
-interface WritableMap<K: Any, V: Any> : PersistentMap<K, V>, WritableValue<PersistentMap<K, V>> {
+interface WritableMap<K : Any, V : Any> : PersistentMap<K, V>, WritableValue<PersistentMap<K, V>> {
 
     companion object
 }

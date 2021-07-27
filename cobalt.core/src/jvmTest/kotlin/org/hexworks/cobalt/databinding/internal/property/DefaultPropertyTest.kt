@@ -1,6 +1,8 @@
 package org.hexworks.cobalt.databinding.internal.property
 
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
+import org.hexworks.cobalt.databinding.api.event.ScalarChange
+import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.datatypes.Maybe
 import kotlin.concurrent.thread
 import kotlin.test.Test
@@ -10,7 +12,7 @@ import kotlin.test.assertTrue
 @Suppress("FunctionName", "TestFunctionName")
 class DefaultPropertyTest {
 
-    private val target = DefaultProperty(XUL)
+    private val target = XUL.toProperty()
 
     @Test
     fun When_target_property_value_changes_the_change_listener_should_be_notified_with_the_proper_event() {
@@ -19,7 +21,8 @@ class DefaultPropertyTest {
             observableValue = target,
             oldValue = XUL,
             newValue = QUX,
-            emitter = target
+            emitter = target,
+            type = ScalarChange
         )
 
         target.onChange {
@@ -38,7 +41,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_target_property_is_bound_to_another_one_its_value_should_be_set_to_the_value_of_the_other_property() {
-        val otherProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
 
         target.bind(otherProperty)
 
@@ -62,7 +65,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_the_value_of_other_property_changes_a_bound_property_value_should_be_updated() {
-        val otherProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
 
         target.bind(otherProperty)
 
@@ -73,8 +76,8 @@ class DefaultPropertyTest {
 
     @Test
     fun When_the_value_of_other_property_changes_all_bound_property_values_should_be_updated() {
-        val otherProperty = DefaultProperty(QUX)
-        val boundProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
+        val boundProperty = QUX.toProperty()
 
         target.bind(otherProperty)
         boundProperty.bind(otherProperty)
@@ -92,8 +95,8 @@ class DefaultPropertyTest {
 
     @Test
     fun When_creating_a_circular_binding_it_should_not_lead_to_stack_overflow() {
-        val otherProperty0 = DefaultProperty(QUX)
-        val otherProperty1 = DefaultProperty(BAZ)
+        val otherProperty0 = QUX.toProperty()
+        val otherProperty1 = BAZ.toProperty()
 
         target.bind(otherProperty0)
         otherProperty0.bind(otherProperty1)
@@ -106,8 +109,8 @@ class DefaultPropertyTest {
 
     @Test
     fun When_setting_a_value_in_a_circular_binding_it_should_not_lead_to_a_deadlock() {
-        val otherProperty0 = DefaultProperty(QUX)
-        val otherProperty1 = DefaultProperty(BAZ)
+        val otherProperty0 = QUX.toProperty()
+        val otherProperty1 = BAZ.toProperty()
 
         target.bind(otherProperty0)
         otherProperty0.bind(otherProperty1)
@@ -121,7 +124,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_binding_bidirectionally_to_another_property_target_value_should_be_updated() {
-        val other = DefaultProperty(QUX)
+        val other = QUX.toProperty()
 
         target.bind(other)
 
@@ -131,7 +134,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_binding_bidirectionally_and_target_value_changes_other_should_be_updated() {
-        val otherProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
 
         target.bind(otherProperty)
 
@@ -143,7 +146,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_binding_bidirectionally_and_other_value_changes_target_should_be_updated() {
-        val otherProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
 
         target.bind(otherProperty)
 
@@ -154,7 +157,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_binding_bidirectionally_binding_should_have_same_value_as_target() {
-        val otherProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
 
         val binding = target.bind(otherProperty)
 
@@ -165,7 +168,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_binding_is_disposed_target_should_not_update_when_other_changes() {
-        val otherProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
 
         target.bind(otherProperty).dispose()
 
@@ -176,7 +179,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_binding_is_disposed_other_should_not_update_when_target_changes() {
-        val otherProperty = DefaultProperty(QUX)
+        val otherProperty = QUX.toProperty()
 
         target.bind(otherProperty).dispose()
 
@@ -187,7 +190,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_bound_with_converter_target_value_should_be_updated() {
-        val otherProperty = DefaultProperty(1)
+        val otherProperty = 1.toProperty()
 
         target.updateFrom(otherProperty) {
             otherProperty.value.toString()
@@ -201,7 +204,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_bound_with_converter_and_other_changes_target_should_be_updated() {
-        val otherProperty = DefaultProperty(1)
+        val otherProperty = 1.toProperty()
 
         target.updateFrom(otherProperty) {
             it.toString()

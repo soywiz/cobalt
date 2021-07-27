@@ -3,6 +3,7 @@ package org.hexworks.cobalt.databinding.internal.binding
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.IsomorphicConverter
+import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.internal.extensions.runWithDisposeOnFailure
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
@@ -23,24 +24,29 @@ class BidirectionalBinding<S : Any, T : Any>(
     subscriptions = mutableListOf()
 ) {
 
+    override val name = "BidirectionalBinding"
+
     private val reverseConverter = converter.reverseConverter()
 
     init {
         subscriptions.add(source.onChange { event ->
             runWithDisposeOnFailure {
+                val oldValue = converter.convert(event.oldValue)
+                val newValue = converter.convert(event.newValue)
                 if (target.updateWithEvent(
-                        oldValue = converter.convert(event.oldValue),
-                        newValue = converter.convert(event.newValue),
+                        oldValue = oldValue,
+                        newValue = newValue,
                         event = event
                     )
                 ) {
                     Cobalt.eventbus.publish(
-                        event = ObservableValueChanged(
-                            oldValue = event.oldValue,
-                            newValue = event.newValue,
+                        event = ObservableValueChanged<Any>(
+                            oldValue = oldValue,
+                            newValue = newValue,
                             observableValue = this,
                             emitter = this,
-                            trace = listOf(event) + event.trace
+                            trace = listOf(event) + event.trace,
+                            type = event.type
                         ),
                         eventScope = propertyScope
                     )
@@ -63,7 +69,8 @@ class BidirectionalBinding<S : Any, T : Any>(
                             newValue = newValue,
                             observableValue = this,
                             emitter = this,
-                            trace = listOf(event) + event.trace
+                            trace = listOf(event) + event.trace,
+                            type = event.type
                         ),
                         eventScope = propertyScope
                     )

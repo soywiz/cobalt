@@ -1,15 +1,15 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
 import org.hexworks.cobalt.core.api.UUID
-import org.hexworks.cobalt.databinding.api.Cobalt
-import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.core.behavior.NotDisposed
+import org.hexworks.cobalt.databinding.api.Cobalt
+import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
-import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.databinding.api.extension.disposeSubscriptions
 import org.hexworks.cobalt.databinding.api.extension.toInternalProperty
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
+import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.events.api.Subscription
 import org.hexworks.cobalt.events.api.simpleSubscribeTo
 
@@ -19,10 +19,12 @@ import org.hexworks.cobalt.events.api.simpleSubscribeTo
  * of this [Binding].
  */
 class ComputedDualBinding<out S0 : Any, out S1 : Any, T : Any>(
-        private val source0: ObservableValue<S0>,
-        private val source1: ObservableValue<S1>,
-        private val computerFn: (S0, S1) -> T
+    private val source0: ObservableValue<S0>,
+    private val source1: ObservableValue<S1>,
+    private val computerFn: (S0, S1) -> T
 ) : Binding<T> {
+
+    override val name = "ComputedDualBinding"
 
     private val target = computerFn(source0.value, source1.value).toInternalProperty()
 
@@ -38,7 +40,8 @@ class ComputedDualBinding<out S0 : Any, out S1 : Any, T : Any>(
         NotDisposed
         internal set
 
-    private val id = UUID.randomUUID()
+    override val id = UUID.randomUUID()
+
     private val propertyScope = PropertyScope(id)
     private val subscriptions = mutableListOf<Subscription>()
 
@@ -49,13 +52,16 @@ class ComputedDualBinding<out S0 : Any, out S1 : Any, T : Any>(
             if (oldValue != newValue) {
                 target.value = newValue
                 Cobalt.eventbus.publish(
-                        event = ObservableValueChanged(
-                                oldValue = oldValue,
-                                newValue = newValue,
-                                observableValue = this,
-                                emitter = this,
-                                trace = listOf(event) + event.trace),
-                        eventScope = propertyScope)
+                    event = ObservableValueChanged(
+                        oldValue = oldValue,
+                        newValue = newValue,
+                        observableValue = this,
+                        emitter = this,
+                        trace = listOf(event) + event.trace,
+                        type = event.type
+                    ),
+                    eventScope = propertyScope
+                )
             }
         })
         subscriptions.add(source1.onChange { event ->
@@ -64,13 +70,16 @@ class ComputedDualBinding<out S0 : Any, out S1 : Any, T : Any>(
             if (oldValue != newValue) {
                 target.value = newValue
                 Cobalt.eventbus.publish(
-                        event = ObservableValueChanged(
-                                oldValue = oldValue,
-                                newValue = newValue,
-                                observableValue = this,
-                                emitter = this,
-                                trace = listOf(event) + event.trace),
-                        eventScope = propertyScope)
+                    event = ObservableValueChanged(
+                        oldValue = oldValue,
+                        newValue = newValue,
+                        observableValue = this,
+                        emitter = this,
+                        trace = listOf(event) + event.trace,
+                        type = event.type
+                    ),
+                    eventScope = propertyScope
+                )
             }
         })
     }

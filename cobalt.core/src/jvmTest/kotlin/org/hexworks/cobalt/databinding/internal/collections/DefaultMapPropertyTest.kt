@@ -1,5 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
+import org.hexworks.cobalt.databinding.api.collection.MapProperty
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -7,7 +8,7 @@ import kotlin.test.assertEquals
 @Suppress("TestFunctionName")
 class DefaultMapPropertyTest {
 
-    private val target = NUMBERS_1_TO_3.toProperty()
+    private val target: MapProperty<Int, Int> = NUMBERS_1_TO_3.toProperty()
 
     @Test
     fun When_a_number_is_added_to_target_Then_its_value_changes() {

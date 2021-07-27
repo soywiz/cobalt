@@ -3,6 +3,7 @@ package org.hexworks.cobalt.databinding.internal.binding
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.Converter
+import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.extensions.runWithDisposeOnFailure
@@ -24,6 +25,8 @@ class UnidirectionalBinding<S : Any, T : Any>(
     subscriptions = mutableListOf()
 ) {
 
+    override val name: String = "UnidirectionalBinding"
+
     init {
         subscriptions.add(source.onChange { event ->
             runWithDisposeOnFailure {
@@ -41,7 +44,8 @@ class UnidirectionalBinding<S : Any, T : Any>(
                             newValue = newValue,
                             observableValue = this,
                             emitter = this,
-                            trace = listOf(event) + event.trace
+                            trace = listOf(event) + event.trace,
+                            type = event.type
                         ),
                         eventScope = propertyScope
                     )
@@ -49,5 +53,4 @@ class UnidirectionalBinding<S : Any, T : Any>(
             }
         })
     }
-
 }

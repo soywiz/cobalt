@@ -1,6 +1,7 @@
 package org.hexworks.cobalt.databinding.api.value
 
 import org.hexworks.cobalt.databinding.api.binding.Binding
+import org.hexworks.cobalt.databinding.api.event.ChangeType
 
 /**
  * A [WritableValue] wraps a value which can be read and written.
@@ -32,8 +33,8 @@ interface WritableValue<T : Any> : Value<T> {
      * @return a [Binding] which can be disposed to stop the updates
      */
     fun updateFrom(
-            observable: ObservableValue<T>,
-            updateWhenBound: Boolean = true
+        observable: ObservableValue<T>,
+        updateWhenBound: Boolean = true
     ): Binding<T>
 
     /**
@@ -45,9 +46,9 @@ interface WritableValue<T : Any> : Value<T> {
      * @return a [Binding] which can be disposed to stop the updates
      */
     fun <S : Any> updateFrom(
-            observable: ObservableValue<S>,
-            updateWhenBound: Boolean = true,
-            converter: (S) -> T
+        observable: ObservableValue<S>,
+        updateWhenBound: Boolean = true,
+        converter: (S) -> T
     ): Binding<T>
 
     companion object

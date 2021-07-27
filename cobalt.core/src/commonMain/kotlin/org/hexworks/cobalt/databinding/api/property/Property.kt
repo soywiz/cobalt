@@ -2,10 +2,12 @@ package org.hexworks.cobalt.databinding.api.property
 
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.IsomorphicConverter
+import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.api.value.Value
 import org.hexworks.cobalt.databinding.api.value.WritableValue
 import org.hexworks.cobalt.databinding.internal.property.DefaultPropertyDelegate
+import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 
 /**
  * A [Property] is a [Value] which can be *read*, *written* and *observed*

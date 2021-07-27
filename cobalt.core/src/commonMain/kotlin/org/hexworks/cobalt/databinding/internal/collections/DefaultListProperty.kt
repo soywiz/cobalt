@@ -4,22 +4,19 @@ package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
-import org.hexworks.cobalt.core.extensions.Predicate
-import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.collection.ListProperty
 import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
-import org.hexworks.cobalt.databinding.api.value.ValueValidationFailedException
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
-import org.hexworks.cobalt.datatypes.Maybe
-import kotlin.jvm.Synchronized
 
 @Suppress("UNCHECKED_CAST")
 class DefaultListProperty<T : Any>(
-    initialValue: List<T>,
-    validator: PropertyValidator<List<T>> = { _, _ -> true }
+    initialValue: PersistentList<T>,
+    optionalName: String?,
+    validator: PropertyValidator<List<T>>
 ) : BaseProperty<PersistentList<T>>(
-    initialValue = initialValue.toPersistentList(),
+    initialValue = initialValue,
+    name = optionalName ?: "DefaultListProperty",
     validator = validator
 ), ListProperty<T> {
 
@@ -49,7 +46,6 @@ class DefaultListProperty<T : Any>(
     override fun builder() = value.builder()
 
     // MUTATORS
-
     override fun add(element: T): PersistentList<T> {
         return updateCurrentValue(ListAdd(element)) { it.add(element) }
     }
@@ -84,6 +80,10 @@ class DefaultListProperty<T : Any>(
 
     override fun removeAll(predicate: (T) -> Boolean): PersistentList<T> {
         return updateCurrentValue(ListRemoveAllWhen(predicate)) { it.removeAll(predicate) }
+    }
+
+    override fun retainAll(elements: Collection<T>): PersistentList<T> {
+        return updateCurrentValue(ListRetainAll(elements)) { it.retainAll(elements) }
     }
 
     override fun clear(): PersistentList<T> {

@@ -4,17 +4,19 @@ package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.toPersistentSet
-import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.databinding.api.collection.SetProperty
+import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 
 @Suppress("UNCHECKED_CAST")
 class DefaultSetProperty<T : Any>(
-    initialValue: Set<T>,
-    validator: PropertyValidator<Set<T>> = { _, _ -> true }
+    initialValue: PersistentSet<T>,
+    optionalName: String?,
+    validator: PropertyValidator<Set<T>>
 ) : BaseProperty<PersistentSet<T>>(
-    initialValue = initialValue.toPersistentSet(),
+    initialValue = initialValue,
+    name = optionalName ?: "DefaultSetProperty",
     validator = validator
 ), SetProperty<T> {
 
@@ -29,30 +31,33 @@ class DefaultSetProperty<T : Any>(
 
     override fun iterator() = value.iterator()
 
+    override fun builder() = value.builder()
+
     override fun add(element: T): PersistentSet<T> {
-        return updateCurrentValue { it.add(element) }
+        return updateCurrentValue(SetAdd(element)) { it.add(element) }
     }
 
     override fun addAll(elements: Collection<T>): PersistentSet<T> {
-        return updateCurrentValue { it.addAll(elements) }
-    }
-
-    override fun clear(): PersistentSet<T> {
-        return updateCurrentValue { it.clear() }
+        return updateCurrentValue(SetAddAll(elements)) { it.addAll(elements) }
     }
 
     override fun remove(element: T): PersistentSet<T> {
-        return updateCurrentValue { it.remove(element) }
+        return updateCurrentValue(SetRemove(element)) { it.remove(element) }
     }
 
     override fun removeAll(predicate: (T) -> Boolean): PersistentSet<T> {
-        return updateCurrentValue { it.removeAll(predicate) }
+        return updateCurrentValue(SetRemoveAllWhen(predicate)) { it.removeAll(predicate) }
     }
 
     override fun removeAll(elements: Collection<T>): PersistentSet<T> {
-        return updateCurrentValue { it.removeAll(elements) }
+        return updateCurrentValue(SetRemoveAll(elements)) { it.removeAll(elements) }
     }
 
-    override fun builder() = value.builder()
+    override fun retainAll(elements: Collection<T>): PersistentSet<T> {
+        return updateCurrentValue(SetRetainAll(elements)) { it.retainAll(elements) }
+    }
 
+    override fun clear(): PersistentSet<T> {
+        return updateCurrentValue(SetClear) { it.clear() }
+    }
 }

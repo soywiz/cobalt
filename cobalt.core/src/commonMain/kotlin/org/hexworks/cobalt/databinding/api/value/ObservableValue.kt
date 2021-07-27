@@ -1,5 +1,6 @@
 package org.hexworks.cobalt.databinding.api.value
 
+import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.events.api.Subscription
 
@@ -7,6 +8,9 @@ import org.hexworks.cobalt.events.api.Subscription
  * An [ObservableValue] wraps a value and allows to observe the value for changes.
  */
 interface ObservableValue<out T : Any> : Value<T> {
+
+    val id: UUID
+    val name: String
 
     /**
      * Starts observing this [ObservableValue] for changes. If it happens

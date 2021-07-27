@@ -3,6 +3,7 @@ package org.hexworks.cobalt.databinding.internal.binding
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
+import org.hexworks.cobalt.databinding.api.event.ScalarChange
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
@@ -21,6 +22,8 @@ class ComputedBinding<S : Any, T : Any>(
     subscriptions = mutableListOf()
 ) {
 
+    override val name = "ComputedBinding"
+
     init {
         subscriptions.add(source.onChange { event ->
             val oldValue = converter(event.oldValue)
@@ -37,7 +40,8 @@ class ComputedBinding<S : Any, T : Any>(
                         newValue = newValue,
                         observableValue = this,
                         emitter = this,
-                        trace = listOf(event) + event.trace
+                        trace = listOf(event) + event.trace,
+                        type = ScalarChange
                     ),
                     eventScope = propertyScope
                 )

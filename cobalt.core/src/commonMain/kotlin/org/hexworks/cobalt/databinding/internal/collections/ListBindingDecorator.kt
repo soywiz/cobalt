@@ -3,6 +3,7 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentList
+import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
@@ -11,14 +12,20 @@ import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
 class ListBindingDecorator<T : Any>(
-    private val binding: Binding<PersistentList<T>>
+    private val binding: Binding<PersistentList<T>>,
+    optionalName: String? = null,
 ) : ObservableListBinding<T> {
+
+    override val id: UUID
+        get() = binding.id
 
     override val value: PersistentList<T>
         get() = binding.value
 
     override val size: Int
         get() = value.size
+
+    override val name = optionalName ?: "ListBindingDecorator"
 
     override fun onChange(fn: (ObservableValueChanged<PersistentList<T>>) -> Unit): Subscription {
         return binding.onChange(fn)
@@ -66,6 +73,10 @@ class ListBindingDecorator<T : Any>(
 
     override fun removeAll(predicate: (T) -> Boolean): PersistentList<T> {
         return value.removeAll(predicate)
+    }
+
+    override fun retainAll(elements: Collection<T>): PersistentList<T> {
+        return value.retainAll(elements)
     }
 
     override fun clear(): PersistentList<T> {

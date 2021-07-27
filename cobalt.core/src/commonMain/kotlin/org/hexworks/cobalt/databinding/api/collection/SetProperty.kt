@@ -1,6 +1,7 @@
 package org.hexworks.cobalt.databinding.api.collection
 
 import kotlinx.collections.immutable.PersistentSet
+import org.hexworks.cobalt.databinding.api.event.SetChange
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.api.value.WritableValue
@@ -12,9 +13,9 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * @see WritableValue
  */
 interface SetProperty<T : Any> : ObservableSet<T>,
-        WritableSet<T>,
-        ObservableCollection<T, PersistentSet<T>>,
-        Property<PersistentSet<T>> {
+    WritableSet<T>,
+    ObservableCollection<T, PersistentSet<T>>,
+    Property<PersistentSet<T>> {
 
     companion object
 }

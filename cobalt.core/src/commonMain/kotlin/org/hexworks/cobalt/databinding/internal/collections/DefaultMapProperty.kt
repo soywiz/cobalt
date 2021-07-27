@@ -8,15 +8,18 @@ import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.toPersistentMap
 import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.databinding.api.collection.MapProperty
+import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 
 @Suppress("UNCHECKED_CAST")
 class DefaultMapProperty<K : Any, V : Any>(
-    initialValue: Map<K, V>,
-    validator: PropertyValidator<Map<K, V>> = { _, _ -> true }
+    initialValue: PersistentMap<K, V>,
+    optionalName: String?,
+    validator: PropertyValidator<PersistentMap<K, V>>
 ) : BaseProperty<PersistentMap<K, V>>(
-    initialValue = initialValue.toPersistentMap(),
+    initialValue = initialValue,
+    name = optionalName ?: "DefaultMapProperty",
     validator = validator
 ), MapProperty<K, V> {
 
@@ -40,26 +43,25 @@ class DefaultMapProperty<K : Any, V : Any>(
 
     override fun isEmpty() = value.isEmpty()
 
-    override fun clear(): PersistentMap<K, V> {
-        return updateCurrentValue { it.clear() }
-    }
+    override fun builder() = value.builder()
 
     override fun put(key: K, value: V): PersistentMap<K, V> {
-        return updateCurrentValue { it.put(key, value) }
+        return updateCurrentValue(MapPut(key, value)) { it.put(key, value) }
     }
 
     override fun putAll(m: Map<out K, V>): PersistentMap<K, V> {
-        return updateCurrentValue { it.putAll(m) }
+        return updateCurrentValue(MapPutAll(m)) { it.putAll(m) }
     }
 
     override fun remove(key: K): PersistentMap<K, V> {
-        return updateCurrentValue { it.remove(key) }
+        return updateCurrentValue(MapRemove(key)) { it.remove(key) }
     }
 
     override fun remove(key: K, value: V): PersistentMap<K, V> {
-        return updateCurrentValue { it.remove(key, value) }
+        return updateCurrentValue(MapRemoveWithValue(key, value)) { it.remove(key, value) }
     }
 
-    override fun builder() = value.builder()
-
+    override fun clear(): PersistentMap<K, V> {
+        return updateCurrentValue(MapClear) { it.clear() }
+    }
 }

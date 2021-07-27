@@ -3,6 +3,8 @@ package org.hexworks.cobalt.databinding.internal.binding
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.IsomorphicConverter
 import org.hexworks.cobalt.core.behavior.DisposedByException
+import org.hexworks.cobalt.databinding.api.extension.toProperty
+import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -11,16 +13,16 @@ import kotlin.test.assertEquals
 @Suppress("TestFunctionName", "FunctionName")
 class BidirectionalConverterBindingTest {
 
-    lateinit var target: DefaultProperty<String>
+    lateinit var target: Property<String>
 
     @BeforeTest
     fun Set_up() {
-        target = DefaultProperty(ONE)
+        target = ONE.toProperty()
     }
 
     @Test
     fun When_target_property_is_bound_bidirectionally_to_other_property_with_different_type_its_value_should_be_updated() {
-        val otherProperty = DefaultProperty(2)
+        val otherProperty = 2.toProperty()
 
         bindTargetToOther(otherProperty)
 
@@ -29,7 +31,7 @@ class BidirectionalConverterBindingTest {
 
     @Test
     fun When_target_property_is_bound_bidirectionally_to_other_property_and_other_property_is_updated_target_should_get_updated() {
-        val otherProperty = DefaultProperty(2)
+        val otherProperty = 2.toProperty()
 
         bindTargetToOther(otherProperty)
 
@@ -40,7 +42,7 @@ class BidirectionalConverterBindingTest {
 
     @Test
     fun When_target_property_is_bound_bidirectionally_to_other_property_and_target_property_is_updated_other_should_get_updated() {
-        val otherProperty = DefaultProperty(2)
+        val otherProperty = 2.toProperty()
 
         bindTargetToOther(otherProperty)
 
@@ -51,18 +53,20 @@ class BidirectionalConverterBindingTest {
 
     @Test
     fun When_target_property_is_bound_bidirectionally_to_other_property_and_target_property_is_updated_with_exception_binding_should_be_disposed() {
-        val otherProperty = DefaultProperty(2)
+        val otherProperty = 2.toProperty()
 
         val binding = bindTargetToOther(otherProperty)
 
         target.value = FOO
 
-        assertEquals(expected = DisposedByException::class,
-                actual = binding.disposeState::class,
-                message = "Binding should have been disposed because of exception")
+        assertEquals(
+            expected = DisposedByException::class,
+            actual = binding.disposeState::class,
+            message = "Binding should have been disposed because of exception"
+        )
     }
 
-    private fun bindTargetToOther(otherProperty: DefaultProperty<Int>): Binding<String> {
+    private fun bindTargetToOther(otherProperty: Property<Int>): Binding<String> {
         return target.bind(other = otherProperty, converter = object : IsomorphicConverter<Int, String> {
 
             override fun convertBack(target: String) = target.toInt()

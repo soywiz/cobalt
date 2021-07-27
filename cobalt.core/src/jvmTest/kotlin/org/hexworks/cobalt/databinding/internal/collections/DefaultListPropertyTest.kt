@@ -6,15 +6,16 @@ import org.hexworks.cobalt.databinding.api.binding.bindMap
 import org.hexworks.cobalt.databinding.api.binding.bindPlusWith
 import org.hexworks.cobalt.databinding.api.collection.ObservableList
 import org.hexworks.cobalt.databinding.api.event.ListAdd
+import org.hexworks.cobalt.databinding.api.event.ListChange
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TestFunctionName")
-class DefaultListPropertyTest {
+open class DefaultListPropertyTest {
 
-    private val target = NUMBERS_1_TO_3.toProperty()
+    val target = NUMBERS_1_TO_3.toProperty()
 
     @Test
     fun When_a_number_is_added_to_target_Then_its_value_changes() {
@@ -120,8 +121,8 @@ class DefaultListPropertyTest {
 
         assertEquals(
             expected = ObservableValueChanged(
-                oldValue = listOf("1", "2"),
-                newValue = listOf("1", "2", "3"),
+                oldValue = persistentListOf("1", "2"),
+                newValue = persistentListOf("1", "2", "3"),
                 observableValue = change.observableValue,
                 type = ListAdd(3),
                 emitter = change.emitter,

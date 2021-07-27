@@ -4,6 +4,8 @@ import org.hexworks.cobalt.databinding.api.binding.bindPlusWith
 import org.hexworks.cobalt.databinding.api.binding.bindTimesWith
 import org.hexworks.cobalt.databinding.api.binding.bindNegate
 import org.hexworks.cobalt.databinding.api.binding.bindMinusWith
+import org.hexworks.cobalt.databinding.api.extension.toProperty
+import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,7 +15,7 @@ class LongExpressionsTest {
 
     @Test
     fun When_property_is_negated_binding_value_should_be_negative() {
-        val prop: DefaultProperty<Long> = DefaultProperty(2)
+        val prop: Property<Long> = 2L.toProperty()
 
         val binding = prop.bindNegate()
 
@@ -22,8 +24,8 @@ class LongExpressionsTest {
 
     @Test
     fun When_property_is_added_to_other_property_binding_value_should_be_their_sum() {
-        val prop: DefaultProperty<Long> = DefaultProperty(2)
-        val otherProp: DefaultProperty<Long> = DefaultProperty(4)
+        val prop: Property<Long> = 2L.toProperty()
+        val otherProp: Property<Long> = 4L.toProperty()
 
         val sum = prop.bindPlusWith(otherProp)
 
@@ -32,8 +34,8 @@ class LongExpressionsTest {
 
     @Test
     fun When_sum_binding_is_created_and_property_changes_sum_should_also_change() {
-        val prop: DefaultProperty<Long> = DefaultProperty(2)
-        val otherProp: DefaultProperty<Long> = DefaultProperty(4)
+        val prop: Property<Long> = 2L.toProperty()
+        val otherProp: Property<Long> = 4L.toProperty()
 
         val sum = prop.bindPlusWith(otherProp)
 
@@ -44,11 +46,11 @@ class LongExpressionsTest {
 
     @Test
     fun When_complex_binding_is_created_and_property_changes_binding_should_also_change() {
-        val sumPart0: DefaultProperty<Long> = DefaultProperty(2)
-        val sumPart1: DefaultProperty<Long> = DefaultProperty(4)
+        val sumPart0: Property<Long> = 2L.toProperty()
+        val sumPart1: Property<Long> = 4L.toProperty()
 
-        val diffPart0: DefaultProperty<Long> = DefaultProperty(8)
-        val diffPart1: DefaultProperty<Long> = DefaultProperty(2)
+        val diffPart0: Property<Long> = 8L.toProperty()
+        val diffPart1: Property<Long> = 2L.toProperty()
 
         val sum = sumPart0.bindPlusWith(sumPart1)
         val diff = diffPart0.bindMinusWith(diffPart1)

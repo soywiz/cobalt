@@ -27,6 +27,7 @@ import kotlin.jvm.Synchronized
 
 abstract class BaseProperty<T : Any>(
     initialValue: T,
+    override val name: String,
     private val validator: PropertyValidator<T> = { _, _ -> true }
 ) : InternalProperty<T> {
 
@@ -42,8 +43,6 @@ abstract class BaseProperty<T : Any>(
 
     private val backend = initialValue.toAtom()
     private val identityConverter = IdentityConverter<T>()
-
-    override fun toString() = "Property(id=${id.abbreviate()}, value=$value)"
 
     override fun updateValue(newValue: T): ValueValidationResult<T> {
         return transformValue { newValue }
@@ -144,7 +143,8 @@ abstract class BaseProperty<T : Any>(
                                 newValue = newValue,
                                 observableValue = this,
                                 emitter = this,
-                                trace = listOf(event) + event.trace
+                                trace = listOf(event) + event.trace,
+                                type = event.type
                             )
                         )
                     }
@@ -177,7 +177,7 @@ abstract class BaseProperty<T : Any>(
             if (validator(oldValue, newValue).not()) {
                 throw ValueValidationFailedException(newValue, "The given value $newValue is invalid.")
             }
-            if (oldValue != newValue) {
+            if (type != ScalarChange || oldValue != newValue) {
                 eventToSend = Maybe.of(
                     ObservableValueChanged(
                         oldValue = oldValue,
@@ -202,9 +202,26 @@ abstract class BaseProperty<T : Any>(
         return backend.get()
     }
 
-    private fun checkSelfBinding(other: ObservableValue<Any>) {
+    private fun checkSelfBinding(other: ObservableValue<*>) {
         require(this !== other) {
             "Can't bind a property to itself."
         }
+    }
+
+    override fun toString() = "${name}(id=${id.abbreviate()}, value=$value)"
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as BaseProperty<*>
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
     }
 }

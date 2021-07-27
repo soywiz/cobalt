@@ -1,29 +1,28 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
-import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentSetOf
 import org.hexworks.cobalt.databinding.api.Cobalt
-import org.hexworks.cobalt.databinding.api.collection.ObservableList
+import org.hexworks.cobalt.databinding.api.collection.ObservableSet
 import org.hexworks.cobalt.databinding.api.event.*
-import org.hexworks.cobalt.databinding.api.extension.map
-import org.hexworks.cobalt.databinding.api.extension.toInternalProperty
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.databinding.api.value.ValueValidationResult
 import org.hexworks.cobalt.databinding.internal.exception.CircularBindingException
 import org.hexworks.cobalt.databinding.internal.extensions.asInternalProperty
-import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 
 @Suppress("UNCHECKED_CAST")
-class ListBinding<S : Any, T : Any>(
-    source: ObservableList<S>,
+class SetBinding<S : Any, T : Any>(
+    source: ObservableSet<S>,
     converter: (S) -> T
-) : BaseBinding<PersistentList<S>, PersistentList<T>>(
+) : BaseBinding<PersistentSet<S>, PersistentSet<T>>(
     source = source,
-    target = source.value.map { converter(it) }.toProperty().asInternalProperty(),
+    target = persistentSetOf<T>().toProperty().asInternalProperty().apply {
+        this.transformValue { it.addAll(source.map(converter)) }
+    },
     subscriptions = mutableListOf()
 ) {
 
-    override val name = "ListBinding"
-
+    override val name: String = "SetBinding"
     init {
         subscriptions.add(source.onChange { event ->
             if (event.trace.any { it.emitter == this }) {
@@ -33,26 +32,22 @@ class ListBinding<S : Any, T : Any>(
             }
             val type = event.type
             val oldValue = target.value
-            val maybeNewValue: ValueValidationResult<PersistentList<T>> = target.transformValue {
+            val maybeNewValue: ValueValidationResult<PersistentSet<T>> = target.transformValue {
                 // This is not nice...but the thing is that in order to make ObservableList only emit ListChanges
                 // in a type safe way we'd have to add it as a type parameter to the whole property abstraction
                 // ...which would also break the API
-                (type as? ListChange)?.let {
+                (type as? SetChange)?.let {
                     when (type) {
-                        is ListAdd<*> -> oldValue.add(converter(type.element as S))
-                        is ListAddAt<*> -> oldValue.add(type.index, converter(type.element as S))
-                        is ListRemove<*> -> oldValue.remove(converter(type.element as S))
-                        is ListRemoveAt -> oldValue.removeAt(type.index)
-                        is ListSet<*> -> oldValue.set(type.index, converter(type.element as S))
-                        is ListAddAll<*> -> oldValue.addAll(type.elements.map { converter(it as S) })
-                        is ListAddAllAt<*> -> oldValue.addAll(type.index, type.c.map { converter(it as S) })
-                        is ListRemoveAll<*> -> oldValue.removeAll(type.elements.map { converter(it as S) })
-                        is ListRemoveAllWhen<*> -> oldValue.removeAll {
+                        is SetAdd<*> -> oldValue.add(converter(type.element as S))
+                        is SetRemove<*> -> oldValue.remove(converter(type.element as S))
+                        is SetAddAll<*> -> oldValue.addAll(type.elements.map { converter(it as S) })
+                        is SetRemoveAll<*> -> oldValue.removeAll(type.elements.map { converter(it as S) })
+                        is SetRemoveAllWhen<*> -> oldValue.removeAll {
                             (type.predicate as (T) -> Boolean)(it)
                         }
-                        is ListRetainAll<*> -> oldValue.retainAll(type.elements.map { converter(it as S) })
-                        ListClear -> oldValue.clear()
-                        is ListPropertyChange<*> -> oldValue
+                        is SetRetainAll<*> -> oldValue.retainAll(type.elements.map { converter(it as S) })
+                        SetClear -> oldValue.clear()
+                        is SetPropertyChange<*> -> oldValue
                     }
                 } ?: oldValue
             }

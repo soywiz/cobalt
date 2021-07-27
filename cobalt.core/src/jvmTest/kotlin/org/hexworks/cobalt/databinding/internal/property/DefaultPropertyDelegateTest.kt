@@ -1,5 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.property
 
+import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.databinding.api.property.Property
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -12,7 +13,7 @@ class DefaultPropertyDelegateTest {
 
     @BeforeTest
     fun Set_up() {
-        property = DefaultProperty(XUL)
+        property = XUL.toProperty()
     }
 
     @Test

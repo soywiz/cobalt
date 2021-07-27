@@ -3,22 +3,30 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentSet
+import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.collection.ObservableSetBinding
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
+import org.hexworks.cobalt.databinding.api.event.SetChange
 import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
 class SetBindingDecorator<T : Any>(
-    private val binding: Binding<PersistentSet<T>>
+    private val binding: Binding<PersistentSet<T>>,
+    optionalName: String? = null,
 ) : ObservableSetBinding<T> {
+
+    override val id: UUID
+        get() = binding.id
 
     override val value: PersistentSet<T>
         get() = binding.value
 
     override val size: Int
         get() = value.size
+
+    override val name = optionalName ?: "SetBindingDecorator"
 
     override fun onChange(fn: (ObservableValueChanged<PersistentSet<T>>) -> Unit): Subscription {
         return binding.onChange(fn)
@@ -50,6 +58,10 @@ class SetBindingDecorator<T : Any>(
 
     override fun removeAll(predicate: (T) -> Boolean): PersistentSet<T> {
         return value.removeAll(predicate)
+    }
+
+    override fun retainAll(elements: Collection<T>): PersistentSet<T> {
+        return value.retainAll(elements)
     }
 
     override fun clear(): PersistentSet<T> {

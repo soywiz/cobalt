@@ -3,7 +3,10 @@ package org.hexworks.cobalt.databinding.api.binding
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
+import org.hexworks.cobalt.databinding.api.collection.ObservableList
 import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
+import org.hexworks.cobalt.databinding.api.collection.ObservableSet
 import org.hexworks.cobalt.databinding.api.collection.ObservableSetBinding
 import org.hexworks.cobalt.databinding.api.extension.ObservablePersistentCollection
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
@@ -18,11 +21,45 @@ fun <T : Any> ObservablePersistentCollection<T>.bindSize(): Binding<Int> {
     }
 }
 
-fun <T : Any> ObservablePersistentCollection<ObservablePersistentCollection<T>>.bindFlatten(): ObservableListBinding<T> {
+fun <T : Any> ObservableList<ObservablePersistentCollection<T>>.bindFlatten(): ObservableListBinding<T> {
     return ListBindingDecorator(ComputedBinding(this) { value ->
         var result = persistentListOf<T>()
         value.forEach {
             result = result.addAll(it.value)
+        }
+        result
+    })
+}
+
+fun <T : Any, R : Any> ObservableList<ObservablePersistentCollection<T>>.bindFlatMap(
+    converter: (T) -> R
+): ObservableListBinding<R> {
+    return ListBindingDecorator(ComputedBinding(this) { value ->
+        var result = persistentListOf<R>()
+        value.forEach {
+            result = result.addAll(it.value.map(converter))
+        }
+        result
+    })
+}
+
+fun <T : Any> ObservableSet<ObservablePersistentCollection<T>>.bindFlatten(): ObservableSetBinding<T> {
+    return SetBindingDecorator(ComputedBinding(this) { value ->
+        var result = persistentSetOf<T>()
+        value.forEach {
+            result = result.addAll(it.value)
+        }
+        result
+    })
+}
+
+fun <T : Any, R : Any> ObservableSet<ObservablePersistentCollection<T>>.bindFlatMap(
+    converter: (T) -> R
+): ObservableSetBinding<R> {
+    return SetBindingDecorator(ComputedBinding(this) { value ->
+        var result = persistentSetOf<R>()
+        value.forEach {
+            result = result.addAll(it.value.map(converter))
         }
         result
     })

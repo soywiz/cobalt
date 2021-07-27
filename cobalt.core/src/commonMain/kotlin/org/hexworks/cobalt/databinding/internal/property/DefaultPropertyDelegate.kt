@@ -4,7 +4,8 @@ import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.property.PropertyDelegate
 import kotlin.reflect.KProperty
 
-class DefaultPropertyDelegate<T : Any>(private val property: Property<T>) : PropertyDelegate<T>, Property<T> by property {
+class DefaultPropertyDelegate<T : Any>(private val property: Property<T>) : PropertyDelegate<T>,
+    Property<T> by property {
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return this.property.value
