@@ -7,4 +7,5 @@ object Versions {
 
     const val slf4jVersion = "1.7.25"
     const val logbackVersion = "1.2.3"
+    const val arrowVersion = "0.13.2"
 }

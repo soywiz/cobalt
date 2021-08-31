@@ -3,7 +3,6 @@ package org.hexworks.cobalt.databinding.internal.property
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.event.ScalarChange
 import org.hexworks.cobalt.databinding.api.extension.toProperty
-import org.hexworks.cobalt.datatypes.Maybe
 import kotlin.concurrent.thread
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,7 +15,7 @@ class DefaultPropertyTest {
 
     @Test
     fun When_target_property_value_changes_the_change_listener_should_be_notified_with_the_proper_event() {
-        var change = Maybe.empty<ObservableValueChanged<String>>()
+        var change: ObservableValueChanged<String>? = null
         val expectedChange = ObservableValueChanged(
             observableValue = target,
             oldValue = XUL,
@@ -26,14 +25,14 @@ class DefaultPropertyTest {
         )
 
         target.onChange {
-            change = Maybe.of(it)
+            change = it
         }
         target.value = QUX
 
-        assertTrue(change.isPresent, "No change happened.")
+        assertTrue(change != null, "No change happened.")
         assertEquals(
             expected = expectedChange,
-            actual = change.get(),
+            actual = change!!,
             message = "Actual ChangeEvent is different from expected."
         )
 

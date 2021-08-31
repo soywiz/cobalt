@@ -1,6 +1,5 @@
 package org.hexworks.cobalt.html
 
-import org.hexworks.cobalt.datatypes.Maybe
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.MouseEvent
 
@@ -33,7 +32,7 @@ fun HTMLElement.hide() {
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T : HTMLElement> HTMLElement.findChild(selector: String) = Maybe.ofNullable(this.querySelector(selector) as? T)
+fun <T : HTMLElement> HTMLElement.findChild(selector: String): T? = this.querySelector(selector) as? T
 
 var HTMLElement.text: String
     get() = this.innerHTML

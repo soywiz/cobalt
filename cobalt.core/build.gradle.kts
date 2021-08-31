@@ -1,15 +1,15 @@
-import Libs.kotlinReflect
-import Libs.kotlinStdLibCommon
-import Libs.kotlinxCollectionsImmutable
-import Libs.kotlinxCoroutines
-import Libs.logbackClassic
-import Libs.slf4jApi
-import Libs.uuid
+import Libraries.arrowCore
+import Libraries.kotlinReflect
+import Libraries.kotlinStdLibCommon
+import Libraries.kotlinxCollectionsImmutable
+import Libraries.kotlinxCoroutines
+import Libraries.logbackClassic
+import Libraries.slf4jApi
+import Libraries.uuid
 import TestLibs.kotlinTestAnnotationsCommon
 import TestLibs.kotlinTestCommon
 import TestLibs.kotlinTestJs
 import TestLibs.kotlinTestJunit
-import TestLibs.kotlinxCoroutinesTest
 
 plugins {
     kotlin("multiplatform")
@@ -78,7 +78,7 @@ publishing {
     publishWith(
         project = project,
         module = "cobalt.core",
-        desc = "Core utilities for Cobalt."
+        desc = "Multiplatform utilities library for Kotlin."
     )
 }
 

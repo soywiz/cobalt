@@ -19,7 +19,6 @@ import org.hexworks.cobalt.databinding.internal.binding.UnidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.databinding.internal.exception.CircularBindingException
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
-import org.hexworks.cobalt.datatypes.Maybe
 import org.hexworks.cobalt.events.api.Subscription
 import org.hexworks.cobalt.events.api.simpleSubscribeTo
 import org.hexworks.cobalt.logging.api.LoggerFactory
@@ -130,27 +129,25 @@ abstract class BaseProperty<T : Any>(
                 )
             } else {
                 var changed = false
-                var eventToSend = Maybe.empty<ObservableValueChanged<T>>()
+                var eventToSend: ObservableValueChanged<T>? = null
                 backend.transform {
                     if (validator(oldValue, newValue).not()) {
                         throw ValueValidationFailedException(newValue, "The given value '$newValue' is invalid.")
                     }
                     if (oldValue != newValue) {
                         changed = true
-                        eventToSend = Maybe.of(
-                            ObservableValueChanged(
-                                oldValue = oldValue,
-                                newValue = newValue,
-                                observableValue = this,
-                                emitter = this,
-                                trace = listOf(event) + event.trace,
-                                type = event.type
-                            )
+                        eventToSend = ObservableValueChanged(
+                            oldValue = oldValue,
+                            newValue = newValue,
+                            observableValue = this,
+                            emitter = this,
+                            trace = listOf(event) + event.trace,
+                            type = event.type
                         )
                     }
                     newValue
                 }
-                eventToSend.map {
+                eventToSend?.let {
                     logger.debug {
                         "Old value $oldValue of $this differs from new value $newValue, firing change event."
                     }
@@ -171,26 +168,24 @@ abstract class BaseProperty<T : Any>(
     // circular dependency, because we already have the monitor.
     @Synchronized
     protected open fun updateCurrentValue(type: ChangeType = ScalarChange, fn: (T) -> T): T {
-        var eventToSend = Maybe.empty<ObservableValueChanged<T>>()
+        var eventToSend: ObservableValueChanged<T>? = null
         backend.transform { oldValue ->
             val newValue = fn(oldValue)
             if (validator(oldValue, newValue).not()) {
                 throw ValueValidationFailedException(newValue, "The given value $newValue is invalid.")
             }
             if (type != ScalarChange || oldValue != newValue) {
-                eventToSend = Maybe.of(
-                    ObservableValueChanged(
-                        oldValue = oldValue,
-                        newValue = newValue,
-                        type = type,
-                        observableValue = this,
-                        emitter = this
-                    )
+                eventToSend = ObservableValueChanged(
+                    oldValue = oldValue,
+                    newValue = newValue,
+                    type = type,
+                    observableValue = this,
+                    emitter = this
                 )
             }
             newValue
         }
-        eventToSend.map {
+        eventToSend?.let {
             logger.debug {
                 "Old value ${it.oldValue} of $this differs from new value ${it.newValue}, firing change event."
             }
