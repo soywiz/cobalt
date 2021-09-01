@@ -6,7 +6,7 @@ import org.hexworks.cobalt.databinding.api.property.Property
  * It serves as the basis for [ObservableValue] and [WritableValue]
  * which together form the [Property] abstraction.
  */
-interface Value<out T: Any> {
+interface Value<out T> {
 
     val value: T
 

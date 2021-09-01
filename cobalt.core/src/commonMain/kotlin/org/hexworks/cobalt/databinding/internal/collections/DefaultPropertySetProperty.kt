@@ -17,7 +17,7 @@ import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
-class DefaultPropertySetProperty<T : Any, V : ObservableValue<T>>(
+class DefaultPropertySetProperty<T, V : ObservableValue<T>>(
     initialValue: PersistentSet<V>,
     optionalName: String?,
     validator: PropertyValidator<PersistentSet<V>>

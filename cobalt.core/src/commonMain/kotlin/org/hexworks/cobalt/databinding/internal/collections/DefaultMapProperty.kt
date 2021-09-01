@@ -13,7 +13,7 @@ import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 
 @Suppress("UNCHECKED_CAST")
-class DefaultMapProperty<K : Any, V : Any>(
+class DefaultMapProperty<K : Any, V>(
     initialValue: PersistentMap<K, V>,
     optionalName: String?,
     validator: PropertyValidator<PersistentMap<K, V>>

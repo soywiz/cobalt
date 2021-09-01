@@ -12,7 +12,7 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * @see ObservableValue
  * @see WritableValue
  */
-interface MapProperty<K : Any, V : Any> : ObservableMap<K, V>,
+interface MapProperty<K : Any, V> : ObservableMap<K, V>,
     WritableMap<K, V>, Property<PersistentMap<K, V>> {
 
     companion object

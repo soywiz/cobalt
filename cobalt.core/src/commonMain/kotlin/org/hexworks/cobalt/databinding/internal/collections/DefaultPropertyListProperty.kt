@@ -18,7 +18,7 @@ import org.hexworks.cobalt.events.api.Subscription
 import kotlin.jvm.Synchronized
 
 @Suppress("UNCHECKED_CAST")
-class DefaultPropertyListProperty<T : Any, P : ObservableValue<T>>(
+class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
     initialValue: PersistentList<P>,
     optionalName: String?,
     validator: PropertyValidator<List<P>>

@@ -7,7 +7,7 @@ import org.hexworks.cobalt.events.api.Subscription
 /**
  * An [ObservableValue] wraps a value and allows to observe the value for changes.
  */
-interface ObservableValue<out T : Any> : Value<T> {
+interface ObservableValue<out T> : Value<T> {
 
     val id: UUID
     val name: String

@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.api.value
 
-sealed class ValueValidationResult<T : Any>(
+sealed class ValueValidationResult<T>(
     val successful: Boolean
 ) {
 
@@ -9,11 +9,11 @@ sealed class ValueValidationResult<T : Any>(
     companion object
 }
 
-data class ValueValidationFailed<T : Any>(
+data class ValueValidationFailed<T>(
         override val value: T,
         val cause: ValueValidationFailedException
 ) : ValueValidationResult<T>(false)
 
-data class ValueValidationSuccessful<T : Any>(
+data class ValueValidationSuccessful<T>(
         override val value: T
 ) : ValueValidationResult<T>(true)

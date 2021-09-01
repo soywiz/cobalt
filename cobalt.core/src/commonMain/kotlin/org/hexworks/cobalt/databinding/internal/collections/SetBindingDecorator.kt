@@ -12,7 +12,7 @@ import org.hexworks.cobalt.databinding.api.event.SetChange
 import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
-class SetBindingDecorator<T : Any>(
+class SetBindingDecorator<T>(
     private val binding: Binding<PersistentSet<T>>,
     optionalName: String? = null,
 ) : ObservableSetBinding<T> {

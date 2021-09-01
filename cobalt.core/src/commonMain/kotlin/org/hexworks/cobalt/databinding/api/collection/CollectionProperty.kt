@@ -12,7 +12,7 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * @see ObservableValue
  * @see WritableValue
  */
-interface CollectionProperty<T : Any, C : PersistentCollection<T>> :
+interface CollectionProperty<T, C : PersistentCollection<T>> :
     ObservableCollection<T, C>, WritableCollection<T, C>, Property<C> {
 
     companion object

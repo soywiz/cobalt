@@ -15,7 +15,7 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  * but not the other way around.
  * [converter] will be used to convert the values between [source] and [target].
  */
-class UnidirectionalBinding<S : Any, T : Any>(
+class UnidirectionalBinding<S, T>(
     source: ObservableValue<S>,
     target: InternalProperty<T>,
     converter: Converter<S, T>

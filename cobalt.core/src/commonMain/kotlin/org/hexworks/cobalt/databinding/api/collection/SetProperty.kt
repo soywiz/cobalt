@@ -12,7 +12,7 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * @see ObservableValue
  * @see WritableValue
  */
-interface SetProperty<T : Any> : ObservableSet<T>,
+interface SetProperty<T> : ObservableSet<T>,
     WritableSet<T>,
     ObservableCollection<T, PersistentSet<T>>,
     Property<PersistentSet<T>> {

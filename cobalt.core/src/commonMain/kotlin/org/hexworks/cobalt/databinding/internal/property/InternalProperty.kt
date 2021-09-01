@@ -5,7 +5,7 @@ import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
 import org.hexworks.cobalt.logging.api.Logger
 
-interface InternalProperty<T : Any> : Property<T> {
+interface InternalProperty<T> : Property<T> {
 
     val logger: Logger
     val propertyScope: PropertyScope

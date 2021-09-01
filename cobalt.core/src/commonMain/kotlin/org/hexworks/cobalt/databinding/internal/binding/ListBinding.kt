@@ -13,7 +13,7 @@ import org.hexworks.cobalt.databinding.internal.extensions.asInternalProperty
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 
 @Suppress("UNCHECKED_CAST")
-class ListBinding<S : Any, T : Any>(
+class ListBinding<S, T>(
     source: ObservableList<S>,
     converter: (S) -> T
 ) : BaseBinding<PersistentList<S>, PersistentList<T>>(

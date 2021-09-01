@@ -13,7 +13,7 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  * updated whenever the [ObservableValue] changes using [converter] to compute the new value of this [Binding].
  */
 @Suppress("UNCHECKED_CAST")
-class ComputedBinding<S : Any, T : Any>(
+class ComputedBinding<S, T>(
     source: ObservableValue<S>,
     converter: (S) -> T
 ) : BaseBinding<S, T>(

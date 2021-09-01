@@ -6,7 +6,7 @@ import org.hexworks.cobalt.databinding.api.event.ChangeType
 /**
  * A [WritableValue] wraps a value which can be read and written.
  */
-interface WritableValue<T : Any> : Value<T> {
+interface WritableValue<T> : Value<T> {
 
     override var value: T
 
@@ -29,7 +29,7 @@ interface WritableValue<T : Any> : Value<T> {
     /**
      * Starts updating this [WritableValue] from the given [observable]. If [updateWhenBound]
      * is `true` then the value of this [WritableValue] will be updated when the binding takes place.
-     * Otherwise it will only get updated when [observable] is updated.
+     * Otherwise, it will only get updated when [observable] is updated.
      * @return a [Binding] which can be disposed to stop the updates
      */
     fun updateFrom(
@@ -41,11 +41,11 @@ interface WritableValue<T : Any> : Value<T> {
      * Starts updating this [WritableValue] from the given [observable].
      * Uses the given [converter] to convert the values. If [updateWhenBound]
      * is `true` then the value of this [WritableValue] will be updated
-     * when the binding takes place. Otherwise it will only get updated when
+     * when the binding takes place. Otherwise, it will only get updated when
      * [observable] is updated.
      * @return a [Binding] which can be disposed to stop the updates
      */
-    fun <S : Any> updateFrom(
+    fun <S> updateFrom(
         observable: ObservableValue<S>,
         updateWhenBound: Boolean = true,
         converter: (S) -> T

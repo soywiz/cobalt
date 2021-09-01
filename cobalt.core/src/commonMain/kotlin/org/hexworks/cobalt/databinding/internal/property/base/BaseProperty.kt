@@ -24,7 +24,7 @@ import org.hexworks.cobalt.events.api.simpleSubscribeTo
 import org.hexworks.cobalt.logging.api.LoggerFactory
 import kotlin.jvm.Synchronized
 
-abstract class BaseProperty<T : Any>(
+abstract class BaseProperty<T>(
     initialValue: T,
     override val name: String,
     private val validator: PropertyValidator<T> = { _, _ -> true }
@@ -72,7 +72,7 @@ abstract class BaseProperty<T : Any>(
         )
     }
 
-    override fun <S : Any> bind(
+    override fun <S> bind(
         other: Property<S>,
         updateWhenBound: Boolean,
         converter: IsomorphicConverter<S, T>
@@ -97,7 +97,7 @@ abstract class BaseProperty<T : Any>(
         return updateFrom(observable, updateWhenBound) { it }
     }
 
-    override fun <S : Any> updateFrom(
+    override fun <S> updateFrom(
         observable: ObservableValue<S>,
         updateWhenBound: Boolean,
         converter: (S) -> T
@@ -115,7 +115,7 @@ abstract class BaseProperty<T : Any>(
     override fun updateWithEvent(
         oldValue: T,
         newValue: T,
-        event: ObservableValueChanged<Any>
+        event: ObservableValueChanged<Any?>
     ): Boolean {
 
         logger.debug {

@@ -10,7 +10,7 @@ import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 
 @Suppress("UNCHECKED_CAST")
-class DefaultListProperty<T : Any>(
+class DefaultListProperty<T>(
     initialValue: PersistentList<T>,
     optionalName: String?,
     validator: PropertyValidator<List<T>>

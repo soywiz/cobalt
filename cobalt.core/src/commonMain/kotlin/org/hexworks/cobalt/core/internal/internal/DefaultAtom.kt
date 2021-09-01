@@ -4,7 +4,7 @@ import org.hexworks.cobalt.core.internal.Atom
 import kotlin.jvm.Synchronized
 import kotlin.jvm.Volatile
 
-class DefaultAtom<T : Any>(initialValue: T) : Atom<T> {
+class DefaultAtom<T>(initialValue: T) : Atom<T> {
 
     @Volatile
     private var value: T = initialValue

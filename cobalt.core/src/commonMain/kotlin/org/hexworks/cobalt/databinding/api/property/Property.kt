@@ -15,7 +15,7 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  * @see WritableValue
  * @see ObservableValue
  */
-interface Property<T : Any> : WritableValue<T>, ObservableValue<T> {
+interface Property<T> : WritableValue<T>, ObservableValue<T> {
 
     /**
      * Creates a bidirectional binding between this [Property] and [other].
@@ -35,7 +35,7 @@ interface Property<T : Any> : WritableValue<T>, ObservableValue<T> {
      * If [updateWhenBound] is `true` then the value of this [WritableValue] will be updated
      * when the binding takes place. Otherwise it will only get updated when [other] is updated.
      */
-    fun <S : Any> bind(
+    fun <S> bind(
         other: Property<S>,
         updateWhenBound: Boolean = true,
         converter: IsomorphicConverter<S, T>

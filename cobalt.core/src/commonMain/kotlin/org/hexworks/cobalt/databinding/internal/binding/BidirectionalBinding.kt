@@ -14,7 +14,7 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  * and vice versa.
  * [converter] will be used to convert the values between [source] and [target].
  */
-class BidirectionalBinding<S : Any, T : Any>(
+class BidirectionalBinding<S, T>(
     source: InternalProperty<S>,
     target: InternalProperty<T>,
     converter: IsomorphicConverter<S, T>
@@ -40,7 +40,7 @@ class BidirectionalBinding<S : Any, T : Any>(
                     )
                 ) {
                     Cobalt.eventbus.publish(
-                        event = ObservableValueChanged<Any>(
+                        event = ObservableValueChanged<Any?>(
                             oldValue = oldValue,
                             newValue = newValue,
                             observableValue = this,

@@ -18,7 +18,7 @@ import org.hexworks.cobalt.events.api.simpleSubscribeTo
  * updated whenever any of those values get updated using [computerFn] to compute the new value
  * of this [Binding].
  */
-class ComputedDualBinding<out S0 : Any, out S1 : Any, T : Any>(
+class ComputedDualBinding<out S0, out S1, T>(
     private val source0: ObservableValue<S0>,
     private val source1: ObservableValue<S1>,
     private val computerFn: (S0, S1) -> T

@@ -2,7 +2,7 @@ package org.hexworks.cobalt.core.internal
 
 import org.hexworks.cobalt.core.internal.internal.DefaultAtom
 
-interface Atom<T : Any> {
+interface Atom<T> {
 
     fun get(): T
 
@@ -10,8 +10,8 @@ interface Atom<T : Any> {
 
     companion object {
 
-        fun <T : Any> fromObject(obj: T): Atom<T> = DefaultAtom(obj)
+        fun <T> fromObject(obj: T): Atom<T> = DefaultAtom(obj)
     }
 }
 
-fun <T : Any> T.toAtom(): Atom<T> = Atom.fromObject(this)
+fun <T> T.toAtom(): Atom<T> = Atom.fromObject(this)
