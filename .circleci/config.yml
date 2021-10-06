@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Execute Gradle
           command: |
-            ./gradlew build -x jsBrowserTest --no-daemon
+            ./gradlew build -x jsIrBrowserTest -x jsLegacyBrowserTest --no-daemon
 
 workflows:
   version: 2
