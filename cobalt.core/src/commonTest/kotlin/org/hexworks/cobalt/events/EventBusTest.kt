@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.events
 
-import org.hexworks.cobalt.core.behavior.DisposedByException
+import org.hexworks.cobalt.core.api.behavior.DisposedByException
 import org.hexworks.cobalt.events.api.*
 import org.hexworks.cobalt.events.internal.ApplicationScope
 import kotlin.test.Test

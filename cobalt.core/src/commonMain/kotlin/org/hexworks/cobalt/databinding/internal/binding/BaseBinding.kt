@@ -1,8 +1,8 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
 import org.hexworks.cobalt.core.api.UUID
-import org.hexworks.cobalt.core.behavior.DisposeState
-import org.hexworks.cobalt.core.behavior.NotDisposed
+import org.hexworks.cobalt.core.api.behavior.DisposeState
+import org.hexworks.cobalt.core.api.behavior.NotDisposed
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
@@ -36,7 +36,6 @@ abstract class BaseBinding<S, T>(
     internal val logger = LoggerFactory.getLogger(this::class)
     internal val propertyScope = PropertyScope(id)
 
-
     override fun dispose(disposeState: DisposeState) {
         this.disposeState = disposeState
         Cobalt.eventbus.cancelScope(propertyScope)
@@ -49,5 +48,4 @@ abstract class BaseBinding<S, T>(
             fn(it)
         }
     }
-
 }

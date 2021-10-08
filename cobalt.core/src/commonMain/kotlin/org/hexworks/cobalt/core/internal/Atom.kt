@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.core.internal
 
-import org.hexworks.cobalt.core.internal.internal.DefaultAtom
+import org.hexworks.cobalt.core.internal.impl.DefaultAtom
 
 interface Atom<T> {
 

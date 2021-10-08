@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.api.binding
 
-import org.hexworks.cobalt.core.behavior.Disposable
+import org.hexworks.cobalt.core.api.behavior.Disposable
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 
 /**

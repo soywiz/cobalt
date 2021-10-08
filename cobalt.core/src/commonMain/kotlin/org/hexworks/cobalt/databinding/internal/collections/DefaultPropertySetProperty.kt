@@ -4,7 +4,7 @@ package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentSet
 import org.hexworks.cobalt.core.api.UUID
-import org.hexworks.cobalt.core.extensions.identity
+import org.hexworks.cobalt.core.api.extensions.identity
 import org.hexworks.cobalt.databinding.api.collection.SetProperty
 import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator

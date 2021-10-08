@@ -1,4 +1,4 @@
-package org.hexworks.cobalt.core.behavior
+package org.hexworks.cobalt.core.api.behavior
 
 /**
  * Contains information about whether a [Disposable] object is disposed or not.

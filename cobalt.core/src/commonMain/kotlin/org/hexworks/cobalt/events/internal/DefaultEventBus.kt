@@ -6,11 +6,16 @@ import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import org.hexworks.cobalt.core.behavior.DisposeState
-import org.hexworks.cobalt.core.behavior.DisposedByException
-import org.hexworks.cobalt.core.behavior.NotDisposed
+import org.hexworks.cobalt.core.api.behavior.DisposeState
+import org.hexworks.cobalt.core.api.behavior.DisposedByException
+import org.hexworks.cobalt.core.api.behavior.NotDisposed
 import org.hexworks.cobalt.core.internal.toAtom
-import org.hexworks.cobalt.events.api.*
+import org.hexworks.cobalt.events.api.CallbackResult
+import org.hexworks.cobalt.events.api.DisposeSubscription
+import org.hexworks.cobalt.events.api.Event
+import org.hexworks.cobalt.events.api.EventBus
+import org.hexworks.cobalt.events.api.EventScope
+import org.hexworks.cobalt.events.api.Subscription
 import org.hexworks.cobalt.logging.api.LoggerFactory
 import kotlin.coroutines.CoroutineContext
 import kotlin.jvm.Volatile
@@ -44,9 +49,12 @@ class DefaultEventBus(
             )
             val subKey = SubscriberKey(eventScope, key)
             subsAtom.transform { subscriptions ->
-                subscriptions.put(subKey, subscriptions
-                    .getOrElse(subKey) { persistentListOf() }
-                    .add(subscription))
+                subscriptions.put(
+                    subKey,
+                    subscriptions
+                        .getOrElse(subKey) { persistentListOf() }
+                        .add(subscription)
+                )
             }
             subscription
         } catch (e: Exception) {
@@ -118,7 +126,6 @@ class DefaultEventBus(
 
         override var disposeState: DisposeState = NotDisposed
             private set
-
 
         @Suppress("UNCHECKED_CAST")
         override fun dispose(disposeState: DisposeState) {

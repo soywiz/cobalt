@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.internal.binding
 
-import org.hexworks.cobalt.core.behavior.DisposedByException
+import org.hexworks.cobalt.core.api.behavior.DisposedByException
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.IsomorphicConverter
 import org.hexworks.cobalt.databinding.api.extension.toProperty

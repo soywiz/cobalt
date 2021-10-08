@@ -1,4 +1,4 @@
-package org.hexworks.cobalt.core.extensions
+package org.hexworks.cobalt.core.api.extensions
 
 import org.hexworks.cobalt.core.api.UUID
 

@@ -11,31 +11,6 @@ interface Logger {
     val name: String
 
     /**
-     * Is the logger instance enabled for the TRACE level?
-     */
-    fun isTraceEnabled(): Boolean
-
-    /**
-     * Is the logger instance enabled for the DEBUG level?
-     */
-    fun isDebugEnabled(): Boolean
-
-    /**
-     * Is the logger instance enabled for the INFO level?
-     */
-    fun isInfoEnabled(): Boolean
-
-    /**
-     * Is the logger instance enabled for the WARN level?
-     */
-    fun isWarnEnabled(): Boolean
-
-    /**
-     * Is the logger instance enabled for the ERROR level?
-     */
-    fun isErrorEnabled(): Boolean
-
-    /**
      * Log a message at the TRACE level.
      */
     fun trace(msg: String)
@@ -78,7 +53,6 @@ interface Logger {
      * accompanying message.
      */
     fun debug(msgFn: () -> String, t: Throwable)
-
 
     /**
      * Log a message at the INFO level.
@@ -145,5 +119,4 @@ interface Logger {
      * accompanying message.
      */
     fun error(msgFn: () -> String, t: Throwable)
-
 }

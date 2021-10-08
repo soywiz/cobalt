@@ -1,4 +1,4 @@
-package org.hexworks.cobalt.core.behavior
+package org.hexworks.cobalt.core.api.behavior
 
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.events.api.Subscription

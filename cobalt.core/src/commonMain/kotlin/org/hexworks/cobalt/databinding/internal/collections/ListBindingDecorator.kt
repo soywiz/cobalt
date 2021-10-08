@@ -4,7 +4,7 @@ package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentList
 import org.hexworks.cobalt.core.api.UUID
-import org.hexworks.cobalt.core.behavior.DisposeState
+import org.hexworks.cobalt.core.api.behavior.DisposeState
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged

@@ -1,8 +1,8 @@
 package org.hexworks.cobalt.databinding.internal.property.base
 
-import org.hexworks.cobalt.core.extensions.abbreviate
+import org.hexworks.cobalt.core.api.UUID
+import org.hexworks.cobalt.core.api.extensions.abbreviate
 import org.hexworks.cobalt.core.internal.toAtom
-import org.hexworks.cobalt.core.platform.factory.UUIDFactory
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.IdentityConverter
@@ -13,7 +13,11 @@ import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.event.ScalarChange
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
-import org.hexworks.cobalt.databinding.api.value.*
+import org.hexworks.cobalt.databinding.api.value.ObservableValue
+import org.hexworks.cobalt.databinding.api.value.ValueValidationFailed
+import org.hexworks.cobalt.databinding.api.value.ValueValidationFailedException
+import org.hexworks.cobalt.databinding.api.value.ValueValidationResult
+import org.hexworks.cobalt.databinding.api.value.ValueValidationSuccessful
 import org.hexworks.cobalt.databinding.internal.binding.BidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.binding.UnidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
@@ -36,7 +40,7 @@ abstract class BaseProperty<T>(
             updateCurrentValue { value }
         }
 
-    final override val id = UUIDFactory.randomUUID()
+    final override val id = UUID.randomUUID()
     final override val logger = LoggerFactory.getLogger(this::class)
     final override val propertyScope = PropertyScope(id)
 
@@ -55,7 +59,6 @@ abstract class BaseProperty<T>(
             ValueValidationFailed(e.newValue as T, e)
         }
     }
-
 
     override fun onChange(fn: (ObservableValueChanged<T>) -> Unit): Subscription {
         logger.debug { "Subscribing to changes to property: $this." }
@@ -203,7 +206,7 @@ abstract class BaseProperty<T>(
         }
     }
 
-    override fun toString() = "${name}(id=${id.abbreviate()}, value=$value)"
+    override fun toString() = "$name(id=${id.abbreviate()}, value=$value)"
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

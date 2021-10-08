@@ -1,4 +1,4 @@
-package org.hexworks.cobalt.core.internal.internal
+package org.hexworks.cobalt.core.internal.impl
 
 import org.hexworks.cobalt.core.internal.Atom
 import kotlin.jvm.Synchronized

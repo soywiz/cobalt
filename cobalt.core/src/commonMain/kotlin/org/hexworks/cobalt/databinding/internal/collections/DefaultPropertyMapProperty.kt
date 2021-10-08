@@ -6,7 +6,7 @@ import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.PersistentMap
 import org.hexworks.cobalt.core.api.UUID
-import org.hexworks.cobalt.core.extensions.identity
+import org.hexworks.cobalt.core.api.extensions.identity
 import org.hexworks.cobalt.databinding.api.collection.MapProperty
 import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
