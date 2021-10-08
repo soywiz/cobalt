@@ -4,7 +4,6 @@ import org.hexworks.cobalt.databinding.api.collection.ObservableList
 import org.hexworks.cobalt.databinding.api.collection.ObservableListBinding
 import org.hexworks.cobalt.databinding.api.collection.ObservableSet
 import org.hexworks.cobalt.databinding.api.collection.ObservableSetBinding
-import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.binding.ComputedBinding
 import org.hexworks.cobalt.databinding.internal.binding.ListBinding

@@ -3,7 +3,6 @@ package org.hexworks.cobalt.databinding.internal.binding
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.converter.Converter
-import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.extensions.runWithDisposeOnFailure

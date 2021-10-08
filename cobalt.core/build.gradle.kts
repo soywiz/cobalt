@@ -1,10 +1,8 @@
-import Libraries.arrowCore
+import Libraries.kotlinLogging
 import Libraries.kotlinReflect
 import Libraries.kotlinStdLibCommon
 import Libraries.kotlinxCollectionsImmutable
 import Libraries.kotlinxCoroutines
-import Libraries.logbackClassic
-import Libraries.slf4jApi
 import Libraries.uuid
 import TestLibs.kotlinTestAnnotationsCommon
 import TestLibs.kotlinTestCommon
@@ -38,7 +36,7 @@ kotlin {
                 api(kotlinxCollectionsImmutable)
 
                 api(uuid)
-
+                api(kotlinLogging)
             }
         }
         val commonTest by getting {
@@ -50,9 +48,6 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 api(kotlin("stdlib-jdk8"))
-
-                api(logbackClassic)
-                api(slf4jApi)
             }
         }
         val jsMain by getting {
@@ -71,7 +66,6 @@ kotlin {
             }
         }
     }
-
 }
 
 publishing {

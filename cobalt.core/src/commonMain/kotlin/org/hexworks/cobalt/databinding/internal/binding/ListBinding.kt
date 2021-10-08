@@ -5,12 +5,10 @@ import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.collection.ObservableList
 import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.extension.map
-import org.hexworks.cobalt.databinding.api.extension.toInternalProperty
 import org.hexworks.cobalt.databinding.api.extension.toProperty
 import org.hexworks.cobalt.databinding.api.value.ValueValidationResult
 import org.hexworks.cobalt.databinding.internal.exception.CircularBindingException
 import org.hexworks.cobalt.databinding.internal.extensions.asInternalProperty
-import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 
 @Suppress("UNCHECKED_CAST")
 class ListBinding<S, T>(

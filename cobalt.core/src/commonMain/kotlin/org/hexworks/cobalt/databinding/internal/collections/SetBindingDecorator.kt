@@ -8,7 +8,6 @@ import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.databinding.api.binding.Binding
 import org.hexworks.cobalt.databinding.api.collection.ObservableSetBinding
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
-import org.hexworks.cobalt.databinding.api.event.SetChange
 import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")

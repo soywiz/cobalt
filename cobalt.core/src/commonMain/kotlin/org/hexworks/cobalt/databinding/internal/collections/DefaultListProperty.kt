@@ -3,7 +3,6 @@
 package org.hexworks.cobalt.databinding.internal.collections
 
 import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.toPersistentList
 import org.hexworks.cobalt.databinding.api.collection.ListProperty
 import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator

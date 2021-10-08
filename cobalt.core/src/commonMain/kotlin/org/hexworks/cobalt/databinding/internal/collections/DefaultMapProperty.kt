@@ -5,8 +5,6 @@ package org.hexworks.cobalt.databinding.internal.collections
 import kotlinx.collections.immutable.ImmutableCollection
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.PersistentMap
-import kotlinx.collections.immutable.toPersistentMap
-import org.hexworks.cobalt.core.extensions.Predicate
 import org.hexworks.cobalt.databinding.api.collection.MapProperty
 import org.hexworks.cobalt.databinding.api.event.*
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator

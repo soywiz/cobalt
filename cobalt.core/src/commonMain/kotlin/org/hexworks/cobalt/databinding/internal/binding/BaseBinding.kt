@@ -5,7 +5,6 @@ import org.hexworks.cobalt.core.behavior.DisposeState
 import org.hexworks.cobalt.core.behavior.NotDisposed
 import org.hexworks.cobalt.databinding.api.Cobalt
 import org.hexworks.cobalt.databinding.api.binding.Binding
-import org.hexworks.cobalt.databinding.api.event.ChangeType
 import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.extension.disposeSubscriptions
 import org.hexworks.cobalt.databinding.api.value.ObservableValue

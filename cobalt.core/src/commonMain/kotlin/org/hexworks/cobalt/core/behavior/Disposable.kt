@@ -16,7 +16,7 @@ interface Disposable {
         get() = disposeState.isDisposed
 
     /**
-     * Contains detailed information about the dispose state of this [Disposable].
+     * Contains detailed information about the disposed state of this [Disposable].
      */
     val disposeState: DisposeState
 
