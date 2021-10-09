@@ -2,7 +2,7 @@ package org.hexworks.cobalt.core.internal
 
 import org.hexworks.cobalt.core.internal.impl.DefaultAtom
 
-interface Atom<T> {
+internal interface Atom<T> {
 
     fun get(): T
 
@@ -14,4 +14,4 @@ interface Atom<T> {
     }
 }
 
-fun <T> T.toAtom(): Atom<T> = Atom.fromObject(this)
+internal fun <T> T.toAtom(): Atom<T> = Atom.fromObject(this)

@@ -15,7 +15,7 @@ import org.hexworks.cobalt.databinding.internal.collections.SetBindingDecorator
  * Creates a [Binding] which will contain the transformed value of this [ObservableValue]
  * from its type [S] to a new type [T].
  */
-fun <S, T> ObservableValue<S>.bindTransform(transformer: (S) -> T): Binding<T> {
+public fun <S, T> ObservableValue<S>.bindTransform(transformer: (S) -> T): Binding<T> {
     return ComputedBinding(this, transformer)
 }
 
@@ -23,7 +23,7 @@ fun <S, T> ObservableValue<S>.bindTransform(transformer: (S) -> T): Binding<T> {
  * Creates a [Binding] which will contain the mapped values of this [ObservableList]
  * from its type [S] to a new type [T].
  */
-fun <S, T> ObservableList<S>.bindMap(transformer: (S) -> T): ObservableListBinding<T> {
+public fun <S, T> ObservableList<S>.bindMap(transformer: (S) -> T): ObservableListBinding<T> {
     return ListBindingDecorator(ListBinding(this, transformer))
 }
 
@@ -31,6 +31,6 @@ fun <S, T> ObservableList<S>.bindMap(transformer: (S) -> T): ObservableListBindi
  * Creates a [Binding] which will contain the mapped values of this [ObservableList]
  * from its type [S] to a new type [T].
  */
-fun <S, T> ObservableSet<S>.bindMap(transformer: (S) -> T): ObservableSetBinding<T> {
+public fun <S, T> ObservableSet<S>.bindMap(transformer: (S) -> T): ObservableSetBinding<T> {
     return SetBindingDecorator(SetBinding(this, transformer))
 }

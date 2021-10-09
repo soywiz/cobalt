@@ -20,7 +20,7 @@ import org.hexworks.cobalt.logging.api.LoggerFactory
 import kotlin.coroutines.CoroutineContext
 import kotlin.jvm.Volatile
 
-class DefaultEventBus(
+internal class DefaultEventBus(
     override val coroutineContext: CoroutineContext = Dispatchers.Default + SupervisorJob()
 ) : EventBus, CoroutineScope {
 

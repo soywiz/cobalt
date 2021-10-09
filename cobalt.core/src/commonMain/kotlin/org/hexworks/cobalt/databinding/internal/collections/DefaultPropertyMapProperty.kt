@@ -8,14 +8,19 @@ import kotlinx.collections.immutable.PersistentMap
 import org.hexworks.cobalt.core.api.UUID
 import org.hexworks.cobalt.core.api.extensions.identity
 import org.hexworks.cobalt.databinding.api.collection.MapProperty
-import org.hexworks.cobalt.databinding.api.event.*
+import org.hexworks.cobalt.databinding.api.event.ListPropertyChange
+import org.hexworks.cobalt.databinding.api.event.MapClear
+import org.hexworks.cobalt.databinding.api.event.MapPut
+import org.hexworks.cobalt.databinding.api.event.MapPutAll
+import org.hexworks.cobalt.databinding.api.event.MapRemove
+import org.hexworks.cobalt.databinding.api.event.MapRemoveWithValue
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
-class DefaultPropertyMapProperty<K : Any, V, P : ObservableValue<V>>(
+internal class DefaultPropertyMapProperty<K : Any, V, P : ObservableValue<V>>(
     initialValue: PersistentMap<K, P>,
     optionalName: String?,
     validator: PropertyValidator<PersistentMap<K, P>>
@@ -23,7 +28,8 @@ class DefaultPropertyMapProperty<K : Any, V, P : ObservableValue<V>>(
     initialValue = initialValue,
     name = optionalName ?: "DefaultPropertyMapProperty",
     validator = validator
-), MapProperty<K, P> {
+),
+    MapProperty<K, P> {
 
     private val uniqueProperties = mutableMapOf<UUID, Pair<P, Subscription>>()
 

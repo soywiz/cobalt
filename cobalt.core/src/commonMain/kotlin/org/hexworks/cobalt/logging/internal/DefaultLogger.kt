@@ -3,7 +3,7 @@ package org.hexworks.cobalt.logging.internal
 import mu.KotlinLogging
 import org.hexworks.cobalt.logging.api.Logger
 
-class DefaultLogger(override val name: String) : Logger {
+internal class DefaultLogger(override val name: String) : Logger {
 
     private val logger = KotlinLogging.logger(name)
 

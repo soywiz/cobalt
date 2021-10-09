@@ -5,4 +5,4 @@ import org.hexworks.cobalt.core.api.behavior.Disposable
 /**
  * Represents a subscription to an event.
  */
-interface Subscription : Disposable
+public interface Subscription : Disposable

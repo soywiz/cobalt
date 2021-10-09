@@ -11,7 +11,12 @@ import org.hexworks.cobalt.databinding.api.collection.SetProperty
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
-import org.hexworks.cobalt.databinding.internal.collections.*
+import org.hexworks.cobalt.databinding.internal.collections.DefaultListProperty
+import org.hexworks.cobalt.databinding.internal.collections.DefaultMapProperty
+import org.hexworks.cobalt.databinding.internal.collections.DefaultPropertyListProperty
+import org.hexworks.cobalt.databinding.internal.collections.DefaultPropertyMapProperty
+import org.hexworks.cobalt.databinding.internal.collections.DefaultPropertySetProperty
+import org.hexworks.cobalt.databinding.internal.collections.DefaultSetProperty
 import org.hexworks.cobalt.databinding.internal.property.DefaultProperty
 import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 import kotlin.jvm.JvmName
@@ -21,7 +26,7 @@ import kotlin.jvm.JvmOverloads
  * Creates a new [Property] from the given object of type [T].
  */
 @JvmOverloads
-fun <T> T.toProperty(
+public fun <T> T.toProperty(
     validator: PropertyValidator<T> = { _, _ -> true },
     optionalName: String? = null,
 ): Property<T> = DefaultProperty(this, optionalName, validator)
@@ -30,14 +35,14 @@ fun <T> T.toProperty(
 
 @JvmName("toIterableProperty")
 @JvmOverloads
-fun <T> Iterable<T>.toProperty(
+public fun <T> Iterable<T>.toProperty(
     validator: PropertyValidator<Iterable<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<T> = DefaultListProperty(this.toPersistentList(), optionalName, validator)
 
 @JvmName("toCollectionProperty")
 @JvmOverloads
-fun <T> Collection<T>.toProperty(
+public fun <T> Collection<T>.toProperty(
     validator: PropertyValidator<Collection<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<T> = DefaultListProperty(this.toPersistentList(), optionalName, validator)
@@ -45,14 +50,14 @@ fun <T> Collection<T>.toProperty(
 // List
 @JvmName("toListProperty")
 @JvmOverloads
-fun <T> List<T>.toProperty(
+public fun <T> List<T>.toProperty(
     validator: PropertyValidator<List<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<T> = DefaultListProperty(this.toPersistentList(), optionalName, validator)
 
 @JvmName("toPropertyListProperty")
 @JvmOverloads
-fun <T, V : ObservableValue<T>> List<V>.toProperty(
+public fun <T, V : ObservableValue<T>> List<V>.toProperty(
     validator: PropertyValidator<List<V>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<V> = DefaultPropertyListProperty(this.toPersistentList(), optionalName, validator)
@@ -60,33 +65,31 @@ fun <T, V : ObservableValue<T>> List<V>.toProperty(
 // Map
 @JvmName("toMapProperty")
 @JvmOverloads
-fun <K: Any, V> Map<K, V>.toProperty(
+public fun <K : Any, V> Map<K, V>.toProperty(
     validator: PropertyValidator<Map<K, V>> = { _, _ -> true },
     optionalName: String? = null,
 ): MapProperty<K, V> = DefaultMapProperty(this.toPersistentMap(), optionalName, validator)
 
 @JvmName("toPropertyMapProperty")
 @JvmOverloads
-fun <K : Any, V, P : Property<V>> Map<K, P>.toProperty(
+public fun <K : Any, V, P : Property<V>> Map<K, P>.toProperty(
     validator: PropertyValidator<Map<K, P>> = { _, _ -> true },
     optionalName: String? = null,
 ): MapProperty<K, P> = DefaultPropertyMapProperty(this.toPersistentMap(), optionalName, validator)
 
-
 @JvmName("toSetProperty")
 @JvmOverloads
-fun <T> Set<T>.toProperty(
+public fun <T> Set<T>.toProperty(
     validator: PropertyValidator<Set<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): SetProperty<T> = DefaultSetProperty(this.toPersistentSet(), optionalName, validator)
 
 @JvmName("toPropertySetProperty")
 @JvmOverloads
-fun <T, V : ObservableValue<T>> Set<V>.toProperty(
+public fun <T, V : ObservableValue<T>> Set<V>.toProperty(
     validator: PropertyValidator<Set<V>> = { _, _ -> true },
     optionalName: String? = null,
 ): SetProperty<V> = DefaultPropertySetProperty(this.toPersistentSet(), optionalName, validator)
-
 
 /**
  * Creates a new [InternalProperty] from the given object of type [T].

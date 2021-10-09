@@ -13,7 +13,7 @@ import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
-class DefaultPropertySetProperty<T, V : ObservableValue<T>>(
+internal class DefaultPropertySetProperty<T, V : ObservableValue<T>>(
     initialValue: PersistentSet<V>,
     optionalName: String?,
     validator: PropertyValidator<PersistentSet<V>>
@@ -21,7 +21,8 @@ class DefaultPropertySetProperty<T, V : ObservableValue<T>>(
     initialValue = initialValue,
     name = optionalName ?: "DefaultPropertySetProperty",
     validator = validator
-), SetProperty<V> {
+),
+    SetProperty<V> {
 
     private val uniqueProperties = mutableMapOf<UUID, Pair<V, Subscription>>()
 
@@ -100,5 +101,4 @@ class DefaultPropertySetProperty<T, V : ObservableValue<T>>(
         val v = this
         uniqueProperties.remove(v.id)?.second?.dispose()
     }
-
 }

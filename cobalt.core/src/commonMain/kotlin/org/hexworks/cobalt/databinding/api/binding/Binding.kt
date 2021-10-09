@@ -8,8 +8,7 @@ import org.hexworks.cobalt.databinding.api.value.ObservableValue
  * A binding is subscribed to the changes of its dependencies and updates
  * its value whenever any of them changes.
  */
-interface Binding<out T> : ObservableValue<T>, Disposable {
+public interface Binding<out T> : ObservableValue<T>, Disposable {
 
     companion object
 }
-

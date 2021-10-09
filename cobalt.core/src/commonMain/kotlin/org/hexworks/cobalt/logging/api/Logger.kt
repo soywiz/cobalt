@@ -3,7 +3,7 @@ package org.hexworks.cobalt.logging.api
 /**
  * The [Logger] interface contains all possible logging operations.
  */
-interface Logger {
+public interface Logger {
 
     /**
      * The name of this logger instance

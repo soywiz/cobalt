@@ -4,15 +4,12 @@ import kotlinx.collections.immutable.PersistentCollection
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.PersistentSet
-import org.hexworks.cobalt.databinding.api.event.ListChange
-import org.hexworks.cobalt.databinding.api.event.MapChange
-import org.hexworks.cobalt.databinding.api.event.SetChange
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 
-typealias ObservablePersistentCollection<T> = ObservableValue<PersistentCollection<T>>
+public typealias ObservablePersistentCollection<T> = ObservableValue<PersistentCollection<T>>
 
-typealias ObservablePersistentList<T> = ObservableValue<PersistentList<T>>
+public typealias ObservablePersistentList<T> = ObservableValue<PersistentList<T>>
 
-typealias ObservablePersistentSet<T> = ObservableValue<PersistentSet<T>>
+public typealias ObservablePersistentSet<T> = ObservableValue<PersistentSet<T>>
 
-typealias ObservablePersistentMap<K, V> = ObservableValue<PersistentMap<K, V>>
+public typealias ObservablePersistentMap<K, V> = ObservableValue<PersistentMap<K, V>>

@@ -7,7 +7,7 @@ import org.hexworks.cobalt.databinding.api.value.Value
  * A [WritableList] is a [Value] which wraps an underlying [PersistentList]
  * and allows changing its [value].
  */
-interface WritableList<T> : WritableCollection<T, PersistentList<T>> {
+public interface WritableList<T> : WritableCollection<T, PersistentList<T>> {
 
     companion object
 }

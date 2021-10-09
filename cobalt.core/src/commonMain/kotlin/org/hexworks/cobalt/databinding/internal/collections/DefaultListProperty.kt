@@ -9,7 +9,7 @@ import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 
 @Suppress("UNCHECKED_CAST")
-class DefaultListProperty<T>(
+internal class DefaultListProperty<T>(
     initialValue: PersistentList<T>,
     optionalName: String?,
     validator: PropertyValidator<List<T>>
@@ -17,7 +17,8 @@ class DefaultListProperty<T>(
     initialValue = initialValue,
     name = optionalName ?: "DefaultListProperty",
     validator = validator
-), ListProperty<T> {
+),
+    ListProperty<T> {
 
     override val size: Int
         get() = value.size
@@ -88,5 +89,4 @@ class DefaultListProperty<T>(
     override fun clear(): PersistentList<T> {
         return updateCurrentValue(ListClear) { it.clear() }
     }
-
 }

@@ -3,7 +3,7 @@ package org.hexworks.cobalt.logging.api
 import org.hexworks.cobalt.logging.internal.DefaultLogger
 import kotlin.reflect.KClass
 
-object LoggerFactory {
+public object LoggerFactory {
 
     fun getLogger(name: String): Logger = DefaultLogger(name)
 

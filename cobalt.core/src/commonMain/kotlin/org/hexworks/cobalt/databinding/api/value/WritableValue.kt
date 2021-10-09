@@ -1,12 +1,11 @@
 package org.hexworks.cobalt.databinding.api.value
 
 import org.hexworks.cobalt.databinding.api.binding.Binding
-import org.hexworks.cobalt.databinding.api.event.ChangeType
 
 /**
  * A [WritableValue] wraps a value which can be read and written.
  */
-interface WritableValue<T> : Value<T> {
+public interface WritableValue<T> : Value<T> {
 
     override var value: T
 

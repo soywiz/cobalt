@@ -11,7 +11,7 @@ import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.events.api.Subscription
 
 @Suppress("UNCHECKED_CAST")
-class SetBindingDecorator<T>(
+internal class SetBindingDecorator<T>(
     private val binding: Binding<PersistentSet<T>>,
     optionalName: String? = null,
 ) : ObservableSetBinding<T> {
@@ -73,5 +73,4 @@ class SetBindingDecorator<T>(
         get() = binding.disposeState
 
     override fun dispose(disposeState: DisposeState) = binding.dispose(disposeState)
-
 }

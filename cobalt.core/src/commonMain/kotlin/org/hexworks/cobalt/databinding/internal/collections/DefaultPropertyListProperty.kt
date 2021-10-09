@@ -14,7 +14,7 @@ import org.hexworks.cobalt.events.api.Subscription
 import kotlin.jvm.Synchronized
 
 @Suppress("UNCHECKED_CAST")
-class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
+internal class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
     initialValue: PersistentList<P>,
     optionalName: String?,
     validator: PropertyValidator<List<P>>
@@ -22,7 +22,9 @@ class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
     initialValue = initialValue,
     name = optionalName ?: "DefaultPropertyListProperty",
     validator = validator
-), ListProperty<P>, List<P> {
+),
+    ListProperty<P>,
+    List<P> {
 
     private val uniqueProperties = mutableMapOf<UUID, Pair<P, Subscription>>()
 
@@ -134,7 +136,6 @@ class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
         }
         return updateCurrentValue(ListClear) { it.clear() }
     }
-
 
     private fun P.subscribeToChanges() {
         val p = this

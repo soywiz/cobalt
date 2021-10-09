@@ -1,6 +1,6 @@
 package org.hexworks.cobalt.databinding.api.converter
 
-class IdentityConverter<T> : IsomorphicConverter<T, T> {
+public class IdentityConverter<T> : IsomorphicConverter<T, T> {
 
     override fun convert(source: T) = source
 

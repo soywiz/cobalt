@@ -1,7 +1,7 @@
+import Versions.kotlinLoggingVersion
 import Versions.kotlinxCollectionsImmutableVersion
 import Versions.kotlinxCoroutinesVersion
 import Versions.uuidVersion
-import Versions.kotlinLoggingVersion
 
 object Libraries {
 
@@ -14,4 +14,10 @@ object Libraries {
 
     const val uuid = "com.benasher44:uuid:$uuidVersion"
     const val kotlinLogging = "io.github.microutils:kotlin-logging:$kotlinLoggingVersion"
+
+    // TEST
+    const val kotlinTestCommon = "org.jetbrains.kotlin:kotlin-test-common"
+    const val kotlinTestAnnotationsCommon = "org.jetbrains.kotlin:kotlin-test-annotations-common"
+    const val kotlinTestJunit = "org.jetbrains.kotlin:kotlin-test-junit"
+    const val kotlinTestJs = "org.jetbrains.kotlin:kotlin-test-js"
 }

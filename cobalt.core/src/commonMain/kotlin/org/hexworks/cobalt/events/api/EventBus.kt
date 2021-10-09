@@ -6,7 +6,7 @@ import org.hexworks.cobalt.events.internal.DefaultEventBus
 /**
  * An [EventBus] can be used to broadcast [Event]s to subscribers of that [Event].
  */
-interface EventBus {
+public interface EventBus {
 
     /**
      * Returns all subscribers of the event with the given [key] and [eventScope].
@@ -38,7 +38,6 @@ interface EventBus {
         eventScope: EventScope = ApplicationScope
     )
 
-
     /**
      * Cancels all [Subscription]s for the given [scope].
      */
@@ -56,5 +55,4 @@ interface EventBus {
          */
         fun create(): EventBus = DefaultEventBus()
     }
-
 }

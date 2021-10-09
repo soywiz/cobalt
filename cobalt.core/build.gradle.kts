@@ -1,13 +1,12 @@
 import Libraries.kotlinLogging
 import Libraries.kotlinReflect
-import Libraries.kotlinStdLibCommon
+import Libraries.kotlinTestAnnotationsCommon
+import Libraries.kotlinTestCommon
+import Libraries.kotlinTestJs
+import Libraries.kotlinTestJunit
 import Libraries.kotlinxCollectionsImmutable
 import Libraries.kotlinxCoroutines
 import Libraries.uuid
-import TestLibs.kotlinTestAnnotationsCommon
-import TestLibs.kotlinTestCommon
-import TestLibs.kotlinTestJs
-import TestLibs.kotlinTestJunit
 
 plugins {
     kotlin("multiplatform")
@@ -17,20 +16,31 @@ plugins {
 
 kotlin {
 
+//    explicitApi()
+
     jvm {
-        jvmTarget(JavaVersion.VERSION_1_8)
-        withJava()
+        compilations.all {
+            kotlinOptions {
+                apiVersion = "1.5"
+                languageVersion = "1.5"
+            }
+        }
     }
 
-    js {
-        browser()
+    js(BOTH) {
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
+        }
+        nodejs()
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(kotlinStdLibCommon)
-
                 api(kotlinxCoroutines)
                 api(kotlinReflect)
                 api(kotlinxCollectionsImmutable)
@@ -45,21 +55,14 @@ kotlin {
                 implementation(kotlinTestAnnotationsCommon)
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                api(kotlin("stdlib-jdk8"))
-            }
-        }
-        val jsMain by getting {
-            dependencies {
-                api(kotlin("stdlib-js"))
-            }
-        }
+        val jvmMain by getting {}
         val jvmTest by getting {
             dependencies {
                 implementation(kotlinTestJunit)
             }
         }
+
+        val jsMain by getting {}
         val jsTest by getting {
             dependencies {
                 implementation(kotlinTestJs)

@@ -1,7 +1,6 @@
 package org.hexworks.cobalt.databinding.api.collection
 
 import kotlinx.collections.immutable.PersistentList
-import org.hexworks.cobalt.databinding.api.event.ListChange
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.api.value.WritableValue
@@ -12,7 +11,8 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * @see ObservableValue
  * @see WritableValue
  */
-interface ListProperty<T> : ObservableList<T>,
+public interface ListProperty<T> :
+    ObservableList<T>,
     WritableList<T>,
     ObservableCollection<T, PersistentList<T>>,
     Property<PersistentList<T>> {

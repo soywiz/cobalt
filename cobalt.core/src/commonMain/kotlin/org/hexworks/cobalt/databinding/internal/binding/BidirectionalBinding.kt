@@ -13,7 +13,7 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
  * and vice versa.
  * [converter] will be used to convert the values between [source] and [target].
  */
-class BidirectionalBinding<S, T>(
+internal class BidirectionalBinding<S, T>(
     source: InternalProperty<S>,
     target: InternalProperty<T>,
     converter: IsomorphicConverter<S, T>
@@ -28,53 +28,57 @@ class BidirectionalBinding<S, T>(
     private val reverseConverter = converter.reverseConverter()
 
     init {
-        subscriptions.add(source.onChange { event ->
-            runWithDisposeOnFailure {
-                val oldValue = converter.convert(event.oldValue)
-                val newValue = converter.convert(event.newValue)
-                if (target.updateWithEvent(
-                        oldValue = oldValue,
-                        newValue = newValue,
-                        event = event
-                    )
-                ) {
-                    Cobalt.eventbus.publish(
-                        event = ObservableValueChanged<Any?>(
+        subscriptions.add(
+            source.onChange { event ->
+                runWithDisposeOnFailure {
+                    val oldValue = converter.convert(event.oldValue)
+                    val newValue = converter.convert(event.newValue)
+                    if (target.updateWithEvent(
                             oldValue = oldValue,
                             newValue = newValue,
-                            observableValue = this,
-                            emitter = this,
-                            trace = listOf(event) + event.trace,
-                            type = event.type
-                        ),
-                        eventScope = propertyScope
-                    )
+                            event = event
+                        )
+                    ) {
+                        Cobalt.eventbus.publish(
+                            event = ObservableValueChanged<Any?>(
+                                oldValue = oldValue,
+                                newValue = newValue,
+                                observableValue = this,
+                                emitter = this,
+                                trace = listOf(event) + event.trace,
+                                type = event.type
+                            ),
+                            eventScope = propertyScope
+                        )
+                    }
                 }
             }
-        })
-        subscriptions.add(target.onChange { event ->
-            runWithDisposeOnFailure {
-                val oldValue = reverseConverter.convert(event.oldValue)
-                val newValue = reverseConverter.convert(event.newValue)
-                if (source.updateWithEvent(
-                        oldValue = oldValue,
-                        newValue = newValue,
-                        event = event
-                    )
-                ) {
-                    Cobalt.eventbus.publish(
-                        event = ObservableValueChanged(
+        )
+        subscriptions.add(
+            target.onChange { event ->
+                runWithDisposeOnFailure {
+                    val oldValue = reverseConverter.convert(event.oldValue)
+                    val newValue = reverseConverter.convert(event.newValue)
+                    if (source.updateWithEvent(
                             oldValue = oldValue,
                             newValue = newValue,
-                            observableValue = this,
-                            emitter = this,
-                            trace = listOf(event) + event.trace,
-                            type = event.type
-                        ),
-                        eventScope = propertyScope
-                    )
+                            event = event
+                        )
+                    ) {
+                        Cobalt.eventbus.publish(
+                            event = ObservableValueChanged(
+                                oldValue = oldValue,
+                                newValue = newValue,
+                                observableValue = this,
+                                emitter = this,
+                                trace = listOf(event) + event.trace,
+                                type = event.type
+                            ),
+                            eventScope = propertyScope
+                        )
+                    }
                 }
             }
-        })
+        )
     }
 }

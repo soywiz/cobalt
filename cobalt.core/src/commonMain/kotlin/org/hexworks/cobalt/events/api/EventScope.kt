@@ -6,4 +6,4 @@ package org.hexworks.cobalt.events.api
  * scopes are are completely isolated from each other.
  * Tip: use `object`s to implement [EventScope] for ease of use.
  */
-interface EventScope
+public interface EventScope

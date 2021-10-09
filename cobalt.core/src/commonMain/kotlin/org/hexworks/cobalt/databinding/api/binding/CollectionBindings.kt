@@ -15,63 +15,71 @@ import org.hexworks.cobalt.databinding.internal.binding.ComputedDualBinding
 import org.hexworks.cobalt.databinding.internal.collections.ListBindingDecorator
 import org.hexworks.cobalt.databinding.internal.collections.SetBindingDecorator
 
-fun <T> ObservablePersistentCollection<T>.bindSize(): Binding<Int> {
+public fun <T> ObservablePersistentCollection<T>.bindSize(): Binding<Int> {
     return ComputedBinding(this) { value ->
         value.size
     }
 }
 
-fun <T> ObservableList<ObservablePersistentCollection<T>>.bindFlatten(): ObservableListBinding<T> {
-    return ListBindingDecorator(ComputedBinding(this) { value ->
-        var result = persistentListOf<T>()
-        value.forEach {
-            result = result.addAll(it.value)
+public fun <T> ObservableList<ObservablePersistentCollection<T>>.bindFlatten(): ObservableListBinding<T> {
+    return ListBindingDecorator(
+        ComputedBinding(this) { value ->
+            var result = persistentListOf<T>()
+            value.forEach {
+                result = result.addAll(it.value)
+            }
+            result
         }
-        result
-    })
+    )
 }
 
-fun <T, R> ObservableList<ObservablePersistentCollection<T>>.bindFlatMap(
+public fun <T, R> ObservableList<ObservablePersistentCollection<T>>.bindFlatMap(
     converter: (T) -> R
 ): ObservableListBinding<R> {
-    return ListBindingDecorator(ComputedBinding(this) { value ->
-        var result = persistentListOf<R>()
-        value.forEach {
-            result = result.addAll(it.value.map(converter))
+    return ListBindingDecorator(
+        ComputedBinding(this) { value ->
+            var result = persistentListOf<R>()
+            value.forEach {
+                result = result.addAll(it.value.map(converter))
+            }
+            result
         }
-        result
-    })
+    )
 }
 
-fun <T> ObservableSet<ObservablePersistentCollection<T>>.bindFlatten(): ObservableSetBinding<T> {
-    return SetBindingDecorator(ComputedBinding(this) { value ->
-        var result = persistentSetOf<T>()
-        value.forEach {
-            result = result.addAll(it.value)
+public fun <T> ObservableSet<ObservablePersistentCollection<T>>.bindFlatten(): ObservableSetBinding<T> {
+    return SetBindingDecorator(
+        ComputedBinding(this) { value ->
+            var result = persistentSetOf<T>()
+            value.forEach {
+                result = result.addAll(it.value)
+            }
+            result
         }
-        result
-    })
+    )
 }
 
-fun <T, R> ObservableSet<ObservablePersistentCollection<T>>.bindFlatMap(
+public fun <T, R> ObservableSet<ObservablePersistentCollection<T>>.bindFlatMap(
     converter: (T) -> R
 ): ObservableSetBinding<R> {
-    return SetBindingDecorator(ComputedBinding(this) { value ->
-        var result = persistentSetOf<R>()
-        value.forEach {
-            result = result.addAll(it.value.map(converter))
+    return SetBindingDecorator(
+        ComputedBinding(this) { value ->
+            var result = persistentSetOf<R>()
+            value.forEach {
+                result = result.addAll(it.value.map(converter))
+            }
+            result
         }
-        result
-    })
+    )
 }
 
-fun <T> ObservablePersistentCollection<T>.bindIsEmpty(): Binding<Boolean> {
+public fun <T> ObservablePersistentCollection<T>.bindIsEmpty(): Binding<Boolean> {
     return ComputedBinding(this) { value ->
         value.isEmpty()
     }
 }
 
-infix fun <T> ObservablePersistentCollection<T>.bindContainsWith(
+public infix fun <T> ObservablePersistentCollection<T>.bindContainsWith(
     other: ObservableValue<T>
 ): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue ->
@@ -79,7 +87,7 @@ infix fun <T> ObservablePersistentCollection<T>.bindContainsWith(
     }
 }
 
-infix fun <T> ObservablePersistentCollection<T>.bindContainsAllWith(
+public infix fun <T> ObservablePersistentCollection<T>.bindContainsAllWith(
     other: ObservablePersistentCollection<T>
 ): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue ->
@@ -87,7 +95,7 @@ infix fun <T> ObservablePersistentCollection<T>.bindContainsAllWith(
     }
 }
 
-infix fun <T> ObservablePersistentCollection<T>.bindIndexOfWith(
+public infix fun <T> ObservablePersistentCollection<T>.bindIndexOfWith(
     other: ObservableValue<T>
 ): Binding<Int> {
     return ComputedDualBinding(this, other) { thisValue, otherValue ->
@@ -95,7 +103,7 @@ infix fun <T> ObservablePersistentCollection<T>.bindIndexOfWith(
     }
 }
 
-infix fun <T> ObservablePersistentCollection<T>.bindLastIndexOfWith(
+public infix fun <T> ObservablePersistentCollection<T>.bindLastIndexOfWith(
     other: ObservableValue<T>
 ): Binding<Int> {
     return ComputedDualBinding(this, other) { thisValue, otherValue ->
@@ -103,40 +111,48 @@ infix fun <T> ObservablePersistentCollection<T>.bindLastIndexOfWith(
     }
 }
 
-infix fun <T> ObservablePersistentCollection<T>.bindIsEqualToWith(
+public infix fun <T> ObservablePersistentCollection<T>.bindIsEqualToWith(
     other: ObservablePersistentCollection<T>
 ): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue == otherValue }
 }
 
-infix fun <T> ObservableValue<PersistentList<T>>.bindPlusWith(
+public infix fun <T> ObservableValue<PersistentList<T>>.bindPlusWith(
     other: ObservableValue<PersistentList<T>>
 ): ObservableListBinding<T> {
-    return ListBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
-        thisValue.addAll(otherValue)
-    })
+    return ListBindingDecorator(
+        ComputedDualBinding(this, other) { thisValue, otherValue ->
+            thisValue.addAll(otherValue)
+        }
+    )
 }
 
-infix fun <T> ObservableValue<PersistentList<T>>.bindMinusWith(
+public infix fun <T> ObservableValue<PersistentList<T>>.bindMinusWith(
     other: ObservableValue<PersistentList<T>>
 ): ObservableListBinding<T> {
-    return ListBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
-        thisValue.removeAll(otherValue)
-    })
+    return ListBindingDecorator(
+        ComputedDualBinding(this, other) { thisValue, otherValue ->
+            thisValue.removeAll(otherValue)
+        }
+    )
 }
 
-infix fun <T> ObservableValue<PersistentSet<T>>.bindPlusWith(
+public infix fun <T> ObservableValue<PersistentSet<T>>.bindPlusWith(
     other: ObservableValue<PersistentSet<T>>
 ): ObservableSetBinding<T> {
-    return SetBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
-        thisValue.addAll(otherValue)
-    })
+    return SetBindingDecorator(
+        ComputedDualBinding(this, other) { thisValue, otherValue ->
+            thisValue.addAll(otherValue)
+        }
+    )
 }
 
-infix fun <T> ObservableValue<PersistentSet<T>>.bindMinusWith(
+public infix fun <T> ObservableValue<PersistentSet<T>>.bindMinusWith(
     other: ObservableValue<PersistentSet<T>>
 ): ObservableSetBinding<T> {
-    return SetBindingDecorator(ComputedDualBinding(this, other) { thisValue, otherValue ->
-        thisValue.removeAll(otherValue)
-    })
+    return SetBindingDecorator(
+        ComputedDualBinding(this, other) { thisValue, otherValue ->
+            thisValue.removeAll(otherValue)
+        }
+    )
 }

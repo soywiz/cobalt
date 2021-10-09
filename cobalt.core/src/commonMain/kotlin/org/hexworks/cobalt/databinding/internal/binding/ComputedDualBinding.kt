@@ -18,7 +18,7 @@ import org.hexworks.cobalt.events.api.simpleSubscribeTo
  * updated whenever any of those values get updated using [computerFn] to compute the new value
  * of this [Binding].
  */
-class ComputedDualBinding<out S0, out S1, T>(
+internal class ComputedDualBinding<out S0, out S1, T>(
     private val source0: ObservableValue<S0>,
     private val source1: ObservableValue<S1>,
     private val computerFn: (S0, S1) -> T
@@ -46,42 +46,46 @@ class ComputedDualBinding<out S0, out S1, T>(
     private val subscriptions = mutableListOf<Subscription>()
 
     init {
-        subscriptions.add(source0.onChange { event ->
-            val oldValue = computerFn(event.oldValue, source1.value)
-            val newValue = computerFn(event.newValue, source1.value)
-            if (oldValue != newValue) {
-                target.value = newValue
-                Cobalt.eventbus.publish(
-                    event = ObservableValueChanged(
-                        oldValue = oldValue,
-                        newValue = newValue,
-                        observableValue = this,
-                        emitter = this,
-                        trace = listOf(event) + event.trace,
-                        type = event.type
-                    ),
-                    eventScope = propertyScope
-                )
+        subscriptions.add(
+            source0.onChange { event ->
+                val oldValue = computerFn(event.oldValue, source1.value)
+                val newValue = computerFn(event.newValue, source1.value)
+                if (oldValue != newValue) {
+                    target.value = newValue
+                    Cobalt.eventbus.publish(
+                        event = ObservableValueChanged(
+                            oldValue = oldValue,
+                            newValue = newValue,
+                            observableValue = this,
+                            emitter = this,
+                            trace = listOf(event) + event.trace,
+                            type = event.type
+                        ),
+                        eventScope = propertyScope
+                    )
+                }
             }
-        })
-        subscriptions.add(source1.onChange { event ->
-            val oldValue = computerFn(source0.value, event.oldValue)
-            val newValue = computerFn(source0.value, event.newValue)
-            if (oldValue != newValue) {
-                target.value = newValue
-                Cobalt.eventbus.publish(
-                    event = ObservableValueChanged(
-                        oldValue = oldValue,
-                        newValue = newValue,
-                        observableValue = this,
-                        emitter = this,
-                        trace = listOf(event) + event.trace,
-                        type = event.type
-                    ),
-                    eventScope = propertyScope
-                )
+        )
+        subscriptions.add(
+            source1.onChange { event ->
+                val oldValue = computerFn(source0.value, event.oldValue)
+                val newValue = computerFn(source0.value, event.newValue)
+                if (oldValue != newValue) {
+                    target.value = newValue
+                    Cobalt.eventbus.publish(
+                        event = ObservableValueChanged(
+                            oldValue = oldValue,
+                            newValue = newValue,
+                            observableValue = this,
+                            emitter = this,
+                            trace = listOf(event) + event.trace,
+                            type = event.type
+                        ),
+                        eventScope = propertyScope
+                    )
+                }
             }
-        })
+        )
     }
 
     override fun dispose(disposeState: DisposeState) {

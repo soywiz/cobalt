@@ -6,7 +6,7 @@ package org.hexworks.cobalt.events.api
  * [trace] can be used to check the chain of events which caused this [Event]. Each [Event]
  * must also has an [emitter] which is the object responsible for emitting this [Event].
  */
-interface Event {
+public interface Event {
 
     /**
      * An unique key for this [Event].
@@ -14,7 +14,7 @@ interface Event {
      */
     val key: String
         get() = this::class.simpleName
-                ?: throw IllegalArgumentException("Event class doesn't have a name: ${this::class}")
+            ?: throw IllegalArgumentException("Event class doesn't have a name: ${this::class}")
 
     /**
      * The object which emitted *this* [Event].
