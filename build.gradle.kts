@@ -4,6 +4,5 @@ allprojects {
         mavenLocal()
         mavenCentral()
         jcenter()
-        maven("https://dl.bintray.com/kotlin/kotlinx")
     }
 }
