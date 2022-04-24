@@ -10,3 +10,4 @@ out/
 node_modules/
 docs/
 .DS_Store
+kotlin-js-store

@@ -16,8 +16,6 @@ plugins {
 
 kotlin {
 
-//    explicitApi()
-
     jvm {
         withJava()
         compilations.all {
