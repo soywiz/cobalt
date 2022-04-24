@@ -19,6 +19,7 @@ kotlin {
 //    explicitApi()
 
     jvm {
+        withJava()
         compilations.all {
             kotlinOptions {
                 apiVersion = "1.5"
