@@ -22,6 +22,7 @@ kotlin {
             kotlinOptions {
                 apiVersion = "1.5"
                 languageVersion = "1.5"
+                jvmTarget = "11"
             }
         }
     }

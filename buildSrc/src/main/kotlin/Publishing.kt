@@ -72,13 +72,11 @@ fun PublishingExtension.publishWith(
 
         repositories {
 
-            val releaseUrl = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            val snapshotUrl = uri("https://oss.sonatype.org/content/repositories/snapshots")
             val sonatypeUsername = System.getenv("SONATYPE_USERNAME") ?: ""
             val sonatypePassword = System.getenv("SONATYPE_PASSWORD") ?: ""
 
             maven {
-                url = if (version.toString().endsWith("SNAPSHOT")) snapshotUrl else releaseUrl
+                url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
                     username = if (sonatypeUsername.isBlank()) "" else sonatypeUsername
                     password = if (sonatypePassword.isBlank()) "" else sonatypePassword
