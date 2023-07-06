@@ -1,6 +1,5 @@
-import Versions.kloggerVersion
+import Versions.korVersion
 import Versions.kotlinxCollectionsImmutableVersion
-import Versions.uuidVersion
 
 object Libraries {
 
@@ -9,8 +8,8 @@ object Libraries {
         "org.jetbrains.kotlinx:kotlinx-collections-immutable:$kotlinxCollectionsImmutableVersion"
 
 
-    const val uuid = "com.benasher44:uuid:$uuidVersion"
-    const val klogger = "com.soywiz.korlibs.klogger:klogger:$kloggerVersion"
+    const val korio = "com.soywiz.korlibs.korio:korio:$korVersion"
+    const val klogger = "com.soywiz.korlibs.klogger:klogger:$korVersion"
 
     // TEST
     const val kotlinTestCommon = "org.jetbrains.kotlin:kotlin-test-common"

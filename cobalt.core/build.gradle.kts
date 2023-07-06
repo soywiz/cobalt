@@ -1,9 +1,7 @@
 import Libraries.klogger
+import Libraries.korio
 import Libraries.kotlinReflect
-import Libraries.kotlinTestAnnotationsCommon
-import Libraries.kotlinTestCommon
 import Libraries.kotlinxCollectionsImmutable
-import Libraries.uuid
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
@@ -65,7 +63,7 @@ kotlin {
                 api(kotlinReflect)
                 api(kotlinxCollectionsImmutable)
 
-                api(uuid)
+                api(korio)
                 api(klogger)
             }
         }
