@@ -5,7 +5,6 @@ import Libraries.kotlinTestCommon
 import Libraries.kotlinTestJs
 import Libraries.kotlinTestJunit
 import Libraries.kotlinxCollectionsImmutable
-import Libraries.kotlinxCoroutines
 import Libraries.uuid
 
 plugins {
@@ -20,14 +19,14 @@ kotlin {
         withJava()
         compilations.all {
             kotlinOptions {
-                apiVersion = "1.5"
-                languageVersion = "1.5"
+                apiVersion = "1.8"
+                languageVersion = "1.8"
                 jvmTarget = "11"
             }
         }
     }
 
-    js(BOTH) {
+    js(IR) {
         browser {
             testTask {
                 useKarma {
@@ -41,7 +40,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(kotlinxCoroutines)
                 api(kotlinReflect)
                 api(kotlinxCollectionsImmutable)
 
@@ -69,6 +67,7 @@ kotlin {
             }
         }
     }
+    jvmToolchain(11)
 }
 
 publishing {

@@ -6,9 +6,9 @@ import Versions.uuidVersion
 object Libraries {
 
     const val kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect"
-    const val kotlinxCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion"
     const val kotlinxCollectionsImmutable =
         "org.jetbrains.kotlinx:kotlinx-collections-immutable:$kotlinxCollectionsImmutableVersion"
+
 
     const val uuid = "com.benasher44:uuid:$uuidVersion"
     const val kotlinLogging = "io.github.microutils:kotlin-logging:$kotlinLoggingVersion"
