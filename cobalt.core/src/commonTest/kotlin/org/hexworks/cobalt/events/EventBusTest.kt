@@ -49,7 +49,7 @@ class EventBusTest {
     }
 
     @Test
-    fun When_subscribed_to_an_event_and_the_proper_event_is_broadcasted_then_the_subscriber_should_be_notified() {
+    fun When_subscribed_to_an_event_and_the_proper_event_is_published_then_the_subscriber_should_be_notified() {
 
         var notified = false
 
@@ -63,7 +63,7 @@ class EventBusTest {
     }
 
     @Test
-    fun When_subscribed_to_an_event_and_scope_and_the_proper_event_is_broadcasted_then_the_subscriber_should_be_notified() {
+    fun When_subscribed_to_an_event_and_scope_and_the_proper_event_is_published_then_the_subscriber_should_be_notified() {
 
         var notified = false
         target.simpleSubscribeTo<TestEvent>(TestScope) {
@@ -76,7 +76,7 @@ class EventBusTest {
     }
 
     @Test
-    fun When_subscribed_to_an_event_and_scope_and_the_proper_event_is_broadcasted_but_with_wrong_scope_then_the_subscriber_should_not_be_notified() {
+    fun When_subscribed_to_an_event_and_scope_and_the_proper_event_is_published_but_with_wrong_scope_then_the_subscriber_should_not_be_notified() {
 
         var notified = false
         target.simpleSubscribeTo<TestEvent> {
@@ -89,7 +89,7 @@ class EventBusTest {
     }
 
     @Test
-    fun When_subscribed_to_an_event_with_a_key_and_the_proper_event_is_broadcasted_then_the_subscriber_should_be_notified() {
+    fun When_subscribed_to_an_event_with_a_key_and_the_proper_event_is_published_then_the_subscriber_should_be_notified() {
 
         var notified = false
 
@@ -142,12 +142,26 @@ class EventBusTest {
     }
 
     @Test
-    fun When_unsubscribed_from_event_subscriber_should_not_be_present_in_EventBus() {
+    fun When_subscribed_to_an_event_Then_subscriber_should_be_present_in_EventBus() {
+
+        val subscription = target.simpleSubscribeTo<TestEvent> { }
+
+        assertEquals(
+            expected = listOf(subscription),
+            actual = target.fetchSubscribersOf(ApplicationScope, TestEvent.key).toList(),
+            message = "Subscribers should be empty."
+        )
+
+    }
+
+    @Test
+    fun When_unsubscribed_from_event_Then_subscriber_should_not_be_present_in_EventBus() {
 
         target.simpleSubscribeTo<TestEvent> { }.dispose()
 
         assertEquals(
-            expected = listOf(), actual = target.fetchSubscribersOf(ApplicationScope, TestEvent.key).toList(),
+            expected = listOf(),
+            actual = target.fetchSubscribersOf(ApplicationScope, TestEvent.key).toList(),
             message = "Subscribers should be empty."
         )
 
@@ -165,7 +179,8 @@ class EventBusTest {
         target.publish(TestEvent(this))
 
         assertEquals(
-            expected = expectedState, actual = subscription.disposeState,
+            expected = expectedState,
+            actual = subscription.disposeState,
             message = "Subscriber should have been cancelled with exception"
         )
     }

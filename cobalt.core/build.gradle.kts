@@ -29,9 +29,7 @@ kotlin {
     js(IR) {
         browser {
             testTask {
-                useKarma {
-                    useChromeHeadless()
-                }
+                useMocha()
             }
         }
         nodejs()

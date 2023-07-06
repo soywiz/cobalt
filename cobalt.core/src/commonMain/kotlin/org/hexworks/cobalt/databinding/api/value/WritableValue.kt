@@ -5,7 +5,7 @@ import org.hexworks.cobalt.databinding.api.binding.Binding
 /**
  * A [WritableValue] wraps a value which can be read and written.
  */
-public interface WritableValue<T> : Value<T> {
+interface WritableValue<T> : Value<T> {
 
     override var value: T
 

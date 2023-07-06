@@ -7,7 +7,7 @@ import org.hexworks.cobalt.core.internal.DefaultUUID
 /**
  * Represents a unique identifier (UUID).
  */
-public interface UUID {
+interface UUID {
 
     companion object {
 

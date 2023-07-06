@@ -11,7 +11,7 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * @see ObservableValue
  * @see WritableValue
  */
-public interface ListProperty<T> :
+interface ListProperty<T> :
     ObservableList<T>,
     WritableList<T>,
     ObservableCollection<T, PersistentList<T>>,

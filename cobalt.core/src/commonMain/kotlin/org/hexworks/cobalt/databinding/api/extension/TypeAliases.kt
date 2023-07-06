@@ -6,10 +6,10 @@ import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.PersistentSet
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 
-public typealias ObservablePersistentCollection<T> = ObservableValue<PersistentCollection<T>>
+typealias ObservablePersistentCollection<T> = ObservableValue<PersistentCollection<T>>
 
-public typealias ObservablePersistentList<T> = ObservableValue<PersistentList<T>>
+typealias ObservablePersistentList<T> = ObservableValue<PersistentList<T>>
 
-public typealias ObservablePersistentSet<T> = ObservableValue<PersistentSet<T>>
+typealias ObservablePersistentSet<T> = ObservableValue<PersistentSet<T>>
 
-public typealias ObservablePersistentMap<K, V> = ObservableValue<PersistentMap<K, V>>
+typealias ObservablePersistentMap<K, V> = ObservableValue<PersistentMap<K, V>>

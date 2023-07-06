@@ -7,7 +7,7 @@ import org.hexworks.cobalt.databinding.api.value.ObservableValue
  * An [ObservableMap] is an [ObservableValue] which wraps an underlying
  * [PersistentMap] and can be used to track its changes with [onChange].
  */
-public interface ObservableMap<K : Any, V> : PersistentMap<K, V>, ObservableValue<PersistentMap<K, V>> {
+interface ObservableMap<K : Any, V> : PersistentMap<K, V>, ObservableValue<PersistentMap<K, V>> {
 
     companion object
 }

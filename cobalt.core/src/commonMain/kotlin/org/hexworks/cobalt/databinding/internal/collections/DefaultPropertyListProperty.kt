@@ -11,7 +11,6 @@ import org.hexworks.cobalt.databinding.api.property.PropertyValidator
 import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.property.base.BaseProperty
 import org.hexworks.cobalt.events.api.Subscription
-import kotlin.jvm.Synchronized
 
 @Suppress("UNCHECKED_CAST")
 internal class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
@@ -58,31 +57,31 @@ internal class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
     override fun builder(): PersistentList.Builder<P> = value.builder()
 
     // MUTATORS
-    @Synchronized
+
     override fun add(element: P): PersistentList<P> {
         element.subscribeToChanges()
         return updateCurrentValue(ListAdd(element)) { it.add(element) }
     }
 
-    @Synchronized
+
     override fun add(index: Int, element: P): PersistentList<P> {
         element.subscribeToChanges()
         return updateCurrentValue(ListAddAt(index, element)) { it.add(index, element) }
     }
 
-    @Synchronized
+
     override fun addAll(elements: Collection<P>): PersistentList<P> {
         elements.forEach { it.subscribeToChanges() }
         return updateCurrentValue(ListAddAll(elements)) { it.addAll(elements) }
     }
 
-    @Synchronized
+
     override fun addAll(index: Int, c: Collection<P>): PersistentList<P> {
         c.forEach { it.subscribeToChanges() }
         return updateCurrentValue(ListAddAllAt(index, c)) { it.addAll(index, c) }
     }
 
-    @Synchronized
+
     override fun set(index: Int, element: P): PersistentList<P> {
         if (value.size > index) {
             get(index).unsubscribeFromChanges()
@@ -91,13 +90,13 @@ internal class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
         return updateCurrentValue(ListSet(index, element)) { it.set(index, element) }
     }
 
-    @Synchronized
+
     override fun remove(element: P): PersistentList<P> {
         element.unsubscribeFromChanges()
         return updateCurrentValue(ListRemove(element)) { it.remove(element) }
     }
 
-    @Synchronized
+
     override fun removeAt(index: Int): PersistentList<P> {
         if (value.size > index) {
             value[index].unsubscribeFromChanges()
@@ -105,25 +104,25 @@ internal class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
         return updateCurrentValue(ListRemoveAt(index)) { it.removeAt(index) }
     }
 
-    @Synchronized
+
     override fun removeAll(elements: Collection<P>): PersistentList<P> {
         elements.forEach { it.unsubscribeFromChanges() }
         return updateCurrentValue(ListRemoveAll(elements)) { it.removeAll(elements) }
     }
 
-    @Synchronized
+
     override fun removeAll(predicate: (P) -> Boolean): PersistentList<P> {
         value.filter(predicate).forEach { it.unsubscribeFromChanges() }
         return updateCurrentValue(ListRemoveAllWhen(predicate)) { it.removeAll(predicate) }
     }
 
-    @Synchronized
+
     override fun retainAll(elements: Collection<P>): PersistentList<P> {
         value.minus(elements).forEach { it.unsubscribeFromChanges() }
         return updateCurrentValue(ListRetainAll(elements)) { it.retainAll(elements) }
     }
 
-    @Synchronized
+
     override fun clear(): PersistentList<P> {
         value.forEach { it.unsubscribeFromChanges() }
         if (uniqueProperties.isNotEmpty()) {

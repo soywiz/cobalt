@@ -11,7 +11,7 @@ import org.hexworks.cobalt.databinding.internal.exception.CircularBindingExcepti
 import org.hexworks.cobalt.databinding.internal.extensions.asInternalProperty
 
 @Suppress("UNCHECKED_CAST")
-public class ListBinding<S, T>(
+class ListBinding<S, T>(
     source: ObservableList<S>,
     converter: (S) -> T
 ) : BaseBinding<PersistentList<S>, PersistentList<T>>(

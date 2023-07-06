@@ -14,7 +14,7 @@ import org.hexworks.cobalt.events.api.Subscription
 import org.hexworks.cobalt.events.api.simpleSubscribeTo
 import org.hexworks.cobalt.logging.api.LoggerFactory
 
-public abstract class BaseBinding<S, T>(
+abstract class BaseBinding<S, T>(
     internal val source: ObservableValue<S>,
     internal val target: InternalProperty<T>,
     internal val subscriptions: MutableList<Subscription>

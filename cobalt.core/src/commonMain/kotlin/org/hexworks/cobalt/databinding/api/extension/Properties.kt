@@ -26,7 +26,7 @@ import kotlin.jvm.JvmOverloads
  * Creates a new [Property] from the given object of type [T].
  */
 @JvmOverloads
-public fun <T> T.toProperty(
+fun <T> T.toProperty(
     validator: PropertyValidator<T> = { _, _ -> true },
     optionalName: String? = null,
 ): Property<T> = DefaultProperty(this, optionalName, validator)
@@ -35,14 +35,14 @@ public fun <T> T.toProperty(
 
 @JvmName("toIterableProperty")
 @JvmOverloads
-public fun <T> Iterable<T>.toProperty(
+fun <T> Iterable<T>.toProperty(
     validator: PropertyValidator<Iterable<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<T> = DefaultListProperty(this.toPersistentList(), optionalName, validator)
 
 @JvmName("toCollectionProperty")
 @JvmOverloads
-public fun <T> Collection<T>.toProperty(
+fun <T> Collection<T>.toProperty(
     validator: PropertyValidator<Collection<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<T> = DefaultListProperty(this.toPersistentList(), optionalName, validator)
@@ -50,14 +50,14 @@ public fun <T> Collection<T>.toProperty(
 // List
 @JvmName("toListProperty")
 @JvmOverloads
-public fun <T> List<T>.toProperty(
+fun <T> List<T>.toProperty(
     validator: PropertyValidator<List<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<T> = DefaultListProperty(this.toPersistentList(), optionalName, validator)
 
 @JvmName("toPropertyListProperty")
 @JvmOverloads
-public fun <T, V : ObservableValue<T>> List<V>.toProperty(
+fun <T, V : ObservableValue<T>> List<V>.toProperty(
     validator: PropertyValidator<List<V>> = { _, _ -> true },
     optionalName: String? = null,
 ): ListProperty<V> = DefaultPropertyListProperty(this.toPersistentList(), optionalName, validator)
@@ -65,28 +65,28 @@ public fun <T, V : ObservableValue<T>> List<V>.toProperty(
 // Map
 @JvmName("toMapProperty")
 @JvmOverloads
-public fun <K : Any, V> Map<K, V>.toProperty(
+fun <K : Any, V> Map<K, V>.toProperty(
     validator: PropertyValidator<Map<K, V>> = { _, _ -> true },
     optionalName: String? = null,
 ): MapProperty<K, V> = DefaultMapProperty(this.toPersistentMap(), optionalName, validator)
 
 @JvmName("toPropertyMapProperty")
 @JvmOverloads
-public fun <K : Any, V, P : Property<V>> Map<K, P>.toProperty(
+fun <K : Any, V, P : Property<V>> Map<K, P>.toProperty(
     validator: PropertyValidator<Map<K, P>> = { _, _ -> true },
     optionalName: String? = null,
 ): MapProperty<K, P> = DefaultPropertyMapProperty(this.toPersistentMap(), optionalName, validator)
 
 @JvmName("toSetProperty")
 @JvmOverloads
-public fun <T> Set<T>.toProperty(
+fun <T> Set<T>.toProperty(
     validator: PropertyValidator<Set<T>> = { _, _ -> true },
     optionalName: String? = null,
 ): SetProperty<T> = DefaultSetProperty(this.toPersistentSet(), optionalName, validator)
 
 @JvmName("toPropertySetProperty")
 @JvmOverloads
-public fun <T, V : ObservableValue<T>> Set<V>.toProperty(
+fun <T, V : ObservableValue<T>> Set<V>.toProperty(
     validator: PropertyValidator<Set<V>> = { _, _ -> true },
     optionalName: String? = null,
 ): SetProperty<V> = DefaultPropertySetProperty(this.toPersistentSet(), optionalName, validator)

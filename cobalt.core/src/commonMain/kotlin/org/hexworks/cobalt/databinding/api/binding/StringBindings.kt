@@ -7,7 +7,7 @@ import org.hexworks.cobalt.databinding.internal.binding.ComputedBinding
 import org.hexworks.cobalt.databinding.internal.binding.ComputedDualBinding
 import org.hexworks.cobalt.databinding.internal.binding.UnidirectionalBinding
 
-public fun ObservableValue<String>.bindIsEmpty(): Binding<Boolean> {
+fun ObservableValue<String>.bindIsEmpty(): Binding<Boolean> {
     val converter = { str: String -> str.isEmpty() }.toConverter()
     return UnidirectionalBinding(
         source = this,
@@ -16,7 +16,7 @@ public fun ObservableValue<String>.bindIsEmpty(): Binding<Boolean> {
     )
 }
 
-public fun ObservableValue<String>.bindIsBlank(): Binding<Boolean> {
+fun ObservableValue<String>.bindIsBlank(): Binding<Boolean> {
     val converter = { str: String -> str.isBlank() }.toConverter()
     return UnidirectionalBinding(
         source = this,
@@ -25,21 +25,21 @@ public fun ObservableValue<String>.bindIsBlank(): Binding<Boolean> {
     )
 }
 
-public infix fun ObservableValue<String>.bindPlusWith(other: ObservableValue<String>): Binding<String> {
+infix fun ObservableValue<String>.bindPlusWith(other: ObservableValue<String>): Binding<String> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue + otherValue }
 }
 
-public infix fun ObservableValue<String>.bindEqualsWith(other: ObservableValue<String>): Binding<Boolean> {
+infix fun ObservableValue<String>.bindEqualsWith(other: ObservableValue<String>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue == otherValue }
 }
 
-public infix fun ObservableValue<String>.bindEqualsIgnoreCase(other: ObservableValue<String>): Binding<Boolean> {
+infix fun ObservableValue<String>.bindEqualsIgnoreCase(other: ObservableValue<String>): Binding<Boolean> {
     return ComputedDualBinding(
         this,
         other
     ) { thisValue, otherValue -> thisValue.lowercase() == otherValue.lowercase() }
 }
 
-public fun ObservableValue<String>.length(): Binding<Int> {
+fun ObservableValue<String>.length(): Binding<Int> {
     return ComputedBinding(this) { it.length }
 }

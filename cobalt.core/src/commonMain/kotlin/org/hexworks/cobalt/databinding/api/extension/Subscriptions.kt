@@ -5,7 +5,7 @@ import org.hexworks.cobalt.events.api.Subscription
 /**
  * Clears the [Subscription]s in this [MutableList] and also clears this list.
  */
-public fun <T : Subscription> MutableList<T>.disposeSubscriptions() {
+fun <T : Subscription> MutableList<T>.disposeSubscriptions() {
     forEach {
         try {
             it.dispose()

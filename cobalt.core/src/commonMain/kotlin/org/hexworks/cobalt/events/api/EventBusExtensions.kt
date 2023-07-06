@@ -6,7 +6,7 @@ import org.hexworks.cobalt.events.internal.ApplicationScope
  * Same as [subscribeTo], but will always [KeepSubscription] when
  * the callback is called.
  */
-public inline fun <reified T : Event> EventBus.simpleSubscribeTo(
+inline fun <reified T : Event> EventBus.simpleSubscribeTo(
     eventScope: EventScope = ApplicationScope,
     noinline callback: (T) -> Unit
 ): Subscription {
@@ -26,7 +26,7 @@ public inline fun <reified T : Event> EventBus.simpleSubscribeTo(
 /**
  * Reified variant of [EventBus.simpleSubscribeTo].
  */
-public inline fun <reified T : Event> EventBus.subscribeTo(
+inline fun <reified T : Event> EventBus.subscribeTo(
     eventScope: EventScope = ApplicationScope,
     noinline callback: (T) -> CallbackResult
 ): Subscription {

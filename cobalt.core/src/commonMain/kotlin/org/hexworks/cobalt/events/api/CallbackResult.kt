@@ -1,7 +1,7 @@
 package org.hexworks.cobalt.events.api
 
-public sealed class CallbackResult
+sealed class CallbackResult
 
-public object KeepSubscription : CallbackResult()
+object KeepSubscription : CallbackResult()
 
-public object DisposeSubscription : CallbackResult()
+object DisposeSubscription : CallbackResult()

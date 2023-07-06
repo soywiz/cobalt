@@ -20,7 +20,7 @@ import org.hexworks.cobalt.databinding.internal.exception.CircularBindingExcepti
 import org.hexworks.cobalt.databinding.internal.extensions.asInternalProperty
 
 @Suppress("UNCHECKED_CAST")
-public class SetBinding<S, T>(
+class SetBinding<S, T>(
     source: ObservableSet<S>,
     converter: (S) -> T
 ) : BaseBinding<PersistentSet<S>, PersistentSet<T>>(

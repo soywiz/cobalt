@@ -1,38 +1,20 @@
 package org.hexworks.cobalt.events.internal
 
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentMapOf
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import org.hexworks.cobalt.core.api.behavior.DisposeState
 import org.hexworks.cobalt.core.api.behavior.DisposedByException
 import org.hexworks.cobalt.core.api.behavior.NotDisposed
-import org.hexworks.cobalt.core.internal.toAtom
-import org.hexworks.cobalt.events.api.CallbackResult
-import org.hexworks.cobalt.events.api.DisposeSubscription
-import org.hexworks.cobalt.events.api.Event
-import org.hexworks.cobalt.events.api.EventBus
-import org.hexworks.cobalt.events.api.EventScope
-import org.hexworks.cobalt.events.api.Subscription
+import org.hexworks.cobalt.events.api.*
 import org.hexworks.cobalt.logging.api.LoggerFactory
-import kotlin.coroutines.CoroutineContext
-import kotlin.jvm.Volatile
 
-internal class DefaultEventBus(
-    override val coroutineContext: CoroutineContext = Dispatchers.Default + SupervisorJob()
-) : EventBus, CoroutineScope {
+internal class DefaultEventBus : EventBus {
 
-    @Volatile
     private var closed = false
 
-    @Volatile
-    private var subsAtom = persistentMapOf<SubscriberKey, PersistentList<EventBusSubscription<*>>>().toAtom()
+    private var subscriptions = mutableMapOf<SubscriberKey, MutableList<EventBusSubscription<*>>>()
     private val logger = LoggerFactory.getLogger(this::class)
 
     override fun fetchSubscribersOf(eventScope: EventScope, key: String): Iterable<Subscription> {
-        return subsAtom.get().getOrElse(SubscriberKey(eventScope, key)) { listOf() }
+        return subscriptions.getOrElse(SubscriberKey(eventScope, key)) { listOf() }.toList()
     }
 
     override fun <T : Event> subscribeTo(
@@ -48,14 +30,13 @@ internal class DefaultEventBus(
                 callback = fn
             )
             val subKey = SubscriberKey(eventScope, key)
-            subsAtom.transform { subscriptions ->
-                subscriptions.put(
-                    subKey,
-                    subscriptions
-                        .getOrElse(subKey) { persistentListOf() }
-                        .add(subscription)
-                )
+            val subs = subscriptions[subKey] ?: run {
+                val list = mutableListOf<EventBusSubscription<*>>()
+                subscriptions[subKey] = list
+                list
             }
+            subs.add(subscription)
+            println("subs are: $subscriptions")
             subscription
         } catch (e: Exception) {
             logger.warn("Failed to subscribe to event key $key with scope $eventScope", e)
@@ -71,8 +52,8 @@ internal class DefaultEventBus(
         logger.debug {
             "Publishing event with key ${event.key} and scope $eventScope."
         }
-        subsAtom.get()[SubscriberKey(eventScope, event.key)]?.let { subscribers ->
-            subscribers.forEach { subscription: EventBusSubscription<*> ->
+        subscriptions[SubscriberKey(eventScope, event.key)]?.let { subscribers ->
+            subscribers.toList().forEach { subscription: EventBusSubscription<*> ->
                 try {
                     if (subscription.callback.fixType().invoke(event) is DisposeSubscription) {
                         subscription.dispose()
@@ -91,7 +72,7 @@ internal class DefaultEventBus(
 
     override fun cancelScope(scope: EventScope): Unit = whenNotClosed {
         logger.debug { "Cancelling scope $scope." }
-        subsAtom.get().filter { it.key.scope == scope }
+        subscriptions.filter { it.key.scope == scope }
             .flatMap { it.value }
             .forEach {
                 try {
@@ -104,12 +85,7 @@ internal class DefaultEventBus(
 
     override fun close() {
         closed = true
-        subsAtom.transform { subscriptions ->
-            subscriptions.forEach { (_, subs) ->
-                subs.forEach { it.dispose() }
-            }
-            persistentMapOf()
-        }
+        subscriptions.values.flatten().forEach { it.dispose() }
     }
 
     private fun <T> whenNotClosed(fn: () -> T): T {
@@ -135,18 +111,11 @@ internal class DefaultEventBus(
                 }
                 val key = SubscriberKey(eventScope, key)
                 this.disposeState = disposeState
-                subsAtom.transform { subscriptions ->
-                    var newSubscriptions = subscriptions
-
-                    subscriptions[key]?.let { subs ->
-                        val newSubs = subs.remove(this as EventBusSubscription<*>)
-                        newSubscriptions = if (newSubs.isEmpty()) {
-                            newSubscriptions.remove(key)
-                        } else {
-                            newSubscriptions.put(key, newSubs)
-                        }
-                        newSubscriptions
-                    } ?: newSubscriptions
+                subscriptions[key]?.let { subs ->
+                    subs.remove(this)
+                    if (subs.isEmpty()) {
+                        subscriptions.remove(key)
+                    }
                 }
                 Unit
             } catch (e: Exception) {

@@ -8,7 +8,7 @@ import org.hexworks.cobalt.databinding.api.value.WritableValue
  * A [WritableCollection] is a [Value] which wraps an underlying [PersistentCollection]
  * and allows changing its [value].
  */
-public interface WritableCollection<T, C : PersistentCollection<T>> : WritableValue<C> {
+interface WritableCollection<T, C : PersistentCollection<T>> : WritableValue<C> {
 
     companion object
 }

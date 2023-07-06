@@ -7,7 +7,7 @@ import org.hexworks.cobalt.events.api.Subscription
  * Represents an object which holds resources and can be [dispose]d
  * to free the resources used.
  */
-public interface Disposable {
+interface Disposable {
 
     /**
      * Tells whether this [Disposable] is disposed or not.

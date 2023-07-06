@@ -13,7 +13,7 @@ import org.hexworks.cobalt.databinding.internal.property.DefaultPropertyDelegate
  * @see WritableValue
  * @see ObservableValue
  */
-public interface Property<T> : WritableValue<T>, ObservableValue<T> {
+interface Property<T> : WritableValue<T>, ObservableValue<T> {
 
     /**
      * Creates a bidirectional binding between this [Property] and [other].

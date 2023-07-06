@@ -4,12 +4,12 @@ package org.hexworks.cobalt.events.api
  * Common interface for all [Event]s which can be sent using the [EventBus]. Each event
  * must have a [key] which can be used to group events from the same origin / cause together.
  * [trace] can be used to check the chain of events which caused this [Event]. Each [Event]
- * must also has an [emitter] which is the object responsible for emitting this [Event].
+ * must also have an [emitter] which is the object responsible for emitting this [Event].
  */
-public interface Event {
+interface Event {
 
     /**
-     * An unique key for this [Event].
+     * A unique key for this [Event].
      * If not supplied, [kotlin.reflect.KClass.simpleName] will be used.
      */
     val key: String

@@ -6,7 +6,7 @@ import org.hexworks.cobalt.events.internal.DefaultEventBus
 /**
  * An [EventBus] can be used to broadcast [Event]s to subscribers of that [Event].
  */
-public interface EventBus {
+interface EventBus {
 
     /**
      * Returns all subscribers of the event with the given [key] and [eventScope].

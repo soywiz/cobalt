@@ -6,46 +6,46 @@ import org.hexworks.cobalt.databinding.api.value.ObservableValue
 import org.hexworks.cobalt.databinding.internal.binding.ComputedBinding
 import org.hexworks.cobalt.databinding.internal.binding.ComputedDualBinding
 
-public fun ObservableValue<Double>.bindNegate(): Binding<Double> {
+fun ObservableValue<Double>.bindNegate(): Binding<Double> {
     return ComputedBinding(this) { -it }
 }
 
-public infix fun ObservableValue<Double>.bindPlusWith(other: ObservableValue<Number>): Binding<Double> {
+infix fun ObservableValue<Double>.bindPlusWith(other: ObservableValue<Number>): Binding<Double> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue + otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindMinusWith(other: ObservableValue<Number>): Binding<Double> {
+infix fun ObservableValue<Double>.bindMinusWith(other: ObservableValue<Number>): Binding<Double> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue - otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindTimesWith(other: ObservableValue<Number>): Binding<Double> {
+infix fun ObservableValue<Double>.bindTimesWith(other: ObservableValue<Number>): Binding<Double> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue * otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindDivWith(other: ObservableValue<Number>): Binding<Double> {
+infix fun ObservableValue<Double>.bindDivWith(other: ObservableValue<Number>): Binding<Double> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue / otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindEqualsWith(other: ObservableValue<Number>): Binding<Boolean> {
+infix fun ObservableValue<Double>.bindEqualsWith(other: ObservableValue<Number>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue == otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindGreaterThanWith(other: ObservableValue<Number>): Binding<Boolean> {
+infix fun ObservableValue<Double>.bindGreaterThanWith(other: ObservableValue<Number>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue > otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindLessThanWith(other: ObservableValue<Number>): Binding<Boolean> {
+infix fun ObservableValue<Double>.bindLessThanWith(other: ObservableValue<Number>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue < otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindGreaterThanOrEqualToWith(other: ObservableValue<Number>): Binding<Boolean> {
+infix fun ObservableValue<Double>.bindGreaterThanOrEqualToWith(other: ObservableValue<Number>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue >= otherValue.toDouble() }
 }
 
-public infix fun ObservableValue<Double>.bindLessThanOrEqualToWith(other: ObservableValue<Number>): Binding<Boolean> {
+infix fun ObservableValue<Double>.bindLessThanOrEqualToWith(other: ObservableValue<Number>): Binding<Boolean> {
     return ComputedDualBinding(this, other) { thisValue, otherValue -> thisValue <= otherValue.toDouble() }
 }
 
-public fun ObservableValue<Double>.bindToString(): Binding<String> {
+fun ObservableValue<Double>.bindToString(): Binding<String> {
     return ComputedBinding(this) { it.toString() }
 }

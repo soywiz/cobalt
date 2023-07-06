@@ -26,7 +26,7 @@ import org.hexworks.cobalt.databinding.internal.property.InternalProperty
 import org.hexworks.cobalt.events.api.Subscription
 import org.hexworks.cobalt.events.api.simpleSubscribeTo
 import org.hexworks.cobalt.logging.api.LoggerFactory
-import kotlin.jvm.Synchronized
+
 
 abstract class BaseProperty<T>(
     initialValue: T,
@@ -167,9 +167,6 @@ abstract class BaseProperty<T>(
         }
     }
 
-    // This won't lead to a deadlock in case we try to set the value twice in case of a
-    // circular dependency, because we already have the monitor.
-    @Synchronized
     protected open fun updateCurrentValue(type: ChangeType = ScalarChange, fn: (T) -> T): T {
         var eventToSend: ObservableValueChanged<T>? = null
         backend.transform { oldValue ->
