@@ -36,7 +36,6 @@ internal class DefaultEventBus : EventBus {
                 list
             }
             subs.add(subscription)
-            println("subs are: $subscriptions")
             subscription
         } catch (e: Exception) {
             logger.warn("Failed to subscribe to event key $key with scope $eventScope", e)
