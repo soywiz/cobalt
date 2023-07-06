@@ -1,11 +1,10 @@
-import Libraries.kotlinLogging
+import Libraries.klogger
 import Libraries.kotlinReflect
 import Libraries.kotlinTestAnnotationsCommon
 import Libraries.kotlinTestCommon
-import Libraries.kotlinTestJs
-import Libraries.kotlinTestJunit
 import Libraries.kotlinxCollectionsImmutable
 import Libraries.uuid
+import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
     kotlin("multiplatform")
@@ -15,24 +14,49 @@ plugins {
 
 kotlin {
 
-    jvm {
-        withJava()
-        compilations.all {
-            kotlinOptions {
-                apiVersion = "1.8"
-                languageVersion = "1.8"
-                jvmTarget = "11"
+    targets {
+        js(IR) {
+            compilations.all {
+                kotlinOptions {
+                    sourceMap = true
+                    moduleKind = "umd"
+                    metaInfo = true
+                }
+            }
+            browser {
+                testTask {
+                    useMocha()
+                }
+            }
+            nodejs()
+        }
+        jvm {
+            // Intentionally left blank.
+        }
+        if (HostManager.hostIsMac) {
+            macosX64()
+            macosArm64()
+            iosX64()
+            iosArm64()
+            iosSimulatorArm64()
+            watchosArm32()
+            watchosArm64()
+            watchosX64()
+            watchosSimulatorArm64()
+            watchosDeviceArm64()
+            tvosArm64()
+            tvosX64()
+            tvosSimulatorArm64()
+        }
+        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
+            mingwX64 {
+                binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
             }
         }
-    }
-
-    js(IR) {
-        browser {
-            testTask {
-                useMocha()
-            }
+        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
+            linuxX64()
+            linuxArm64()
         }
-        nodejs()
     }
 
     sourceSets {
@@ -42,30 +66,15 @@ kotlin {
                 api(kotlinxCollectionsImmutable)
 
                 api(uuid)
-                api(kotlinLogging)
+                api(klogger)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlinTestCommon)
-                implementation(kotlinTestAnnotationsCommon)
-            }
-        }
-        val jvmMain by getting {}
-        val jvmTest by getting {
-            dependencies {
-                implementation(kotlinTestJunit)
-            }
-        }
-
-        val jsMain by getting {}
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlinTestJs)
+                implementation(kotlin("test"))
             }
         }
     }
-    jvmToolchain(11)
 }
 
 publishing {

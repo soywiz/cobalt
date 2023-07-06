@@ -13,11 +13,7 @@ import org.hexworks.cobalt.databinding.api.event.ObservableValueChanged
 import org.hexworks.cobalt.databinding.api.event.ScalarChange
 import org.hexworks.cobalt.databinding.api.property.Property
 import org.hexworks.cobalt.databinding.api.property.PropertyValidator
-import org.hexworks.cobalt.databinding.api.value.ObservableValue
-import org.hexworks.cobalt.databinding.api.value.ValueValidationFailed
-import org.hexworks.cobalt.databinding.api.value.ValueValidationFailedException
-import org.hexworks.cobalt.databinding.api.value.ValueValidationResult
-import org.hexworks.cobalt.databinding.api.value.ValueValidationSuccessful
+import org.hexworks.cobalt.databinding.api.value.*
 import org.hexworks.cobalt.databinding.internal.binding.BidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.binding.UnidirectionalBinding
 import org.hexworks.cobalt.databinding.internal.event.PropertyScope
@@ -162,7 +158,7 @@ abstract class BaseProperty<T>(
                 changed
             }
         } catch (e: CircularBindingException) {
-            logger.warn("Bound Property was not updated due to circular dependency: ${e.message}")
+            logger.warn { "Bound Property was not updated due to circular dependency: ${e.message}" }
             false
         }
     }

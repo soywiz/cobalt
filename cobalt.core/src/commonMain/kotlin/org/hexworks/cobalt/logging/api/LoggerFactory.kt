@@ -7,5 +7,6 @@ object LoggerFactory {
 
     fun getLogger(name: String): Logger = DefaultLogger(name)
 
-    fun getLogger(kClass: KClass<out Any>): Logger = getLogger(kClass.simpleName ?: "name-is-missing-try-using-the-string-overload")
+    fun getLogger(kClass: KClass<out Any>): Logger =
+        getLogger(kClass.simpleName ?: "name-is-missing-try-using-the-string-overload")
 }

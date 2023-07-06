@@ -38,7 +38,7 @@ internal class DefaultEventBus : EventBus {
             subs.add(subscription)
             subscription
         } catch (e: Exception) {
-            logger.warn("Failed to subscribe to event key $key with scope $eventScope", e)
+            logger.warn(e) { "Failed to subscribe to event key $key with scope $eventScope" }
             throw e
         }
     }
@@ -58,11 +58,11 @@ internal class DefaultEventBus : EventBus {
                         subscription.dispose()
                     }
                 } catch (e: Exception) {
-                    logger.warn("Cancelling failed subscription $subscription.", e)
+                    logger.warn(e) { "Cancelling failed subscription $subscription." }
                     try {
                         subscription.dispose(DisposedByException(e))
                     } catch (e: Exception) {
-                        logger.warn("Failed to cancel subscription $subscription.", e)
+                        logger.warn(e) { "Failed to cancel subscription $subscription." }
                     }
                 }
             }
@@ -77,7 +77,7 @@ internal class DefaultEventBus : EventBus {
                 try {
                     it.dispose()
                 } catch (e: Exception) {
-                    logger.warn("Cancelling subscription failed while cancelling scope. Reason: ${e.message}")
+                    logger.warn { "Cancelling subscription failed while cancelling scope. Reason: ${e.message}" }
                 }
             }
     }
@@ -118,7 +118,7 @@ internal class DefaultEventBus : EventBus {
                 }
                 Unit
             } catch (e: Exception) {
-                logger.warn("Cancelling event bus subscription failed.", e)
+                logger.warn(e) { "Cancelling event bus subscription failed." }
                 throw e
             }
         }

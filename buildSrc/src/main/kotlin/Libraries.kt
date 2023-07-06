@@ -1,6 +1,5 @@
-import Versions.kotlinLoggingVersion
+import Versions.kloggerVersion
 import Versions.kotlinxCollectionsImmutableVersion
-import Versions.kotlinxCoroutinesVersion
 import Versions.uuidVersion
 
 object Libraries {
@@ -11,7 +10,7 @@ object Libraries {
 
 
     const val uuid = "com.benasher44:uuid:$uuidVersion"
-    const val kotlinLogging = "io.github.microutils:kotlin-logging:$kotlinLoggingVersion"
+    const val klogger = "com.soywiz.korlibs.klogger:klogger:$kloggerVersion"
 
     // TEST
     const val kotlinTestCommon = "org.jetbrains.kotlin:kotlin-test-common"

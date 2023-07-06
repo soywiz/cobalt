@@ -126,12 +126,12 @@ internal class DefaultPropertyListProperty<T, P : ObservableValue<T>>(
     override fun clear(): PersistentList<P> {
         value.forEach { it.unsubscribeFromChanges() }
         if (uniqueProperties.isNotEmpty()) {
-            logger.warn(
+            logger.warn {
                 """
                     There are still remaining property subscriptions after clearing the list.
                     If you see this it means that there is a bug. Please contact the developers
                     """
-            )
+            }
         }
         return updateCurrentValue(ListClear) { it.clear() }
     }

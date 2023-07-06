@@ -78,12 +78,12 @@ internal class DefaultPropertySetProperty<T, V : ObservableValue<T>>(
     override fun clear(): PersistentSet<V> {
         value.forEach { it.unsubscribeFromChanges() }
         if (uniqueProperties.isNotEmpty()) {
-            logger.warn(
+            logger.warn {
                 """
                     There are still remaining property subscriptions after clearing the set.
                     If you see this it means that there is a bug. Please contact the developers
                     """
-            )
+            }
         }
         return updateCurrentValue(SetClear) { it.clear() }
     }
