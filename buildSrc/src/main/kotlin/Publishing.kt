@@ -78,8 +78,8 @@ fun PublishingExtension.publishWith(
             maven {
                 url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
-                    username = if (sonatypeUsername.isBlank()) "" else sonatypeUsername
-                    password = if (sonatypePassword.isBlank()) "" else sonatypePassword
+                    username = sonatypeUsername.ifBlank { "<no-user>" }
+                    password = sonatypePassword.ifBlank { "<no-password>" }
                 }
             }
         }
