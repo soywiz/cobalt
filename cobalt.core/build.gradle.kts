@@ -1,8 +1,6 @@
-import Libraries.klogger
-import Libraries.korio
-import Libraries.kotlinReflect
-import Libraries.kotlinxCollectionsImmutable
-import org.jetbrains.kotlin.konan.target.HostManager
+import Libraries.KORGE_FOUNDATION
+import Libraries.KOTLINX_COLLECTIONS_IMMUTABLE
+import Libraries.KOTLIN_REFLECT
 
 plugins {
     kotlin("multiplatform")
@@ -10,61 +8,50 @@ plugins {
     id("signing")
 }
 
+val javaVersion = JavaVersion.VERSION_11
+
+java {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
 kotlin {
 
-    targets {
-        js(IR) {
-            compilations.all {
-                kotlinOptions {
-                    sourceMap = true
-                    moduleKind = "umd"
-                    metaInfo = true
-                }
-            }
-            browser {
-                testTask {
-                    useMocha()
-                }
-            }
-            nodejs()
-        }
-        jvm {
-            // Intentionally left blank.
-        }
-        if (HostManager.hostIsMac) {
-            macosX64()
-            macosArm64()
-            iosX64()
-            iosArm64()
-            iosSimulatorArm64()
-            watchosArm32()
-            watchosArm64()
-            watchosX64()
-            watchosSimulatorArm64()
-            watchosDeviceArm64()
-            tvosArm64()
-            tvosX64()
-            tvosSimulatorArm64()
-        }
-        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            mingwX64 {
-                binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
+    jvm {
+        withJava()
+        compilations.all {
+            kotlinOptions {
+                apiVersion = "1.9"
+                languageVersion = "1.9"
+                jvmTarget = javaVersion.toString()
+
             }
         }
-        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            linuxX64()
-            linuxArm64()
+    }
+
+    js(IR) {
+        compilations.all {
+            kotlinOptions {
+                sourceMap = true
+                moduleKind = "umd"
+                metaInfo = true
+            }
         }
+        browser {
+            testTask {
+                useMocha()
+            }
+        }
+        nodejs()
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(kotlinReflect)
-                api(kotlinxCollectionsImmutable)
+                api(KOTLIN_REFLECT)
+                api(KOTLINX_COLLECTIONS_IMMUTABLE)
 
-                api(korio)
-                api(klogger)
+                api(KORGE_FOUNDATION)
             }
         }
         val commonTest by getting {
@@ -73,6 +60,7 @@ kotlin {
             }
         }
     }
+
 }
 
 publishing {

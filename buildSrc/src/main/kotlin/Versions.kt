@@ -1,6 +1,6 @@
 object Versions {
 
-    const val kotlinxCollectionsImmutableVersion = "0.3.5"
+    const val KOTLINX_COLLECTIONS_IMMUTABLE_VERSION = "0.3.5"
 
-    const val korVersion = "4.0.8"
+    const val KOR_VERSION = "5.3.0"
 }

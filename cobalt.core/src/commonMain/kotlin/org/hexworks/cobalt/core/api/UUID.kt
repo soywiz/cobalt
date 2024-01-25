@@ -12,12 +12,15 @@ interface UUID {
         /**
          * Creates a random [UUID].
          */
-        fun randomUUID(): UUID = DefaultUUID(korlibs.io.util.UUID.randomUUID())
+        fun randomUUID(): UUID = DefaultUUID.randomDefaultUUID()
 
         /**
          * Tries to create a [UUID] from a [String].
          * This will throw an exception if the [UUID] cannot be created.
          */
-        fun fromString(str: String): UUID = DefaultUUID(korlibs.io.util.UUID(str))
+        fun fromString(str: String): UUID = DefaultUUID(str)
     }
 }
+
+
+
